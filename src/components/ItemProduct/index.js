@@ -3,7 +3,25 @@ import { Flex, Text, CustomButton } from "@/components";
 //icons
 import { RemoveIcon } from "@/assets/icons";
 
+//conections
+import { deleteProductApi } from "@/connections";
+
+//externals
+import { useMutation, useQueryClient } from "react-query";
+
 const ItemProduct = ({ product }) => {
+  const { mutate: deleteProduct } = useMutation(deleteProductApi);
+
+  const queryClient = useQueryClient();
+
+  const handleDelete = (id) => {
+    deleteProduct(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("products");
+      },
+    });
+  };
+
   return (
     <Flex
       mt="5px"
@@ -23,7 +41,11 @@ const ItemProduct = ({ product }) => {
         <CustomButton borderColor="green" ml="10px">
           Vender
         </CustomButton>
-        <CustomButton ml="10px" pd="0px">
+        <CustomButton
+          ml="10px"
+          pd="0px"
+          onClick={() => handleDelete(product._id)}
+        >
           <RemoveIcon />
         </CustomButton>
       </Flex>

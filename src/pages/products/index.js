@@ -1,10 +1,24 @@
 //components
-import { Layout, ItemProduct, Flex, Text } from "@/components";
+import {
+  Layout,
+  ItemProduct,
+  Flex,
+  Text,
+  CustomButton,
+  ModalAddProduct,
+} from "@/components";
 
 //externals
 import { useQuery } from "react-query";
+
 //conections
 import { getProductsApi } from "@/connections";
+
+//Redux
+import { useSelector } from "react-redux";
+
+//Hooks
+import { useModal } from "@/hooks";
 
 const headerProducts = [
   { name: "Nombre", id: 1, space: "15%" },
@@ -15,10 +29,29 @@ const headerProducts = [
 ];
 
 const Products = () => {
+  const { primaryColor } = useSelector((state) => state.theme);
+
   const { data: products, status } = useQuery(["products"], getProductsApi);
+
+  const { showModal, closeModal, ModalWrapper } = useModal();
+
+  const addNewProduct = () => {
+    showModal(<ModalAddProduct closeModal={closeModal} />);
+  };
 
   return (
     <Layout>
+      <ModalWrapper />
+      <Flex align="center" justify="space-between" mb="15px">
+        <Text>Buscador</Text>
+        <CustomButton
+          bg={primaryColor}
+          color="white"
+          onClick={() => addNewProduct()}
+        >
+          Añadir nuevo producto
+        </CustomButton>
+      </Flex>
       <Flex
         shadow="0px 4px 8px #d9d9d9"
         direction="column"
