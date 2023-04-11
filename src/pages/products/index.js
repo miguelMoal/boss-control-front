@@ -5,7 +5,10 @@ import {
   Flex,
   Text,
   CustomButton,
+  CustomInput,
   ModalAddProduct,
+  Search,
+  HandleStatus,
 } from "@/components";
 
 //externals
@@ -18,7 +21,10 @@ import { getProductsApi } from "@/connections";
 import { useSelector } from "react-redux";
 
 //Hooks
-import { useModal } from "@/hooks";
+import { useModal, useForm } from "@/hooks";
+
+//icons
+import { SearchIcon } from "@/assets/icons";
 
 const headerProducts = [
   { name: "Nombre", id: 1, space: "15%" },
@@ -32,6 +38,7 @@ const Products = () => {
   const { primaryColor } = useSelector((state) => state.theme);
 
   const { data: products, status } = useQuery(["products"], getProductsApi);
+  const { handleChange, formData } = useForm();
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
@@ -39,37 +46,50 @@ const Products = () => {
     showModal(<ModalAddProduct closeModal={closeModal} />);
   };
 
+  const productsFiltered = products?.filter((p) =>
+    p.name.includes(formData?.search || "")
+  );
+
   return (
     <Layout>
-      <ModalWrapper />
-      <Flex align="center" justify="space-between" mb="15px">
-        <Text>Buscador</Text>
-        <CustomButton
+      <HandleStatus status={status}>
+        <ModalWrapper />
+        <Flex align="center" justify="space-between" mb="15px" h="40px">
+          <Search handleChange={handleChange} />
+          <CustomButton
+            bg={primaryColor}
+            color="white"
+            onClick={() => addNewProduct()}
+          >
+            Añadir nuevo producto
+          </CustomButton>
+        </Flex>
+        <Flex
+          pd="10px"
+          align="center"
+          h="60px"
+          shadow="0px 4px 8px #d9d9d9"
           bg={primaryColor}
-          color="white"
-          onClick={() => addNewProduct()}
+          style={{ borderRadius: "5px" }}
         >
-          Añadir nuevo producto
-        </CustomButton>
-      </Flex>
-      <Flex
-        shadow="0px 4px 8px #d9d9d9"
-        direction="column"
-        bg="white"
-        h="100%"
-        pd="0px"
-      >
-        <Flex pd="10px" align="center" h="60px" shadow="0px 4px 8px #d9d9d9">
           {headerProducts.map((header) => (
-            <Text w={header.space} weight="bold">
+            <Text w={header.space} weight="bold" color="white">
               {header.name}
             </Text>
           ))}
         </Flex>
-        {products?.map((product) => (
-          <ItemProduct product={product} />
-        ))}
-      </Flex>
+        <Flex
+          direction="column"
+          bg="white"
+          h="calc(100% - 120px)"
+          pd="0px"
+          style={{ overflowY: "auto" }}
+        >
+          {productsFiltered?.map((product) => (
+            <ItemProduct product={product} />
+          ))}
+        </Flex>
+      </HandleStatus>
     </Layout>
   );
 };

@@ -16,11 +16,9 @@ function useModal() {
   };
 
   const ModalWrapper = () => {
-    if (!modalOpen) {
-      return null;
+    if (modalOpen) {
+      return <Modal isModalOpen={true}>{modalContent}</Modal>;
     }
-
-    return <Modal isModalOpen={true}>{modalContent}</Modal>;
   };
 
   return { showModal, closeModal, ModalWrapper };
