@@ -13,6 +13,9 @@ const CustomInput = styled.input`
   height: ${({ h }) => h || "fit-content"};
   border-color: ${({ borderColor }) => borderColor || "black"};
   border-radius: 5px;
+  &&:focus {
+    outline: none;
+  }
 `;
 
 export default CustomInput;

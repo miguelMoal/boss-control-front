@@ -19,8 +19,8 @@ export const ChildrenContainer = styled.div`
   height: calc(100vh - 80px);
   padding: 10px;
   background: white;
-  box-sizing: content-box;
-  overflow-y: auto;
+  box-sizing: border-box;
+  overflow-y: hidden;
 `;
 
 export const Content = styled.div`
