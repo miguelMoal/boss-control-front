@@ -8,7 +8,7 @@ const getHeaders = (requireToken) => {
   };
   if (requireToken) {
     headers["x-token"] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDJmMGQxNWExZDQ1MTEwOGI1ODZlYzUiLCJuYW1lIjoiVGVzbGEiLCJpYXQiOjE2ODA5OTE2MTJ9.EQzH-Mvh8_pJH7TN31OpiWZxot13s0iOWpcM9aOUIKo";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM0NTNkYjQ3ZjllNjc5MWQxM2JkNjAiLCJuYW1lIjoiRmFuaXNjYSIsImlhdCI6MTY4MTE1MDkzOX0.ChAKWtzBy9el0suCrYwJ-GWnTLD2JyD1aMyeqZuvHTQ";
   }
   return headers;
 };
