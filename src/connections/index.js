@@ -14,3 +14,8 @@ export const deleteProductApi = async (id) => {
   const { msg } = await makeRequest(`product/${id}`, "DELETE");
   return msg;
 };
+
+export const updateProductApi = async (data) => {
+  const { msg } = await makeRequest(`product/${data.id}`, "PUT", data.body);
+  return msg;
+};

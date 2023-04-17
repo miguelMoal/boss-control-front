@@ -5,17 +5,17 @@ import {
   Flex,
   Text,
   CustomButton,
-  CustomInput,
   ModalAddProduct,
   Search,
   HandleStatus,
+  ModalEditProduct,
 } from "@/components";
 
 //externals
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 //conections
-import { getProductsApi } from "@/connections";
+import { getProductsApi, deleteProductApi } from "@/connections";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -24,21 +24,27 @@ import { useSelector } from "react-redux";
 import { useModal, useForm } from "@/hooks";
 
 //icons
-import { SearchIcon } from "@/assets/icons";
+import { RemoveIcon } from "@/assets/icons";
 
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "15%" },
+  { name: "Nombre", id: 1, space: "30%" },
   { name: "Marca", id: 2, space: "15%" },
   { name: "Stock", id: 3, space: "15%" },
-  { name: "Precio", id: 4, space: "20%" },
-  { name: "Acciones", id: 5, space: "35%" },
+  { name: "Precio", id: 4, space: "15%" },
+  { name: "Acciones", id: 5, space: "25%" },
 ];
 
 const Products = () => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, success, error, warning } = useSelector(
+    (state) => state.theme
+  );
 
   const { data: products, status } = useQuery(["products"], getProductsApi);
+  const { mutate: deleteProduct } = useMutation(deleteProductApi);
+
   const { handleChange, formData } = useForm();
+
+  const queryClient = useQueryClient();
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
@@ -49,6 +55,18 @@ const Products = () => {
   const productsFiltered = products?.filter((p) =>
     p.name.includes(formData?.search || "")
   );
+
+  const handleEditProduct = () => {
+    showModal(<ModalEditProduct closeModal={closeModal} product={product} />);
+  };
+
+  const handleDelete = (id) => {
+    deleteProduct(id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("products");
+      },
+    });
+  };
 
   return (
     <Layout>
@@ -86,7 +104,22 @@ const Products = () => {
           style={{ overflowY: "auto" }}
         >
           {productsFiltered?.map((product) => (
-            <ItemProduct product={product} />
+            <ItemProduct product={product} key={product._id}>
+              <CustomButton
+                borderColor={warning}
+                ml="10px"
+                onClick={() => handleEditProduct()}
+              >
+                Editar
+              </CustomButton>
+              <CustomButton
+                ml="10px"
+                pd="0px"
+                onClick={() => handleDelete(product._id)}
+              >
+                <RemoveIcon />
+              </CustomButton>
+            </ItemProduct>
           ))}
         </Flex>
       </HandleStatus>
