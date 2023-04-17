@@ -9,3 +9,6 @@ export { default as CustomInput } from "./CustomInput";
 export { default as Search } from "./Search";
 export { default as HandleStatus } from "./HandleStatus";
 export { default as ModalEditProduct } from "./ModalEditProduct";
+export { default as PieChart } from "./PieChart";
+export { default as BarChart } from "./BarChart";
+export { default as CardContainer } from "./CardContainer";
