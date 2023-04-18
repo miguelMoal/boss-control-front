@@ -2,12 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const totalSlice = createSlice({
   name: "total",
-  initialState: 0,
+  initialState: {},
   reducers: {
     addValue: (state, action) => {
-      const value = Number(action.payload);
-      console.log(action.payload);
-      return (state += value);
+      return { ...state, [action.payload.id]: action.payload.result };
     },
     resetTotal: (state, action) => {
       return 0;
