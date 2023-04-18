@@ -16,7 +16,7 @@ import {
 //conections
 import { getProductsApi } from "@/connections";
 //Hooks
-import { useModal, useForm } from "@/hooks";
+import { useForm } from "@/hooks";
 //externals
 import { useQuery } from "react-query";
 
@@ -40,7 +40,26 @@ const Sales = () => {
   );
 
   const handleAddToTicket = (product) => {
-    setTicket([...ticket, product]);
+    setTicket([...ticket, { ...product, toSale: 1 }]);
+  };
+
+  const updateToSale = (id, value) => {
+    const newTicket = ticket.map((tick) => {
+      if (tick._id === id) {
+        return { ...tick, toSale: value };
+      } else {
+        return tick;
+      }
+    });
+    setTicket(newTicket);
+  };
+
+  const getTicketTotal = () => {
+    let result = 0;
+    ticket.forEach((ti) => {
+      result = result + Number(ti.priceSale) * Number(ti.toSale);
+    });
+    return result;
   };
 
   return (
@@ -102,11 +121,11 @@ const Sales = () => {
               style={{ minHeight: "calc(100vh - 300px)" }}
             >
               {ticket.map((product) => (
-                <ItemTicket product={product} />
+                <ItemTicket product={product} updateToSale={updateToSale} />
               ))}
             </Flex>
             <Flex align="end" direction="column">
-              <Text>Total:$ {total}</Text>
+              <Text>Total:$ {getTicketTotal()}</Text>
               <CustomButton bg={success}>Vender</CustomButton>
             </Flex>
           </Flex>
