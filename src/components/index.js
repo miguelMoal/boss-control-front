@@ -13,3 +13,4 @@ export { default as PieChart } from "./PieChart";
 export { default as BarChart } from "./BarChart";
 export { default as CardContainer } from "./CardContainer";
 export { default as ModalSaleProduct } from "./ModalSaleProduct";
+export { default as ItemTicket } from "./ItemTicket";
