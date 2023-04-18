@@ -10,3 +10,4 @@ export { default as Search } from "./Search";
 export { default as HandleStatus } from "./HandleStatus";
 export { default as ModalEditProduct } from "./ModalEditProduct";
 export { default as ModalSaleProduct } from "./ModalSaleProduct";
+export { default as ItemTicket } from "./ItemTicket";

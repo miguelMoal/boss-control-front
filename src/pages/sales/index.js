@@ -11,6 +11,7 @@ import {
   Search,
   ItemProduct,
   CustomButton,
+  ItemTicket,
 } from "@/components";
 //conections
 import { getProductsApi } from "@/connections";
@@ -29,6 +30,7 @@ const headerProducts = [
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
+  const [total, setTotal] = useState(0);
   const { primaryColor, success } = useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
@@ -95,10 +97,17 @@ const Sales = () => {
                 Ticket
               </Text>
             </Flex>
-            <Flex>
-              {ticket.map((p) => (
-                <p>{p.name}</p>
+            <Flex
+              direction="column"
+              style={{ minHeight: "calc(100vh - 300px)" }}
+            >
+              {ticket.map((product) => (
+                <ItemTicket product={product} />
               ))}
+            </Flex>
+            <Flex align="end" direction="column">
+              <Text>Total:$ {total}</Text>
+              <CustomButton bg={success}>Vender</CustomButton>
             </Flex>
           </Flex>
         </Flex>
