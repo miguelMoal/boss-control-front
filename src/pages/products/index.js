@@ -23,9 +23,6 @@ import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
 
-//icons
-import { SearchIcon } from "@/assets/icons";
-
 const headerProducts = [
   { name: "Nombre", id: 1, space: "15%" },
   { name: "Marca", id: 2, space: "15%" },
