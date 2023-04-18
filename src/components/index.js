@@ -14,3 +14,7 @@ export { default as BarChart } from "./BarChart";
 export { default as CardContainer } from "./CardContainer";
 export { default as ModalSaleProduct } from "./ModalSaleProduct";
 export { default as ItemTicket } from "./ItemTicket";
+export { default as ItemUser } from "./ItemUser";
+export { default as ModalEditUser } from "./ModalEditUser";
+export { default as ModalCreateUser } from "./ModalCreateUser";
+export { default as Spinner } from "./Spinner";
