@@ -10,18 +10,21 @@ const ItemTicket = ({ product, updateToSale }) => {
   return (
     <Flex align="center" mt="10px" gap="10px">
       <CustomInput
+        style={{ textAlign: "center" }}
         name="quantity"
         placeholder="num"
         border="1px solid gray"
-        w="12%"
+        w="15%"
         value={product.toSale}
         onChange={(e) => updateToSale(product._id, e.target.value)}
       />
-      <Text w="48%">{product.name}</Text>
-      <Flex justify="flex-end" w="15%">
+      <Text ml="10px" w="45%">
+        {product.name}
+      </Text>
+      <Flex justify="flex-end" w="20%">
         {product.priceSale}
       </Flex>
-      <Flex justify="flex-end" w="15%">
+      <Flex justify="flex-end" w="20%">
         {getTotal()}
       </Flex>
     </Flex>

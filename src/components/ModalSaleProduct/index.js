@@ -5,41 +5,47 @@ import { Text, Flex, CustomButton, CustomInput } from "@/components";
 //Hooks
 import { useForm } from "@/hooks";
 
-const ModalSaleProduct = ({ product, closeModal }) => {
-  const { handleChange, formData, setInitialData } = useForm();
+const ModalSaleProduct = ({ product, closeModal, total }) => {
+  const { handleChange, formData } = useForm();
 
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const { error, success } = useSelector((state) => state.theme);
+
+  const getTotalSale = () => {
+    let result = 0;
+    if (formData?.cash) {
+      result = Number(formData.cash || 0) - total;
+    }
+    return result;
+  };
 
   return (
-    <Flex mt="20px" align="center" direction="column">
+    <Flex pd="20px" mt="20px" align="center" direction="column">
       <Flex align="center" gap="10px" direction="column">
         <Text size="20px" weight="bold">
-          {product.name}
+          Total Neto:${total}
         </Text>
-
         <CustomInput
-          value={formData?.add}
-          placeholder="Cantidad"
+          placeholder="Efectivo"
           border="1px solid gray"
-          w="50%"
-          name="add"
+          w="33%"
+          name="cash"
           onChange={handleChange}
         />
         <Text size="20px" weight="bold">
-          {`Total:  ${Number(product.available) + Number(formData?.add || 0)}`}
+          Cambio:{getTotalSale()}
         </Text>
       </Flex>
 
       <Flex mt="20px" justify="center" gap="10px">
         <CustomButton
-          onClick={() => closeModal()}
           color={error}
           borderColor={error}
+          onClick={() => closeModal()}
         >
-          Salir
+          Cancelar
         </CustomButton>
-        <CustomButton onClick={() => updateStock()} color="white" bg="gray">
-          Actualizar Stock
+        <CustomButton onClick={() => updateStock()} bg={success}>
+          Vender
         </CustomButton>
       </Flex>
     </Flex>

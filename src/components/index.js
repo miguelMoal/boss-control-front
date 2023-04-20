@@ -18,3 +18,5 @@ export { default as ItemUser } from "./ItemUser";
 export { default as ModalEditUser } from "./ModalEditUser";
 export { default as ModalCreateUser } from "./ModalCreateUser";
 export { default as Spinner } from "./Spinner";
+export { default as ModalErrorSale } from "./ModalErrorSale";
+export { default as ItemReinvest } from "./ItemReinvest";

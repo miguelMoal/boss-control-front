@@ -12,11 +12,13 @@ import {
   ItemProduct,
   CustomButton,
   ItemTicket,
+  ModalSaleProduct,
+  ModalErrorSale,
 } from "@/components";
 //conections
 import { getProductsApi } from "@/connections";
 //Hooks
-import { useForm } from "@/hooks";
+import { useForm, useModal } from "@/hooks";
 //externals
 import { useQuery } from "react-query";
 
@@ -28,12 +30,19 @@ const headerProducts = [
   { name: "Acciones", id: 5, space: "25%" },
 ];
 
+const headerProductsTicket = [
+  { name: "CANT", id: 1, space: "20%", direction: "flex-start" },
+  { name: "DESCRIPCION", id: 2, space: "40%", direction: "flex-start" },
+  { name: "PRECIO", id: 3, space: "20%", direction: "flex-end" },
+  { name: "IMPORTE", id: 4, space: "20%", direction: "flex-end" },
+];
+
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const [total, setTotal] = useState(0);
   const { primaryColor, success } = useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
+  const { showModal, closeModal, ModalWrapper } = useModal();
 
   const productsFiltered = products?.filter((p) =>
     p.name.includes(formData?.search || "")
@@ -62,9 +71,23 @@ const Sales = () => {
     return result;
   };
 
+  const makeSale = () => {
+    if (ticket.length > 0) {
+      const validNumber = ticket.every((p) => p.toSale > 0);
+      if (validNumber) {
+        showModal(
+          <ModalSaleProduct closeModal={closeModal} total={getTicketTotal()} />
+        );
+      } else {
+        showModal(<ModalErrorSale closeModal={closeModal} />);
+      }
+    }
+  };
+
   return (
     <Layout>
       <HandleStatus status={status}>
+        <ModalWrapper />
         <Flex align="center" justify="space-between" mb="15px" h="40px">
           <Search handleChange={handleChange} />
         </Flex>
@@ -116,6 +139,13 @@ const Sales = () => {
                 Ticket
               </Text>
             </Flex>
+            <Flex mt="10px">
+              {headerProductsTicket.map((head) => (
+                <Flex justify={head.direction} w={head.space}>
+                  <Text size="14px">{head.name}</Text>
+                </Flex>
+              ))}
+            </Flex>
             <Flex
               direction="column"
               style={{ minHeight: "calc(100vh - 300px)" }}
@@ -126,7 +156,9 @@ const Sales = () => {
             </Flex>
             <Flex align="end" direction="column">
               <Text>Total:$ {getTicketTotal()}</Text>
-              <CustomButton bg={success}>Vender</CustomButton>
+              <CustomButton bg={success} onClick={() => makeSale()}>
+                Vender
+              </CustomButton>
             </Flex>
           </Flex>
         </Flex>

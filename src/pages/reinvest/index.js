@@ -1,14 +1,17 @@
+import { useState, useEffect } from "react";
+
 import {
   Layout,
   Flex,
   Text,
-  ItemProduct,
   Search,
   HandleStatus,
+  ItemReinvest,
+  CustomButton,
 } from "@/components";
 
 //externals
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 
 //conections
 import { getProductsApi } from "@/connections";
@@ -20,21 +23,54 @@ import { useSelector } from "react-redux";
 import { useModal, useForm } from "@/hooks";
 
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "15%" },
-  { name: "Marca", id: 2, space: "15%" },
-  { name: "Stock", id: 3, space: "15%" },
+  { name: "Nombre", id: 1, space: "40%" },
+  { name: "Marca", id: 2, space: "20%" },
+  { name: "Stock", id: 3, space: "20%" },
   { name: "Precio", id: 4, space: "20%" },
-  { name: "Acciones", id: 5, space: "35%" },
 ];
 
 const Reinvest = () => {
   const { primaryColor } = useSelector((state) => state.theme);
 
-  const { data: products, status } = useQuery(["products"], getProductsApi);
+  const [products, setProducts] = useState([]);
+
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    const getProducts = async () => {
+      const products = await queryClient.fetchQuery(
+        ["products"],
+        getProductsApi
+      );
+      setProducts(products);
+    };
+    getProducts();
+  }, []);
+
+  const { data: prod, status } = useQuery(["products"], getProductsApi, {
+    initialData: products,
+    select: (data) => {
+      const newData = data.map((p) => {
+        return { ...p, checked: true };
+      });
+      return newData;
+    },
+  });
+
+  const toggleCheck = (product) => {
+    const newProducts = products.map((p) => {
+      if (p._id == product._id) {
+        return { ...p, checked: false };
+      } else {
+        return p;
+      }
+    });
+    setProducts(newProducts);
+    queryClient.setQueryData("products", newProducts);
+  };
 
   const { handleChange, formData } = useForm();
 
-  const productsFiltered = products?.filter(
+  const productsFiltered = prod?.filter(
     (p) => Number(p.available) <= Number(p.preferenceInStock) / 2
   );
 
@@ -57,7 +93,12 @@ const Reinvest = () => {
           style={{ borderRadius: "5px" }}
         >
           {headerProducts.map((header) => (
-            <Text w={header.space} weight="bold" color="white">
+            <Text
+              w={header.space}
+              weight="bold"
+              color="white"
+              style={{ paddingLeft: header.id == 1 && "35px" }}
+            >
               {header.name}
             </Text>
           ))}
@@ -66,12 +107,14 @@ const Reinvest = () => {
           direction="column"
           bg="white"
           h="calc(100% - 120px)"
-          pd="0px"
           style={{ overflowY: "auto" }}
         >
           {productsSearch?.map((product) => (
-            <ItemProduct product={product} />
+            <ItemReinvest product={product} toggleCheck={toggleCheck} />
           ))}
+        </Flex>
+        <Flex>
+          <CustomButton></CustomButton>
         </Flex>
       </HandleStatus>
     </Layout>
