@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const BarChart = ({ data, categories, width = 600, height = 300 }) => {
+const BarChart = ({ data, categories, width = 500, height = 300 }) => {
   const options = {
     chart: {
       id: "basic-bar",
