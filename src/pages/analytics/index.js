@@ -13,60 +13,78 @@ import {
 //Redux
 import { useSelector } from "react-redux";
 
+//Icons
+import { DollarIcon, EarningsIcon, AverageIcon } from "@/assets/icons";
+
 const Analytics = () => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, success } = useSelector((state) => state.theme);
 
   return (
     <Layout>
-      <Flex direction="column" gap="10px">
-        {/* <Flex justify="space-between" w="100%" align="center" h="80px">
-          <Text size="20px" weight="bold">
-            Desglose semanal
-          </Text>
-          <Flex w="fit-content" gap="15px">
-            <CustomButton bg={primaryColor} color="white">
-              Semanal
-            </CustomButton>
-            <CustomButton borderColor={primaryColor} color={primaryColor}>
-              Mensual
-            </CustomButton>
-            <CustomButton borderColor={primaryColor} color={primaryColor}>
-              Anual
-            </CustomButton>
-          </Flex>
-        </Flex> */}
-        <Flex>
-          <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Invertido</Text>
-            <Flex align="center" justify="center">
-              <Text size="25px" mt="10px" weight="bold">
-                $ 10,458
-              </Text>
+      <Flex gap="10px" direction="column">
+        <Flex gap="10pc">
+          <CardContainer pd="20px">
+            <Flex>
+              <Flex color={success} direction="column" align="center">
+                <Text mb="10px" color="gray">
+                  inverción total
+                </Text>
+                <DollarIcon size="40px" />
+                <Text mt="10px" size="25px" weight="bold">
+                  15,000
+                </Text>
+              </Flex>
+              <Flex color={"#008FFB"} direction="column" align="center">
+                <Text mb="10px" color="gray">
+                  Utilidad esperadas
+                </Text>
+                <EarningsIcon size="40px" />
+                <Text mt="10px" size="25px" weight="bold">
+                  48,000
+                </Text>
+              </Flex>
+              <Flex color={primaryColor} direction="column" align="center">
+                <Text mb="10px" color="gray">
+                  Promedio / día
+                </Text>
+                <AverageIcon size="40px" />
+                <Text mt="10px" size="25px" weight="bold">
+                  48,000
+                </Text>
+              </Flex>
             </Flex>
           </CardContainer>
         </Flex>
-        <Flex>
+        <Flex gap="10px">
+          <CardContainer h="100px" direction="column" pd="10px 15px">
+            <Text>Ventas hoy</Text>
+            <Flex align="center" justify="center">
+              <Text size="25px" mt="10px" weight="bold">
+                $ 1,458
+              </Text>
+            </Flex>
+          </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
             <Text>Ventas últimos 7 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                $ 5280
+                $ 1,458
               </Text>
             </Flex>
           </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Articulos vendidos</Text>
+            <Text>Ventas últimos 30 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                220
+                $ 1,458
               </Text>
             </Flex>
           </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Día con más ventas de articulos</Text>
+            <Text>Ventas últimos 365 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                Jueves
+                $ 1,458
               </Text>
             </Flex>
           </CardContainer>
@@ -109,3 +127,22 @@ const Analytics = () => {
 };
 
 export default Analytics;
+
+{
+  /* <Flex justify="space-between" w="100%" align="center" h="80px">
+          <Text size="20px" weight="bold">
+            Desglose semanal
+          </Text>
+          <Flex w="fit-content" gap="15px">
+            <CustomButton bg={primaryColor} color="white">
+              Semanal
+            </CustomButton>
+            <CustomButton borderColor={primaryColor} color={primaryColor}>
+              Mensual
+            </CustomButton>
+            <CustomButton borderColor={primaryColor} color={primaryColor}>
+              Anual
+            </CustomButton>
+          </Flex>
+        </Flex> */
+}

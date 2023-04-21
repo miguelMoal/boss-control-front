@@ -1,4 +1,4 @@
-import { Flex, Text, CustomButton, ModalEditUser } from "@/components";
+import { Flex, Text, CustomButton, ModalEditUser, Spinner } from "@/components";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -9,6 +9,12 @@ import { useModal } from "@/hooks";
 //Icons
 import { UserIcon, RemoveIcon } from "@/assets/icons";
 
+//Connections
+import { deleteSubUserApi } from "@/connections";
+
+//Externals
+import { useMutation, useQueryClient } from "react-query";
+
 const translatePermissions = {
   add: "Añadir",
   edit: "Editar",
@@ -16,9 +22,14 @@ const translatePermissions = {
 };
 
 const ItemUser = ({ user }) => {
-  const { primaryColor, warning } = useSelector((state) => state.theme);
+  const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
   const { showModal, closeModal, ModalWrapper } = useModal();
+
+  const { mutate: deleSubUser, isLoading: loadingDeleteUser } =
+    useMutation(deleteSubUserApi);
+
+  const queryClient = useQueryClient();
 
   const handleShowModalEdit = () => {
     showModal(<ModalEditUser user={user} closeModal={closeModal} />);
@@ -31,6 +42,17 @@ const ItemUser = ({ user }) => {
       return translatePermissions[p.name];
     });
     return namePermissions.join(" ");
+  };
+
+  const handleDelete = () => {
+    deleSubUser(user._id, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("subUsers");
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
   };
 
   return (
@@ -56,8 +78,8 @@ const ItemUser = ({ user }) => {
         >
           Editar Permisos
         </CustomButton>
-        <CustomButton w="fit-content">
-          <RemoveIcon />
+        <CustomButton w="fit-content" onClick={() => handleDelete()}>
+          {loadingDeleteUser ? <Spinner color={error} /> : <RemoveIcon />}
         </CustomButton>
       </Flex>
     </Flex>

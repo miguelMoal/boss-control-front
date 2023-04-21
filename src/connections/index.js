@@ -17,6 +17,7 @@ export const deleteProductApi = async (id) => {
 
 export const updateProductApi = async (data) => {
   const { msg } = await makeRequest(`product/${data.id}`, "PUT", data.body);
+  return msg;
 };
 
 export const getSubUsersApi = async () => {
@@ -31,5 +32,10 @@ export const createSubUserApi = async (body) => {
 
 export const updateSubUserApi = async (body) => {
   const { msg } = await makeRequest(`subuser`, "PUT", body);
+  return msg;
+};
+
+export const deleteSubUserApi = async (id) => {
+  const { msg } = await makeRequest(`subuser/${id}`, "DELETE");
   return msg;
 };

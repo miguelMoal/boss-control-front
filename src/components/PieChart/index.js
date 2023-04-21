@@ -3,10 +3,10 @@ import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const PieChart = ({ data, series, width = 400, height = 300 }) => {
+const PieChart = ({ data, series, width = 500, height = 300 }) => {
   const options = {
     legend: {
-      position: "bottom",
+      position: "right",
     },
     chart: {
       type: "pie",
