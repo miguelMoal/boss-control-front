@@ -172,24 +172,6 @@ export const SearchIcon = () => (
   </svg>
 );
 
-export const DollarIcon = ({ size = "25px" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    fill="none"
-    viewBox="0 0 24 24"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="m16.167 7.417-.351-.276a3 3 0 0 0-1.854-.641H9.75A2.75 2.75 0 0 0 7 9.25v0A2.75 2.75 0 0 0 9.75 12h4.5A2.75 2.75 0 0 1 17 14.75v0a2.75 2.75 0 0 1-2.75 2.75H9.167a3 3 0 0 1-2.027-.788L7 16.582M12 19V5"
-    />
-  </svg>
-);
-
 export const EarningsIcon = ({ size = "25px" }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -235,6 +217,24 @@ export const AverageIcon = ({ size = "25px" }) => (
       style={{
         fill: "none",
       }}
+    />
+  </svg>
+);
+
+export const DollarIcon = ({ size = "25px" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="m16.167 7.417-.351-.276a3 3 0 0 0-1.854-.641H9.75A2.75 2.75 0 0 0 7 9.25v0A2.75 2.75 0 0 0 9.75 12h4.5A2.75 2.75 0 0 1 17 14.75v0a2.75 2.75 0 0 1-2.75 2.75H9.167a3 3 0 0 1-2.027-.788L7 16.582M12 19V5"
     />
   </svg>
 );
