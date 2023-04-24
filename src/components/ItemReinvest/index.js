@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 //icons
 import { CheckIcon } from "@/assets/icons";
 
-const ItemReinvest = ({ product, toggleCheck }) => {
+const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
   const { primaryColor, success, error, warning } = useSelector(
     (store) => store.theme
   );
@@ -31,11 +31,12 @@ const ItemReinvest = ({ product, toggleCheck }) => {
       h="55px"
       style={{ borderBottom: "1px solid gray", minHeight: "55px" }}
     >
-      <Flex w="10px" h="100%" bg={handleColorBar()} mr="5px"></Flex>
-      <Flex ml="15px" gap="10px" w="40%" align="center">
+      <Flex w="10px" h="100%" bg={handleColorBar()}></Flex>
+      <Flex gap="10px" w="30%" align="center">
         <Flex
           h="15px"
           w="15px"
+          ml="10px"
           bg={product.checked ? primaryColor : "gray"}
           style={{ borderRadius: "2px", color: "white" }}
           align="center"
@@ -44,11 +45,16 @@ const ItemReinvest = ({ product, toggleCheck }) => {
         >
           <CheckIcon />
         </Flex>
-        <Text>{product.checked}</Text>
+        <Text>{product.name}</Text>
       </Flex>
-      <Text w="20%">{product.brand}</Text>
-      <Text w="20%">{product.available}</Text>
-      <Text w="20%">{product.priceSale}</Text>
+      <Text w="15%">{product.brand}</Text>
+      <Text w="8%">{product.available}</Text>
+      <Text w="10%">{product.preferenceInStock}</Text>
+      <Text w="12%">$ {product.priceBuy}</Text>
+      <Text color={error} w="10%">
+        {getMissingProduct(product)}
+      </Text>
+      <Text w="15%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
     </Flex>
   );
 };

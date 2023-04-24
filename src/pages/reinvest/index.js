@@ -8,6 +8,7 @@ import {
   HandleStatus,
   ItemReinvest,
   CustomButton,
+  CustomInput,
 } from "@/components";
 
 //externals
@@ -22,55 +23,42 @@ import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
 
+//icons
+import { CheckIcon } from "@/assets/icons";
+
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "40%" },
-  { name: "Marca", id: 2, space: "20%" },
-  { name: "Stock", id: 3, space: "20%" },
-  { name: "Precio", id: 4, space: "20%" },
+  { name: "Nombre", id: 1, space: "30%" },
+  { name: "Marca", id: 2, space: "15%" },
+  { name: "Stock", id: 3, space: "8%" },
+  { name: "Stock ideal", id: 4, space: "10%" },
+  { name: "Precio compra", id: 5, space: "12%" },
+  { name: "Faltantes", id: 6, space: "10%" },
+  { name: "Total reinvercion", id: 7, space: "15%" },
 ];
 
 const Reinvest = () => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
-  const [products, setProducts] = useState([]);
+  const [allWarnings, setAllWarnings] = useState(false);
 
   const queryClient = useQueryClient();
-  useEffect(() => {
-    const getProducts = async () => {
-      const products = await queryClient.fetchQuery(
-        ["products"],
-        getProductsApi
-      );
-      setProducts(products);
-    };
-    getProducts();
-  }, []);
 
-  const { data: prod, status } = useQuery(["products"], getProductsApi, {
-    initialData: products,
-    select: (data) => {
-      const newData = data.map((p) => {
-        return { ...p, checked: true };
-      });
-      return newData;
-    },
-  });
+  const { data: products, status } = useQuery(["products"], getProductsApi);
 
   const toggleCheck = (product) => {
     const newProducts = products.map((p) => {
       if (p._id == product._id) {
-        return { ...p, checked: false };
+        return { ...p, checked: !p?.checked };
       } else {
         return p;
       }
     });
-    setProducts(newProducts);
     queryClient.setQueryData("products", newProducts);
   };
 
   const { handleChange, formData } = useForm();
 
-  const productsFiltered = prod?.filter(
+  const productsFiltered = products?.filter(
     (p) => Number(p.available) <= Number(p.preferenceInStock) / 2
   );
 
@@ -78,14 +66,81 @@ const Reinvest = () => {
     p.name.includes(formData?.search || "")
   );
 
+  const getMissingProduct = (p) => {
+    return Number(p.preferenceInStock - Number(p.available));
+  };
+
+  const productsReinvest = () => {
+    let result = 0;
+    products?.forEach((p) => {
+      const missingProduct = getMissingProduct(p);
+      if (p.checked == true) {
+        const priceReinvest = Number(p.priceBuy) * missingProduct;
+        result = result + priceReinvest;
+      }
+    });
+    return result;
+  };
+
+  const activeAllYellow = () => {
+    const newProducts = productsFiltered.map((product) => {
+      const halfPreference = Number(product.preferenceInStock) / 2;
+      const available = Number(product.available);
+      if (available <= halfPreference && available != 0) {
+        setAllWarnings(!allWarnings);
+        return { ...product, checked: !allWarnings };
+      } else {
+        return product;
+      }
+    });
+    queryClient.setQueryData("products", newProducts);
+  };
+
+  const activeAllRed = () => {
+    const newProducts = productsFiltered.map((product) => {
+      if (Number(product.available) == 0) {
+        setAllWarnings(!allWarnings);
+        return { ...product, checked: !allWarnings };
+      } else {
+        return product;
+      }
+    });
+    queryClient.setQueryData("products", newProducts);
+  };
+
   return (
     <Layout>
       <HandleStatus status={status}>
-        <Flex align="center" mb="15px" h="40px">
+        <Flex align="center" mb="15px" h="40px" justify="space-between">
           <Search handleChange={handleChange} />
+          <Flex w="fit-content" gap="10px">
+            <CustomButton
+              borderColor={warning}
+              color="gray"
+              onClick={() => activeAllYellow()}
+            >
+              <CheckIcon />
+            </CustomButton>
+            <CustomButton
+              borderColor={error}
+              color="gray"
+              onClick={() => activeAllRed()}
+            >
+              <CheckIcon />
+            </CustomButton>
+            <Flex gap="10px" align="center">
+              <CustomInput
+                placeholder="Presupuesto"
+                border="1px solid #ebebeb"
+                w="100px"
+              />
+              <Flex bg="#ebebeb" w="200px" h="10px">
+                <Flex bg={primaryColor} w="40%" h="10px"></Flex>
+              </Flex>
+            </Flex>
+          </Flex>
         </Flex>
         <Flex
-          pd="10px"
           align="center"
           h="60px"
           shadow="0px 4px 8px #d9d9d9"
@@ -97,7 +152,9 @@ const Reinvest = () => {
               w={header.space}
               weight="bold"
               color="white"
-              style={{ paddingLeft: header.id == 1 && "35px" }}
+              style={{
+                paddingLeft: header.id == 1 && "35px",
+              }}
             >
               {header.name}
             </Text>
@@ -105,16 +162,21 @@ const Reinvest = () => {
         </Flex>
         <Flex
           direction="column"
-          bg="white"
-          h="calc(100% - 120px)"
+          h="calc(100vh - 300px)"
           style={{ overflowY: "auto" }}
         >
           {productsSearch?.map((product) => (
-            <ItemReinvest product={product} toggleCheck={toggleCheck} />
+            <ItemReinvest
+              getMissingProduct={getMissingProduct}
+              product={product}
+              toggleCheck={toggleCheck}
+            />
           ))}
         </Flex>
-        <Flex>
-          <CustomButton></CustomButton>
+        <Flex align="end" direction="column">
+          <Text weight="bold" size="30px" color={primaryColor}>
+            Total ${productsReinvest()}
+          </Text>
         </Flex>
       </HandleStatus>
     </Layout>
