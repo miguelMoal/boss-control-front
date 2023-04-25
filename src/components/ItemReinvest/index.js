@@ -11,8 +11,6 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
 
   const productAvailable = Number(product.available);
 
-  console.log(product.name, product.checked);
-
   const handleColorBar = () => {
     const halfPreference = Number(product.preferenceInStock) / 2;
     if (productAvailable > halfPreference) {
@@ -23,6 +21,8 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
       return error;
     }
   };
+
+  console.log(product);
 
   return (
     <Flex
