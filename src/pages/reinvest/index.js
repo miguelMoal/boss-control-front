@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import {
   Layout,
   Flex,
@@ -32,45 +30,24 @@ const headerProducts = [
 const Reinvest = () => {
   const { primaryColor } = useSelector((state) => state.theme);
 
-  const [products, setProducts] = useState([]);
-
   const queryClient = useQueryClient();
-  useEffect(() => {
-    const getProducts = async () => {
-      const products = await queryClient.fetchQuery(
-        ["products"],
-        getProductsApi
-      );
-      setProducts(products);
-    };
-    getProducts();
-  }, []);
 
-  const { data: prod, status } = useQuery(["products"], getProductsApi, {
-    initialData: products,
-    select: (data) => {
-      const newData = data.map((p) => {
-        return { ...p, checked: true };
-      });
-      return newData;
-    },
-  });
+  const { data: products, status } = useQuery(["products"], getProductsApi);
 
   const toggleCheck = (product) => {
     const newProducts = products.map((p) => {
-      if (p._id == product._id) {
-        return { ...p, checked: false };
+      if (p._id === product._id) {
+        return { ...p, checked: !p?.checked };
       } else {
         return p;
       }
     });
-    setProducts(newProducts);
     queryClient.setQueryData("products", newProducts);
   };
 
   const { handleChange, formData } = useForm();
 
-  const productsFiltered = prod?.filter(
+  const productsFiltered = products?.filter(
     (p) => Number(p.available) <= Number(p.preferenceInStock) / 2
   );
 
