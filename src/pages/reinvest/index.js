@@ -16,13 +16,10 @@ import { useQuery, useQueryClient } from "react-query";
 
 //conections
 import { getProductsApi } from "@/connections";
-
 //Redux
 import { useSelector } from "react-redux";
-
 //Hooks
 import { useModal, useForm } from "@/hooks";
-
 //icons
 import { CheckIcon } from "@/assets/icons";
 
@@ -45,7 +42,10 @@ const Reinvest = () => {
 
   const { data: products, status } = useQuery(["products"], getProductsApi);
 
+  const { handleChange, formData } = useForm();
+
   const toggleCheck = (product) => {
+    console.log(product);
     const newProducts = products.map((p) => {
       if (p._id == product._id) {
         return { ...p, checked: !p?.checked };
@@ -55,8 +55,6 @@ const Reinvest = () => {
     });
     queryClient.setQueryData("products", newProducts);
   };
-
-  const { handleChange, formData } = useForm();
 
   const productsFiltered = products?.filter(
     (p) => Number(p.available) <= Number(p.preferenceInStock) / 2
@@ -108,6 +106,13 @@ const Reinvest = () => {
     queryClient.setQueryData("products", newProducts);
   };
 
+  const investmentBudget = () => {
+    const progressBudget =
+      Number(productsReinvest()) / Number(formData?.budget || 0);
+    const result = progressBudget * 100;
+    return result;
+  };
+
   return (
     <Layout>
       <HandleStatus status={status}>
@@ -133,9 +138,15 @@ const Reinvest = () => {
                 placeholder="Presupuesto"
                 border="1px solid #ebebeb"
                 w="100px"
+                name="budget"
+                onChange={handleChange}
               />
               <Flex bg="#ebebeb" w="200px" h="10px">
-                <Flex bg={primaryColor} w="40%" h="10px"></Flex>
+                <Flex
+                  bg={primaryColor}
+                  w={`${investmentBudget()}%`}
+                  h="10px"
+                ></Flex>
               </Flex>
             </Flex>
           </Flex>
