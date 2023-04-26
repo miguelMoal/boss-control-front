@@ -16,8 +16,22 @@ import { useSelector } from "react-redux";
 //Icons
 import { DollarIcon, EarningsIcon, AverageIcon } from "@/assets/icons";
 
+//Connections
+import {
+  getInfoPeriods,
+  getTotalInvestApi,
+  getTopSellingApi,
+} from "@/connections";
+
+//Externals
+import { useQuery } from "react-query";
+
 const Analytics = () => {
   const { primaryColor, success } = useSelector((state) => state.theme);
+
+  const { data: infoPeriods } = useQuery("info-periods", getInfoPeriods);
+  const { data: invest } = useQuery("invest", getTotalInvestApi);
+  const { data: top } = useQuery("topSelling", getTopSellingApi);
 
   return (
     <Layout>
@@ -31,7 +45,7 @@ const Analytics = () => {
                 </Text>
                 <DollarIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
-                  15,000
+                  {invest?.total}
                 </Text>
               </Flex>
               <Flex color={"#008FFB"} direction="column" align="center">
@@ -40,7 +54,7 @@ const Analytics = () => {
                 </Text>
                 <EarningsIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
-                  48,000
+                  {invest?.totalProfits}
                 </Text>
               </Flex>
               <Flex color={primaryColor} direction="column" align="center">
@@ -60,7 +74,7 @@ const Analytics = () => {
             <Text>Ventas hoy</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                $ 1,458
+                $ {infoPeriods?.salesToday.totalSales}
               </Text>
             </Flex>
           </CardContainer>
@@ -68,7 +82,7 @@ const Analytics = () => {
             <Text>Ventas últimos 7 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                $ 1,458
+                $ {infoPeriods?.salesLast7Days.totalSales}
               </Text>
             </Flex>
           </CardContainer>
@@ -76,7 +90,7 @@ const Analytics = () => {
             <Text>Ventas últimos 30 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                $ 1,458
+                $ {infoPeriods?.salesLast30Days.totalSales}
               </Text>
             </Flex>
           </CardContainer>
@@ -84,7 +98,7 @@ const Analytics = () => {
             <Text>Ventas últimos 365 días</Text>
             <Flex align="center" justify="center">
               <Text size="25px" mt="10px" weight="bold">
-                $ 1,458
+                $ {infoPeriods?.salesLastYear.totalSales}
               </Text>
             </Flex>
           </CardContainer>
@@ -114,8 +128,8 @@ const Analytics = () => {
             <Text size="20px">Productos más vendidos</Text>
             <Flex mb="20px" justify="center">
               <PieChart
-                data={["Apple", "Banana", "Mango", "Orange", "Papaya"]}
-                series={[44, 55, 13, 43, 22]}
+                data={top?.names || []}
+                series={top?.quantities || []}
                 height={320}
               />
             </Flex>

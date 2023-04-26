@@ -13,6 +13,14 @@ const PieChart = ({ data, series, width = 500, height = 300 }) => {
     },
     series: series,
     labels: data,
+    // dataLabels: {
+    //   enabled: true,
+    //   formatter: function (val, opts) {
+    //     console.log(">>>", opts);
+    //     const seriesName = opts.w.globals.seriesTotals[opts.seriesIndex];
+    //     return seriesName;
+    //   },
+    // },
   };
 
   return (
