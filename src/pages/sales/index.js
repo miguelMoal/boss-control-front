@@ -49,7 +49,19 @@ const Sales = () => {
   );
 
   const handleAddToTicket = (product) => {
-    setTicket([...ticket, { ...product, toSale: 1 }]);
+    const exist = ticket.some((p) => p._id == product._id);
+    if (exist) {
+      const newTicket = ticket.map((p) => {
+        if (p._id == product._id) {
+          return { ...p, toSale: Number(p.toSale) + 1 };
+        } else {
+          return p;
+        }
+      });
+      setTicket(newTicket);
+    } else {
+      setTicket([...ticket, { ...product, toSale: 1 }]);
+    }
   };
 
   const updateToSale = (id, value) => {
@@ -76,12 +88,21 @@ const Sales = () => {
       const validNumber = ticket.every((p) => p.toSale > 0);
       if (validNumber) {
         showModal(
-          <ModalSaleProduct closeModal={closeModal} total={getTicketTotal()} />
+          <ModalSaleProduct
+            closeModal={closeModal}
+            total={getTicketTotal()}
+            ticket={ticket}
+            cleanTicket={cleanTicket}
+          />
         );
       } else {
         showModal(<ModalErrorSale closeModal={closeModal} />);
       }
     }
+  };
+
+  const cleanTicket = () => {
+    setTicket([]);
   };
 
   return (
@@ -113,6 +134,7 @@ const Sales = () => {
               pd="0px"
               h="calc(100vh - 220px)"
               style={{ overflowY: "auto" }}
+              className="scroll"
             >
               {productsFiltered?.map((product) => (
                 <ItemProduct product={product}>
@@ -147,14 +169,15 @@ const Sales = () => {
               ))}
             </Flex>
             <Flex
+              className="scroll"
               direction="column"
-              style={{ minHeight: "calc(100vh - 300px)" }}
+              style={{ height: "calc(100vh - 300px)", overflowY: "auto" }}
             >
               {ticket.map((product) => (
                 <ItemTicket product={product} updateToSale={updateToSale} />
               ))}
             </Flex>
-            <Flex align="end" direction="column">
+            <Flex h="10vh" align="end" direction="column">
               <Text>Total:$ {getTicketTotal()}</Text>
               <CustomButton bg={success} onClick={() => makeSale()}>
                 Vender

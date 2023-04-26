@@ -4,11 +4,17 @@ import { useSelector } from "react-redux";
 import { Text, Flex, CustomButton, CustomInput } from "@/components";
 //Hooks
 import { useForm } from "@/hooks";
+//connections
+import { sendTicketApi } from "@/connections";
+//externals
+import { useMutation, useQueryClient } from "react-query";
 
-const ModalSaleProduct = ({ product, closeModal, total }) => {
+const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
   const { handleChange, formData } = useForm();
+  const { mutate: saleTicket } = useMutation(sendTicketApi);
 
   const { error, success } = useSelector((state) => state.theme);
+  const queryClient = useQueryClient();
 
   const getTotalSale = () => {
     let result = 0;
@@ -16,6 +22,20 @@ const ModalSaleProduct = ({ product, closeModal, total }) => {
       result = Number(formData.cash || 0) - total;
     }
     return result;
+  };
+
+  const sendTicket = () => {
+    const newTicket = ticket.map((product) => {
+      return { productId: product._id, quantity: Number(product.toSale) };
+    });
+    const body = { products: newTicket };
+    saleTicket(body, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("products");
+        cleanTicket();
+        closeModal();
+      },
+    });
   };
 
   return (
@@ -44,7 +64,7 @@ const ModalSaleProduct = ({ product, closeModal, total }) => {
         >
           Cancelar
         </CustomButton>
-        <CustomButton onClick={() => updateStock()} bg={success}>
+        <CustomButton bg={success} onClick={() => sendTicket()}>
           Vender
         </CustomButton>
       </Flex>

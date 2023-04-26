@@ -39,3 +39,8 @@ export const deleteSubUserApi = async (id) => {
   const { msg } = await makeRequest(`subuser/${id}`, "DELETE");
   return msg;
 };
+
+export const sendTicketApi = async (body) => {
+  const { msg } = await makeRequest(`sale`, `POST`, body);
+  return msg;
+};

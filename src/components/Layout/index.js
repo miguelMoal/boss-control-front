@@ -12,13 +12,15 @@ import {
   ReinvestIcon,
   AnalyticsIcon,
   AccountsIcon,
+  SaleIcon,
 } from "@/assets/icons";
 
 const sections = [
-  { name: "Productos", icon: <ProductsIcon />, id: 1, path: "/products" },
-  { name: "Reinvertir", icon: <ReinvestIcon />, id: 2, path: "/reinvest" },
-  { name: "Analitica", icon: <AnalyticsIcon />, id: 3, path: "/analytics" },
-  { name: "Cuentas", icon: <AccountsIcon />, id: 4, path: "/accounts" },
+  { name: "Ventas", icon: <SaleIcon size="36px" />, id: 1, path: "/sales" },
+  { name: "Productos", icon: <ProductsIcon />, id: 2, path: "/products" },
+  { name: "Reinvertir", icon: <ReinvestIcon />, id: 3, path: "/reinvest" },
+  { name: "Analitica", icon: <AnalyticsIcon />, id: 4, path: "/analytics" },
+  { name: "Cuentas", icon: <AccountsIcon />, id: 5, path: "/accounts" },
 ];
 
 const Layout = ({ children }) => {
@@ -62,6 +64,7 @@ const Layout = ({ children }) => {
                   transition: "all 0.3s",
                   cursor: "pointer",
                 }}
+                w="fit-content"
               >
                 {section.icon}
                 <Text ml="10px" color={"#f1f1f1"}>
