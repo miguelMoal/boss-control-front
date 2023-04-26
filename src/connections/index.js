@@ -39,3 +39,18 @@ export const deleteSubUserApi = async (id) => {
   const { msg } = await makeRequest(`subuser/${id}`, "DELETE");
   return msg;
 };
+
+export const getInfoPeriods = async () => {
+  const { msg } = await makeRequest("analytics/info-periods", "GET");
+  return msg;
+};
+
+export const getTotalInvestApi = async () => {
+  const { msg } = await makeRequest("analytics/total-invest", "GET");
+  return msg;
+};
+
+export const getTopSellingApi = async () => {
+  const { msg } = await makeRequest("analytics/get-top-selling", "GET");
+  return msg;
+};
