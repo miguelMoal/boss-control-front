@@ -9,6 +9,7 @@ import {
   Search,
   HandleStatus,
   ModalEditProduct,
+  ModalRemove,
 } from "@/components";
 
 //externals
@@ -56,14 +57,21 @@ const Products = () => {
     p.name.includes(formData?.search || "")
   );
 
-  const handleEditProduct = () => {
+  const handleEditProduct = (product) => {
     showModal(<ModalEditProduct closeModal={closeModal} product={product} />);
   };
 
   const handleDelete = (id) => {
+    showModal(
+      <ModalRemove closeModal={closeModal} action={_deleteProduct} id={id} />
+    );
+  };
+
+  const _deleteProduct = (id) => {
     deleteProduct(id, {
       onSuccess: () => {
         queryClient.invalidateQueries("products");
+        closeModal();
       },
     });
   };
@@ -108,7 +116,7 @@ const Products = () => {
               <CustomButton
                 borderColor={warning}
                 ml="10px"
-                onClick={() => handleEditProduct()}
+                onClick={() => handleEditProduct(product)}
               >
                 Editar
               </CustomButton>

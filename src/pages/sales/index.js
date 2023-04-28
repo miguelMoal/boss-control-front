@@ -31,10 +31,11 @@ const headerProducts = [
 ];
 
 const headerProductsTicket = [
-  { name: "CANT", id: 1, space: "20%", direction: "flex-start" },
+  { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
+  { name: "CANT", id: 1, space: "15%", direction: "flex-start" },
   { name: "DESCRIPCION", id: 2, space: "40%", direction: "flex-start" },
-  { name: "PRECIO", id: 3, space: "20%", direction: "flex-end" },
-  { name: "IMPORTE", id: 4, space: "20%", direction: "flex-end" },
+  { name: "PRECIO", id: 3, space: "15%", direction: "flex-end" },
+  { name: "IMPORTE", id: 4, space: "15%", direction: "flex-end" },
 ];
 
 const Sales = () => {
@@ -47,6 +48,11 @@ const Sales = () => {
   const productsFiltered = products?.filter((p) =>
     p.name.includes(formData?.search || "")
   );
+
+  const deleteProductTicket = (product) => {
+    const newData = ticket.filter((p) => p._id != product._id);
+    setTicket(newData);
+  };
 
   const handleAddToTicket = (product) => {
     const exist = ticket.some((p) => p._id == product._id);
@@ -164,22 +170,32 @@ const Sales = () => {
             <Flex mt="10px">
               {headerProductsTicket.map((head) => (
                 <Flex justify={head.direction} w={head.space}>
-                  <Text size="14px">{head.name}</Text>
+                  <Text size="12px">{head.name}</Text>
                 </Flex>
               ))}
             </Flex>
             <Flex
               className="scroll"
               direction="column"
-              style={{ height: "calc(100vh - 300px)", overflowY: "auto" }}
+              style={{ height: "calc(100vh - 330px)", overflowY: "auto" }}
             >
               {ticket.map((product) => (
-                <ItemTicket product={product} updateToSale={updateToSale} />
+                <ItemTicket
+                  deleteProductTicket={deleteProductTicket}
+                  product={product}
+                  updateToSale={updateToSale}
+                />
               ))}
             </Flex>
-            <Flex h="10vh" align="end" direction="column">
-              <Text>Total:$ {getTicketTotal()}</Text>
-              <CustomButton bg={success} onClick={() => makeSale()}>
+            <Flex gap="10px" align="end" direction="column">
+              <Text weight="bold" size="30px" color={primaryColor}>
+                Total:$ {getTicketTotal()}
+              </Text>
+              <CustomButton
+                color="white"
+                bg={success}
+                onClick={() => makeSale()}
+              >
                 Vender
               </CustomButton>
             </Flex>

@@ -1,7 +1,9 @@
 //components
-import { CustomInput, Text, Flex } from "@/components";
+import { CustomInput, CustomButton, Text, Flex } from "@/components";
+//icons
+import { RemoveIcon } from "@/assets/icons";
 
-const ItemTicket = ({ product, updateToSale }) => {
+const ItemTicket = ({ product, updateToSale, deleteProductTicket }) => {
   const getTotal = () => {
     const result = Number(product.priceSale) * Number(product.toSale);
     return result;
@@ -9,6 +11,15 @@ const ItemTicket = ({ product, updateToSale }) => {
 
   return (
     <Flex align="center" mt="10px" gap="10px">
+      <CustomButton
+        onClick={() => deleteProductTicket(product)}
+        w="15%"
+        ml="10px"
+        pd="0px"
+        justify="flex-end"
+      >
+        <RemoveIcon size="25px" />
+      </CustomButton>
       <CustomInput
         style={{ textAlign: "center" }}
         name="quantity"
@@ -18,13 +29,13 @@ const ItemTicket = ({ product, updateToSale }) => {
         value={product.toSale}
         onChange={(e) => updateToSale(product._id, e.target.value)}
       />
-      <Text ml="10px" w="45%">
+      <Text ml="10px" w="35%">
         {product.name}
       </Text>
-      <Flex justify="flex-end" w="20%">
+      <Flex justify="flex-end" w="15%">
         {product.priceSale}
       </Flex>
-      <Flex justify="flex-end" w="20%">
+      <Flex justify="flex-end" w="15%">
         {getTotal()}
       </Flex>
     </Flex>

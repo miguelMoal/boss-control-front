@@ -1,3 +1,6 @@
+//react
+import { useState } from "react";
+//components
 import {
   Layout,
   Flex,
@@ -35,6 +38,8 @@ const Reinvest = () => {
   const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
   const [allWarnings, setAllWarnings] = useState(false);
+  const [allYellow, setAllYellow] = useState(false);
+  const [allRed, setAllRed] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -90,6 +95,7 @@ const Reinvest = () => {
       }
     });
     queryClient.setQueryData("products", newProducts);
+    setAllYellow(!allYellow);
   };
 
   const activeAllRed = () => {
@@ -102,6 +108,7 @@ const Reinvest = () => {
       }
     });
     queryClient.setQueryData("products", newProducts);
+    setAllRed(!allRed);
   };
 
   const investmentBudget = () => {
@@ -120,6 +127,7 @@ const Reinvest = () => {
             <CustomButton
               borderColor={warning}
               color="gray"
+              bg={allYellow && warning}
               onClick={() => activeAllYellow()}
             >
               <CheckIcon />
@@ -127,6 +135,7 @@ const Reinvest = () => {
             <CustomButton
               borderColor={error}
               color="gray"
+              bg={allRed && error}
               onClick={() => activeAllRed()}
             >
               <CheckIcon />
@@ -141,7 +150,7 @@ const Reinvest = () => {
               />
               <Flex bg="#ebebeb" w="200px" h="10px">
                 <Flex
-                  bg={primaryColor}
+                  bg={investmentBudget() > 100 ? error : primaryColor}
                   w={`${investmentBudget()}%`}
                   h="10px"
                 ></Flex>
@@ -183,7 +192,11 @@ const Reinvest = () => {
           ))}
         </Flex>
         <Flex align="end" direction="column">
-          <Text weight="bold" size="30px" color={primaryColor}>
+          <Text
+            weight="bold"
+            size="30px"
+            color={investmentBudget() > 100 ? error : primaryColor}
+          >
             Total ${productsReinvest()}
           </Text>
         </Flex>

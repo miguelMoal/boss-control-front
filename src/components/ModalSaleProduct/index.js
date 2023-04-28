@@ -57,11 +57,7 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
       </Flex>
 
       <Flex mt="20px" justify="center" gap="10px">
-        <CustomButton
-          color={error}
-          borderColor={error}
-          onClick={() => closeModal()}
-        >
+        <CustomButton color="white" bg={error} onClick={() => closeModal()}>
           Cancelar
         </CustomButton>
         <CustomButton bg={success} onClick={() => sendTicket()}>
