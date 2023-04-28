@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 //components
-import { Text, Flex, CustomButton, CustomInput } from "@/components";
+import { Text, Flex, CustomButton, CustomInput, Header } from "@/components";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -56,18 +56,32 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   return (
     <Flex direction="column">
-      <Flex
-        gap="20px"
-        h="40px"
-        align="center"
-        style={{ borderBottom: "1px solid gray" }}
-      >
-        <Text onClick={() => setSection("datos")}>Datos del producto</Text>
-        <Text onClick={() => setSection("añadir")}>Añadir al stock</Text>
+      <Header>
+        <Text color="white" size="20px">
+          Editar
+        </Text>
+      </Header>
+      <Flex mt="10px" gap="10px" pd="10px">
+        <CustomButton
+          borderColor={primaryColor}
+          onClick={() => setSection("datos")}
+          bg={section == "datos" && primaryColor}
+          color={section == "datos" && "white"}
+        >
+          Datos del producto
+        </CustomButton>
+        <CustomButton
+          borderColor={primaryColor}
+          onClick={() => setSection("añadir")}
+          bg={section != "datos" && primaryColor}
+          color={section != "datos" && "white"}
+        >
+          Anadir al stock
+        </CustomButton>
       </Flex>
-      <Flex>
+      <Flex pd="10px">
         {section == "datos" ? (
-          <Flex mt="20px" align="center" direction="column">
+          <Flex mt="20px" align="center" direction="column" w="590px">
             <Flex>
               <CustomInput
                 value={formData?.name}
@@ -125,8 +139,8 @@ const ModalEditProduct = ({ closeModal, product }) => {
             <Flex mt="20px" justify="center" gap="10px">
               <CustomButton
                 onClick={() => closeModal()}
-                color={error}
-                borderColor={error}
+                color="white"
+                bg={error}
               >
                 Salir
               </CustomButton>
@@ -136,7 +150,7 @@ const ModalEditProduct = ({ closeModal, product }) => {
             </Flex>
           </Flex>
         ) : (
-          <Flex mt="20px" align="center" direction="column">
+          <Flex mt="20px" align="center" direction="column" w="590px">
             <Flex align="center" gap="10px" direction="column">
               <Text size="20px" weight="bold">
                 {product.name}
