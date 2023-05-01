@@ -47,3 +47,8 @@ export const validatePassword = (password) => {
     return "La contraseña debe tener al menos 10 caracteres";
   return null;
 };
+
+export const generateId = () => {
+  const randomNumber = Math.random().toString();
+  return randomNumber.substring(2);
+};

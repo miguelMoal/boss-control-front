@@ -47,7 +47,6 @@ const Reinvest = () => {
   const { handleChange, formData } = useForm();
 
   const toggleCheck = (product) => {
-    console.log(product);
     const newProducts = products.map((p) => {
       if (p._id == product._id) {
         return { ...p, checked: !p?.checked };

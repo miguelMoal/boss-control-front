@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 //components
 import {
   Layout,
@@ -10,7 +12,9 @@ import {
   HandleStatus,
   ModalEditProduct,
   ModalRemove,
+  Spinner,
 } from "@/components";
+import { useToastContext } from "@/components/Toast";
 
 //externals
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -36,16 +40,18 @@ const headerProducts = [
 ];
 
 const Products = () => {
-  const { primaryColor, success, error, warning } = useSelector(
-    (state) => state.theme
-  );
+  const [productToDelete, setProductToDelete] = useState(null);
+
+  const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
   const { data: products, status } = useQuery(["products"], getProductsApi);
-  const { mutate: deleteProduct } = useMutation(deleteProductApi);
+  const { mutate: deleteProduct, isLoading: loadingDeleteProduct } =
+    useMutation(deleteProductApi);
 
   const { handleChange, formData } = useForm();
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
@@ -62,18 +68,38 @@ const Products = () => {
   };
 
   const handleDelete = (id) => {
+    handleProductToDelete(id);
     showModal(
-      <ModalRemove closeModal={closeModal} action={_deleteProduct} id={id} />
+      <ModalRemove
+        closeModal={closeModal}
+        action={_deleteProduct}
+        id={id}
+        handleProductToDelete={handleProductToDelete}
+      />
     );
+  };
+
+  const handleProductToDelete = (value) => {
+    setProductToDelete(value);
   };
 
   const _deleteProduct = (id) => {
     deleteProduct(id, {
       onSuccess: () => {
+        addToast("El producto de elimino correctamente", true);
+        queryClient.setQueryData("products", (oldData) => {
+          const newData = oldData.filter((p) => p._id != id);
+          return newData;
+        });
         queryClient.invalidateQueries("products");
-        closeModal();
+        handleProductToDelete(null);
+      },
+      onError: () => {
+        addToast("Ocurrió un error al eliminar el producto", false);
+        handleProductToDelete(null);
       },
     });
+    closeModal();
   };
 
   return (
@@ -125,7 +151,11 @@ const Products = () => {
                 pd="0px"
                 onClick={() => handleDelete(product._id)}
               >
-                <RemoveIcon />
+                {loadingDeleteProduct && productToDelete == product._id ? (
+                  <Spinner color={error} size="25" />
+                ) : (
+                  <RemoveIcon />
+                )}
               </CustomButton>
             </ItemProduct>
           ))}

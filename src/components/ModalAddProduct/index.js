@@ -1,5 +1,13 @@
 //components
-import { Flex, Text, CustomButton, CustomInput, Header } from "@/components";
+import {
+  Flex,
+  Text,
+  CustomButton,
+  CustomInput,
+  Header,
+  Spinner,
+} from "@/components";
+import { useToastContext } from "@/components/Toast";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -13,6 +21,9 @@ import { createProductApi } from "@/connections";
 //Externals
 import { useMutation, useQueryClient } from "react-query";
 
+//Helpers
+import { generateId } from "@/helpers";
+
 const ModalAddProduct = ({ closeModal }) => {
   const { primaryColor, error } = useSelector((state) => state.theme);
 
@@ -21,6 +32,7 @@ const ModalAddProduct = ({ closeModal }) => {
   const { mutate: createProduct, isLoading } = useMutation(createProductApi);
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   const allReady =
     formData?.name &&
@@ -36,8 +48,16 @@ const ModalAddProduct = ({ closeModal }) => {
         { ...formData, color: "black", category: "all" },
         {
           onSuccess: () => {
+            addToast("El producto de creó correctamente", true);
             queryClient.invalidateQueries("products");
+            queryClient.setQueryData("products", (oldData) => [
+              ...oldData,
+              { ...formData, _id: generateId() },
+            ]);
             setInitialData({});
+          },
+          onError: () => {
+            addToast("Ocurrió un error al crear el producto", false);
           },
         }
       );
@@ -102,15 +122,20 @@ const ModalAddProduct = ({ closeModal }) => {
           />
         </Flex>
         <Flex mt="20px" justify="center" gap="10px">
-          <CustomButton color="white" bg={error} onClick={() => closeModal()}>
-            Salir
-          </CustomButton>
+          {!isLoading && (
+            <CustomButton color="white" bg={error} onClick={() => closeModal()}>
+              Salir
+            </CustomButton>
+          )}
+
           <CustomButton
             bg={allReady ? primaryColor : "gray"}
-            color="white"
             onClick={() => sendProduct()}
           >
-            Añadir producto
+            <Flex align="center" gap="20px" color="white">
+              {isLoading && <Spinner />}
+              Añadir producto
+            </Flex>
           </CustomButton>
         </Flex>
       </Flex>

@@ -4,7 +4,7 @@ import { Flex, Text, Header, CustomButton } from "@/components";
 import { useSelector } from "react-redux";
 
 const ModalRemove = ({ closeModal, action, id }) => {
-  const { primaryColor, success, error } = useSelector((state) => state.theme);
+  const { primaryColor, error } = useSelector((state) => state.theme);
 
   return (
     <Flex direction="column">
