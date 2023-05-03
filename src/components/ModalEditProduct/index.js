@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
-
 //components
 import { Text, Flex, CustomButton, CustomInput, Header } from "@/components";
-
 //Redux
 import { useSelector } from "react-redux";
-
 //Hooks
 import { useForm } from "@/hooks";
-
 //Connections
 import { updateProductApi } from "@/connections";
-
 //Externals
 import { useMutation, useQueryClient } from "react-query";
 
@@ -39,6 +34,18 @@ const ModalEditProduct = ({ closeModal, product }) => {
     formData?.preferenceInStock;
 
   const newStock = formData?.add;
+
+  const sendNewData = () => {
+    updateProduct(
+      { id: product._id, body: { ...formData } },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("products");
+          closeModal();
+        },
+      }
+    );
+  };
 
   const updateStock = () => {
     if (newStock) {
@@ -144,7 +151,11 @@ const ModalEditProduct = ({ closeModal, product }) => {
               >
                 Salir
               </CustomButton>
-              <CustomButton color="white" bg={allReady ? primaryColor : "gray"}>
+              <CustomButton
+                color="white"
+                bg={allReady ? primaryColor : "gray"}
+                onClick={() => sendNewData()}
+              >
                 Actualizar producto
               </CustomButton>
             </Flex>

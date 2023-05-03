@@ -8,19 +8,14 @@ import {
   Spinner,
 } from "@/components";
 import { useToastContext } from "@/components/Toast";
-
 //Redux
 import { useSelector } from "react-redux";
-
 //Hooks
 import { useForm } from "@/hooks";
-
 //Connections
 import { createProductApi } from "@/connections";
-
 //Externals
 import { useMutation, useQueryClient } from "react-query";
-
 //Helpers
 import { generateId } from "@/helpers";
 
@@ -48,7 +43,7 @@ const ModalAddProduct = ({ closeModal }) => {
         { ...formData, color: "black", category: "all" },
         {
           onSuccess: () => {
-            addToast("El producto de creó correctamente", true);
+            addToast("El producto se creó correctamente", true);
             queryClient.invalidateQueries("products");
             queryClient.setQueryData("products", (oldData) => [
               ...oldData,
