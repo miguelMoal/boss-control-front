@@ -59,3 +59,8 @@ export const getTopSellingApi = async () => {
   const { msg } = await makeRequest("analytics/get-top-selling", "GET");
   return msg;
 };
+
+export const subscriptionApi = async (body) => {
+  const result = await makeRequest("subscription", "POST", body);
+  return result;
+};
