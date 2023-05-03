@@ -36,7 +36,6 @@ const headerProducts = [
 const Reinvest = () => {
   const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
-  const [allWarnings, setAllWarnings] = useState(false);
   const [allYellow, setAllYellow] = useState(false);
   const [allRed, setAllRed] = useState(false);
 
@@ -86,8 +85,7 @@ const Reinvest = () => {
       const halfPreference = Number(product.preferenceInStock) / 2;
       const available = Number(product.available);
       if (available <= halfPreference && available != 0) {
-        setAllWarnings(!allWarnings);
-        return { ...product, checked: !allWarnings };
+        return { ...product, checked: !allYellow };
       } else {
         return product;
       }
@@ -99,8 +97,7 @@ const Reinvest = () => {
   const activeAllRed = () => {
     const newProducts = productsFiltered.map((product) => {
       if (Number(product.available) == 0) {
-        setAllWarnings(!allWarnings);
-        return { ...product, checked: !allWarnings };
+        return { ...product, checked: !allRed };
       } else {
         return product;
       }
@@ -140,7 +137,7 @@ const Reinvest = () => {
             </CustomButton>
             <Flex gap="10px" align="center">
               <CustomInput
-                placeholder="Presupuesto"
+                placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
                 w="100px"
                 name="budget"

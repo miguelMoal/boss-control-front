@@ -23,3 +23,4 @@ export { default as ItemReinvest } from "./ItemReinvest";
 export { default as Header } from "./Header";
 export { default as ModalRemove } from "./ModalRemove";
 export { default as ModalSubscribe } from "./ModalSubscribe";
+export { default as ModalRegister } from "./ModalRegister";
