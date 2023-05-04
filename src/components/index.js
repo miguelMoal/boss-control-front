@@ -20,3 +20,8 @@ export { default as ModalCreateUser } from "./ModalCreateUser";
 export { default as Spinner } from "./Spinner";
 export { default as ModalErrorSale } from "./ModalErrorSale";
 export { default as ItemReinvest } from "./ItemReinvest";
+export { default as Header } from "./Header";
+export { default as ModalRemove } from "./ModalRemove";
+export { default as ModalSubscribe } from "./ModalSubscribe";
+export { default as ModalRegister } from "./ModalRegister";
+export { default as FormProduct } from "./FormProduct";

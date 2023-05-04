@@ -36,7 +36,8 @@ const headerProducts = [
 const Reinvest = () => {
   const { primaryColor, warning, error } = useSelector((state) => state.theme);
 
-  const [allWarnings, setAllWarnings] = useState(false);
+  const [allYellow, setAllYellow] = useState(false);
+  const [allRed, setAllRed] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -45,7 +46,6 @@ const Reinvest = () => {
   const { handleChange, formData } = useForm();
 
   const toggleCheck = (product) => {
-    console.log(product);
     const newProducts = products.map((p) => {
       if (p._id == product._id) {
         return { ...p, checked: !p?.checked };
@@ -85,25 +85,25 @@ const Reinvest = () => {
       const halfPreference = Number(product.preferenceInStock) / 2;
       const available = Number(product.available);
       if (available <= halfPreference && available != 0) {
-        setAllWarnings(!allWarnings);
-        return { ...product, checked: !allWarnings };
+        return { ...product, checked: !allYellow };
       } else {
         return product;
       }
     });
     queryClient.setQueryData("products", newProducts);
+    setAllYellow(!allYellow);
   };
 
   const activeAllRed = () => {
     const newProducts = productsFiltered.map((product) => {
       if (Number(product.available) == 0) {
-        setAllWarnings(!allWarnings);
-        return { ...product, checked: !allWarnings };
+        return { ...product, checked: !allRed };
       } else {
         return product;
       }
     });
     queryClient.setQueryData("products", newProducts);
+    setAllRed(!allRed);
   };
 
   const investmentBudget = () => {
@@ -122,6 +122,7 @@ const Reinvest = () => {
             <CustomButton
               borderColor={warning}
               color="gray"
+              bg={allYellow && warning}
               onClick={() => activeAllYellow()}
             >
               <CheckIcon />
@@ -129,13 +130,14 @@ const Reinvest = () => {
             <CustomButton
               borderColor={error}
               color="gray"
+              bg={allRed && error}
               onClick={() => activeAllRed()}
             >
               <CheckIcon />
             </CustomButton>
             <Flex gap="10px" align="center">
               <CustomInput
-                placeholder="Presupuesto"
+                placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
                 w="100px"
                 name="budget"
@@ -143,7 +145,7 @@ const Reinvest = () => {
               />
               <Flex bg="#ebebeb" w="200px" h="10px">
                 <Flex
-                  bg={primaryColor}
+                  bg={investmentBudget() > 100 ? error : primaryColor}
                   w={`${investmentBudget()}%`}
                   h="10px"
                 ></Flex>
@@ -185,7 +187,11 @@ const Reinvest = () => {
           ))}
         </Flex>
         <Flex align="end" direction="column">
-          <Text weight="bold" size="30px" color={primaryColor}>
+          <Text
+            weight="bold"
+            size="30px"
+            color={investmentBudget() > 100 ? error : primaryColor}
+          >
             Total ${productsReinvest()}
           </Text>
         </Flex>

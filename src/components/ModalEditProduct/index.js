@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
 
 //components
-import { Text, Flex, CustomButton, CustomInput } from "@/components";
+import {
+  Text,
+  Flex,
+  CustomButton,
+  CustomInput,
+  Header,
+  FormProduct,
+} from "@/components";
+
+import { useToastContext } from "@/components/Toast";
 
 //Redux
 import { useSelector } from "react-redux";
@@ -10,7 +19,7 @@ import { useSelector } from "react-redux";
 import { useForm } from "@/hooks";
 
 //Connections
-import { updateProductApi } from "@/connections";
+import { updateProductApi, addToStockApi } from "@/connections";
 
 //Externals
 import { useMutation, useQueryClient } from "react-query";
@@ -22,9 +31,12 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   const { primaryColor, error } = useSelector((state) => state.theme);
 
-  const { mutate: updateProduct } = useMutation(updateProductApi);
+  const { mutate: updateProduct, isLoading } = useMutation(updateProductApi);
+  const { mutate: addToStock, isLoading: loadingAddToStock } =
+    useMutation(addToStockApi);
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   useEffect(() => {
     setInitialData(product);
@@ -40,14 +52,55 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   const newStock = formData?.add;
 
+  const sendNewData = () => {
+    updateProduct(
+      { id: product._id, body: { ...formData } },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries("products");
+          queryClient.setQueryData("products", (oldData) => {
+            const newData = oldData.map((_product) => {
+              if (_product._id == product._id) {
+                return { ..._product, ...formData };
+              } else {
+                return _product;
+              }
+            });
+            return newData;
+          });
+          addToast("El producto de actualizó correctamente", true);
+          !isLoading && closeModal();
+        },
+        onError: () => {
+          addToast("Algo salió mal al actualizar el producto", false);
+        },
+      }
+    );
+  };
+
   const updateStock = () => {
     if (newStock) {
-      updateProduct(
-        { id: product._id, body: { available: formData.add } },
+      addToStock(
+        { id: product._id, body: { toAdd: formData.add } },
         {
           onSuccess: () => {
             queryClient.invalidateQueries("products");
-            closeModal();
+            queryClient.setQueryData("products", (oldData) => {
+              const newData = oldData.map((_product) => {
+                if (_product._id == product._id) {
+                  return {
+                    ..._product,
+                    available:
+                      Number(formData.available) + Number(formData.add),
+                  };
+                } else {
+                  return _product;
+                }
+              });
+              return newData;
+            });
+            addToast("El producto de actualizó correctamente", true);
+            !isLoading && closeModal();
           },
         }
       );
@@ -56,87 +109,50 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   return (
     <Flex direction="column">
+      <Header>
+        <Text color="white" size="20px">
+          Editar
+        </Text>
+      </Header>
       <Flex
-        gap="20px"
-        h="40px"
-        align="center"
-        style={{ borderBottom: "1px solid gray" }}
+        justify="center"
+        mt="10px"
+        gap="10px"
+        pd="20px"
+        style={{ paddingBottom: "0px" }}
       >
-        <Text onClick={() => setSection("datos")}>Datos del producto</Text>
-        <Text onClick={() => setSection("añadir")}>Añadir al stock</Text>
+        <CustomButton
+          borderColor={primaryColor}
+          onClick={() => setSection("datos")}
+          bg={section == "datos" && primaryColor}
+          color={section == "datos" && "white"}
+        >
+          Datos del producto
+        </CustomButton>
+        <CustomButton
+          borderColor={primaryColor}
+          onClick={() => setSection("añadir")}
+          bg={section != "datos" && primaryColor}
+          color={section != "datos" && "white"}
+        >
+          Anadir al stock
+        </CustomButton>
       </Flex>
-      <Flex>
+      <Flex pd="20px" style={{ paddingTop: "0px" }}>
         {section == "datos" ? (
-          <Flex mt="20px" align="center" direction="column">
-            <Flex>
-              <CustomInput
-                value={formData?.name}
-                placeholder="Nombre del producto"
-                border="1px solid gray"
-                w="100%"
-                name="name"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" gap="10px">
-              <CustomInput
-                value={formData?.priceBuy}
-                placeholder="Precio de compra"
-                border="1px solid gray"
-                w="33%"
-                name="priceBuy"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.priceSale}
-                placeholder="Precio de venta"
-                border="1px solid gray"
-                w="33%"
-                name="priceSale"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.brand}
-                placeholder="Marca"
-                border="1px solid gray"
-                w="33%"
-                name="brand"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" gap="10px">
-              <CustomInput
-                value={formData?.available}
-                placeholder="Disponibles"
-                border="1px solid gray"
-                w="50%"
-                name="available"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.preferenceInStock}
-                placeholder="Ideal en stock"
-                border="1px solid gray"
-                w="50%"
-                name="preferenceInStock"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" justify="center" gap="10px">
-              <CustomButton
-                onClick={() => closeModal()}
-                color={error}
-                borderColor={error}
-              >
-                Salir
-              </CustomButton>
-              <CustomButton color="white" bg={allReady ? primaryColor : "gray"}>
-                Actualizar producto
-              </CustomButton>
-            </Flex>
+          <Flex mt="20px" align="center" direction="column" w="400px">
+            <FormProduct
+              action={sendNewData}
+              closeModal={closeModal}
+              formData={formData}
+              handleChange={handleChange}
+              isLoading={isLoading}
+              allReady={allReady}
+              showAvailable={false}
+            />
           </Flex>
         ) : (
-          <Flex mt="20px" align="center" direction="column">
+          <Flex mt="20px" align="center" direction="column" w="350px">
             <Flex align="center" gap="10px" direction="column">
               <Text size="20px" weight="bold">
                 {product.name}

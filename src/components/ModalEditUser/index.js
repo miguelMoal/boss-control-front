@@ -105,11 +105,7 @@ const ModalEditUser = ({ user, closeModal }) => {
         </Flex>
         <Flex gap="20px" justify="center">
           {!loadingUpdateUser && (
-            <CustomButton
-              borderColor={error}
-              color={error}
-              onClick={() => closeModal()}
-            >
+            <CustomButton color="white" bg={error} onClick={() => closeModal()}>
               Cancelar
             </CustomButton>
           )}

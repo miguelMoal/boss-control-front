@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   Layout,
   CustomButton,
@@ -6,6 +8,7 @@ import {
   Text,
   ItemUser,
   ModalCreateUser,
+  ModalSubscribe,
 } from "@/components";
 
 //Redux
@@ -34,6 +37,8 @@ const Accounts = () => {
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
+  const [loading, setLoading] = useState(false);
+
   const { data: subUsers, status } = useQuery(["subUsers"], getSubUsersApi);
 
   const handleCreateUser = () => {
@@ -42,6 +47,7 @@ const Accounts = () => {
 
   return (
     <Layout>
+      {/* <ModalSubscribe /> */}
       <ModalWrapper />
       <Flex align="center" justify="space-between" mb="15px" h="40px">
         <Search handleChange={handleChange} />

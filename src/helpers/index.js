@@ -14,11 +14,13 @@ const getHeaders = (requireToken) => {
 };
 
 export const makeRequest = async (url, method, body, requireToken = true) => {
+  // const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
+  const baseUrl = `http://localhost:8080/api/${url}`;
   const { data } = await axios({
     data: JSON.stringify(body),
     method,
     headers: getHeaders(requireToken),
-    url: `https://boss-control-one.vercel.app/api/${url}`,
+    url: baseUrl,
   });
   return data;
 };
@@ -46,4 +48,9 @@ export const validatePassword = (password) => {
   if (password.length <= 9)
     return "La contraseña debe tener al menos 10 caracteres";
   return null;
+};
+
+export const generateId = () => {
+  const randomNumber = Math.random().toString();
+  return randomNumber.substring(2);
 };

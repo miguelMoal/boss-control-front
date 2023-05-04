@@ -20,6 +20,15 @@ export const updateProductApi = async (data) => {
   return msg;
 };
 
+export const addToStockApi = async (data) => {
+  const { msg } = await makeRequest(
+    `product/add-to-stock/${data.id}`,
+    "PATCH",
+    data.body
+  );
+  return msg;
+};
+
 export const getSubUsersApi = async () => {
   const { msg } = await makeRequest(`subuser`, "GET");
   return msg;
@@ -58,4 +67,9 @@ export const getTotalInvestApi = async () => {
 export const getTopSellingApi = async () => {
   const { msg } = await makeRequest("analytics/get-top-selling", "GET");
   return msg;
+};
+
+export const subscriptionApi = async (body) => {
+  const result = await makeRequest("subscription", "POST", body);
+  return result;
 };
