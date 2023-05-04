@@ -28,6 +28,8 @@ const ItemTicket = ({ product, updateToSale, deleteProductTicket }) => {
         w="15%"
         value={product.toSale}
         onChange={(e) => updateToSale(product._id, e.target.value)}
+        type="number"
+        min={0}
       />
       <Text ml="10px" w="35%">
         {product.name}

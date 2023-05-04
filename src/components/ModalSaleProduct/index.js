@@ -1,7 +1,8 @@
 //Redux
 import { useSelector } from "react-redux";
 //components
-import { Text, Flex, CustomButton, CustomInput } from "@/components";
+import { Text, Flex, CustomButton, CustomInput, Spinner } from "@/components";
+import { useToastContext } from "@/components/Toast";
 //Hooks
 import { useForm } from "@/hooks";
 //connections
@@ -11,10 +12,11 @@ import { useMutation, useQueryClient } from "react-query";
 
 const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
   const { handleChange, formData } = useForm();
-  const { mutate: saleTicket } = useMutation(sendTicketApi);
+  const { mutate: saleTicket, isLoading } = useMutation(sendTicketApi);
 
   const { error, success } = useSelector((state) => state.theme);
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   const getTotalSale = () => {
     let result = 0;
@@ -31,9 +33,27 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
     const body = { products: newTicket };
     saleTicket(body, {
       onSuccess: () => {
+        addToast("La venta se realizó correctamente", true);
         queryClient.invalidateQueries("products");
+        queryClient.setQueryData("products", (oldData) => {
+          const newData = oldData.map((p) => {
+            const pInTicket = ticket.find((_p) => _p._id == p._id);
+            if (pInTicket) {
+              return {
+                ...p,
+                available: Number(p.available) - Number(pInTicket.toSale),
+              };
+            } else {
+              return p;
+            }
+          });
+          return newData;
+        });
         cleanTicket();
-        closeModal();
+        !isLoading && closeModal();
+      },
+      onError: () => {
+        addToast("Ocurrió un error al tratar de vender", false);
       },
     });
   };
@@ -60,8 +80,8 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
         <CustomButton color="white" bg={error} onClick={() => closeModal()}>
           Cancelar
         </CustomButton>
-        <CustomButton bg={success} onClick={() => sendTicket()}>
-          Vender
+        <CustomButton color="white" bg={success} onClick={() => sendTicket()}>
+          {isLoading && <Spinner color="white" size="25" mr="15px" />} Vender
         </CustomButton>
       </Flex>
     </Flex>

@@ -20,6 +20,15 @@ export const updateProductApi = async (data) => {
   return msg;
 };
 
+export const addToStockApi = async (data) => {
+  const { msg } = await makeRequest(
+    `product/add-to-stock/${data.id}`,
+    "PATCH",
+    data.body
+  );
+  return msg;
+};
+
 export const getSubUsersApi = async () => {
   const { msg } = await makeRequest(`subuser`, "GET");
   return msg;

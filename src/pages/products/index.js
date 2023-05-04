@@ -86,7 +86,7 @@ const Products = () => {
   const _deleteProduct = (id) => {
     deleteProduct(id, {
       onSuccess: () => {
-        addToast("El producto de elimino correctamente", true);
+        addToast("El producto se eliminó correctamente", true);
         queryClient.setQueryData("products", (oldData) => {
           const newData = oldData.filter((p) => p._id != id);
           return newData;

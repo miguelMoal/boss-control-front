@@ -1,12 +1,26 @@
 import { useState, useEffect } from "react";
+
 //components
-import { Text, Flex, CustomButton, CustomInput, Header } from "@/components";
+import {
+  Text,
+  Flex,
+  CustomButton,
+  CustomInput,
+  Header,
+  FormProduct,
+} from "@/components";
+
+import { useToastContext } from "@/components/Toast";
+
 //Redux
 import { useSelector } from "react-redux";
+
 //Hooks
 import { useForm } from "@/hooks";
+
 //Connections
-import { updateProductApi } from "@/connections";
+import { updateProductApi, addToStockApi } from "@/connections";
+
 //Externals
 import { useMutation, useQueryClient } from "react-query";
 
@@ -17,9 +31,12 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   const { primaryColor, error } = useSelector((state) => state.theme);
 
-  const { mutate: updateProduct } = useMutation(updateProductApi);
+  const { mutate: updateProduct, isLoading } = useMutation(updateProductApi);
+  const { mutate: addToStock, isLoading: loadingAddToStock } =
+    useMutation(addToStockApi);
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   useEffect(() => {
     setInitialData(product);
@@ -41,7 +58,21 @@ const ModalEditProduct = ({ closeModal, product }) => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries("products");
-          closeModal();
+          queryClient.setQueryData("products", (oldData) => {
+            const newData = oldData.map((_product) => {
+              if (_product._id == product._id) {
+                return { ..._product, ...formData };
+              } else {
+                return _product;
+              }
+            });
+            return newData;
+          });
+          addToast("El producto de actualizó correctamente", true);
+          !isLoading && closeModal();
+        },
+        onError: () => {
+          addToast("Algo salió mal al actualizar el producto", false);
         },
       }
     );
@@ -49,12 +80,27 @@ const ModalEditProduct = ({ closeModal, product }) => {
 
   const updateStock = () => {
     if (newStock) {
-      updateProduct(
-        { id: product._id, body: { available: formData.add } },
+      addToStock(
+        { id: product._id, body: { toAdd: formData.add } },
         {
           onSuccess: () => {
             queryClient.invalidateQueries("products");
-            closeModal();
+            queryClient.setQueryData("products", (oldData) => {
+              const newData = oldData.map((_product) => {
+                if (_product._id == product._id) {
+                  return {
+                    ..._product,
+                    available:
+                      Number(formData.available) + Number(formData.add),
+                  };
+                } else {
+                  return _product;
+                }
+              });
+              return newData;
+            });
+            addToast("El producto de actualizó correctamente", true);
+            !isLoading && closeModal();
           },
         }
       );
@@ -68,7 +114,13 @@ const ModalEditProduct = ({ closeModal, product }) => {
           Editar
         </Text>
       </Header>
-      <Flex mt="10px" gap="10px" pd="10px">
+      <Flex
+        justify="center"
+        mt="10px"
+        gap="10px"
+        pd="20px"
+        style={{ paddingBottom: "0px" }}
+      >
         <CustomButton
           borderColor={primaryColor}
           onClick={() => setSection("datos")}
@@ -86,82 +138,21 @@ const ModalEditProduct = ({ closeModal, product }) => {
           Anadir al stock
         </CustomButton>
       </Flex>
-      <Flex pd="10px">
+      <Flex pd="20px" style={{ paddingTop: "0px" }}>
         {section == "datos" ? (
-          <Flex mt="20px" align="center" direction="column" w="590px">
-            <Flex>
-              <CustomInput
-                value={formData?.name}
-                placeholder="Nombre del producto"
-                border="1px solid gray"
-                w="100%"
-                name="name"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" gap="10px">
-              <CustomInput
-                value={formData?.priceBuy}
-                placeholder="Precio de compra"
-                border="1px solid gray"
-                w="33%"
-                name="priceBuy"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.priceSale}
-                placeholder="Precio de venta"
-                border="1px solid gray"
-                w="33%"
-                name="priceSale"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.brand}
-                placeholder="Marca"
-                border="1px solid gray"
-                w="33%"
-                name="brand"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" gap="10px">
-              <CustomInput
-                value={formData?.available}
-                placeholder="Disponibles"
-                border="1px solid gray"
-                w="50%"
-                name="available"
-                onChange={handleChange}
-              />
-              <CustomInput
-                value={formData?.preferenceInStock}
-                placeholder="Ideal en stock"
-                border="1px solid gray"
-                w="50%"
-                name="preferenceInStock"
-                onChange={handleChange}
-              />
-            </Flex>
-            <Flex mt="20px" justify="center" gap="10px">
-              <CustomButton
-                onClick={() => closeModal()}
-                color="white"
-                bg={error}
-              >
-                Salir
-              </CustomButton>
-              <CustomButton
-                color="white"
-                bg={allReady ? primaryColor : "gray"}
-                onClick={() => sendNewData()}
-              >
-                Actualizar producto
-              </CustomButton>
-            </Flex>
+          <Flex mt="20px" align="center" direction="column" w="400px">
+            <FormProduct
+              action={sendNewData}
+              closeModal={closeModal}
+              formData={formData}
+              handleChange={handleChange}
+              isLoading={isLoading}
+              allReady={allReady}
+              showAvailable={false}
+            />
           </Flex>
         ) : (
-          <Flex mt="20px" align="center" direction="column" w="590px">
+          <Flex mt="20px" align="center" direction="column" w="350px">
             <Flex align="center" gap="10px" direction="column">
               <Text size="20px" weight="bold">
                 {product.name}
