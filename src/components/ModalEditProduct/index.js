@@ -114,7 +114,7 @@ const ModalEditProduct = ({ closeModal, product }) => {
           Editar
         </Text>
       </Header>
-      <Flex
+      {/* <Flex
         justify="center"
         mt="10px"
         gap="10px"
@@ -137,7 +137,7 @@ const ModalEditProduct = ({ closeModal, product }) => {
         >
           Anadir al stock
         </CustomButton>
-      </Flex>
+      </Flex> */}
       <Flex pd="20px" style={{ paddingTop: "0px" }}>
         {section == "datos" ? (
           <Flex mt="20px" align="center" direction="column" w="400px">
@@ -148,7 +148,7 @@ const ModalEditProduct = ({ closeModal, product }) => {
               handleChange={handleChange}
               isLoading={isLoading}
               allReady={allReady}
-              showAvailable={false}
+              isEdit={true}
             />
           </Flex>
         ) : (
