@@ -11,7 +11,7 @@ const FormProduct = ({
   handleChange,
   isLoading,
   allReady,
-  showAvailable = true,
+  isEdit = false,
 }) => {
   const { primaryColor, error } = useSelector((state) => state.theme);
   return (
@@ -67,21 +67,19 @@ const FormProduct = ({
         </Flex>
       </Flex>
       <Flex mt="20px" gap="10px">
-        {showAvailable && (
-          <Flex w="50%" direction="column">
-            <Text>Disponibles</Text>
-            <CustomInput
-              value={formData?.available}
-              placeholder="Disponibles"
-              border="1px solid gray"
-              w="100%"
-              name="available"
-              onChange={handleChange}
-              type="number"
-              min={0}
-            />
-          </Flex>
-        )}
+        <Flex w="50%" direction="column">
+          <Text>Disponibles</Text>
+          <CustomInput
+            value={formData?.available}
+            placeholder="Disponibles"
+            border="1px solid gray"
+            w="100%"
+            name="available"
+            onChange={handleChange}
+            type="number"
+            min={0}
+          />
+        </Flex>
         <Flex w="50%" direction="column">
           <Text>Ideal en stock</Text>
           <CustomInput
@@ -108,7 +106,7 @@ const FormProduct = ({
           onClick={() => action()}
         >
           {isLoading && <Spinner color="white" size="25" mr="15px" />}
-          {showAvailable ? "Añadir producto" : "Actualizar producto"}
+          {!isEdit ? "Añadir producto" : "Actualizar producto"}
         </CustomButton>
       </Flex>
     </>
