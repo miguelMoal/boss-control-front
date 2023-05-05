@@ -1,20 +1,14 @@
 import { useState } from "react";
-
 //Componenets
 import { Flex, Text, CustomButton, CustomInput, Spinner } from "@/components";
-
 //Redux
 import { useSelector } from "react-redux";
-
 //Hooks
 import { useForm } from "@/hooks";
-
 //Helpers
 import { validateEmail, validatePassword } from "@/helpers";
-
 //Connections
 import { createSubUserApi } from "@/connections";
-
 //Externals
 import { useMutation, useQueryClient } from "react-query";
 

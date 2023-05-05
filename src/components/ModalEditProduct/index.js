@@ -99,7 +99,7 @@ const ModalEditProduct = ({ closeModal, product }) => {
               });
               return newData;
             });
-            addToast("El producto de actualizó correctamente", true);
+            addToast("El producto se actualizó correctamente", true);
             !isLoading && closeModal();
           },
         }

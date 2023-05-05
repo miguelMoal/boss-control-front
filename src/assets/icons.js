@@ -273,3 +273,39 @@ export const DollarIcon = ({ size = "25px" }) => (
     />
   </svg>
 );
+
+export const EyeIcon = ({ size = "25px" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M22 12s-3.636 7-10 7-10-7-10-7 3.636-7 10-7c2.878 0 5.198 1.432 6.876 3M9 12a3 3 0 1 0 3-3"
+    />
+  </svg>
+);
+
+export const EyeCloseIcon = ({ size = "25px" }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M22 12s-.692 1.332-2 2.834M10 5.236A8.65 8.65 0 0 1 12 5c2.878 0 5.198 1.432 6.876 3M12 9a2.995 2.995 0 0 1 3 3M3 3l18 18m-9-6a2.997 2.997 0 0 1-2.959-2.5M4.147 9c-.308.345-.585.682-.828 1C2.453 11.128 2 12 2 12s3.636 7 10 7c.341 0 .675-.02 1-.058"
+    />
+  </svg>
+);

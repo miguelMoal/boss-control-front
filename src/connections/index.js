@@ -73,3 +73,13 @@ export const subscriptionApi = async (body) => {
   const result = await makeRequest("subscription", "POST", body);
   return result;
 };
+
+export const loginApi = async (body) => {
+  const msg = await makeRequest("auth", "POST", body, false);
+  return msg;
+};
+
+export const registerApi = async (body) => {
+  const msg = await makeRequest("auth/new", "POST", body, false);
+  return msg;
+};

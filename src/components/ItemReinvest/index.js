@@ -48,13 +48,13 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
         <Text>{product.name}</Text>
       </Flex>
       <Text w="15%">{product.brand}</Text>
-      <Text w="8%">{product.available}</Text>
+      <Text w="10%">{product.available}</Text>
       <Text w="10%">{product.preferenceInStock}</Text>
-      <Text w="12%">$ {product.priceBuy}</Text>
+      <Text w="15%">$ {product.priceBuy}</Text>
       <Text color={error} w="10%">
         {getMissingProduct(product)}
       </Text>
-      <Text w="15%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
+      <Text w="10%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
     </Flex>
   );
 };

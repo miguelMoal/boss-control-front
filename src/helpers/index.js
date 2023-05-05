@@ -14,8 +14,8 @@ const getHeaders = (requireToken) => {
 };
 
 export const makeRequest = async (url, method, body, requireToken = true) => {
-  // const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
-  const baseUrl = `http://localhost:8080/api/${url}`;
+  const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
+  // const baseUrl = `http://localhost:8080/api/${url}`;
   const { data } = await axios({
     data: JSON.stringify(body),
     method,
@@ -53,4 +53,8 @@ export const validatePassword = (password) => {
 export const generateId = () => {
   const randomNumber = Math.random().toString();
   return randomNumber.substring(2);
+};
+
+export const saveTokenToLocalStorage = (token) => {
+  localStorage.setItem("token", token);
 };

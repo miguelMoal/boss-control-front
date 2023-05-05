@@ -1,24 +1,43 @@
+import { useState } from "react";
 //components
-import {
-  CustomButton,
-  CustomInput,
-  Flex,
-  Text,
-  ModalRegister,
-} from "@/components";
+import { CustomButton, CustomInput, Flex, Text, Spinner } from "@/components";
 import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
+import { useMutation } from "react-query";
 import { useRouter } from "next/router";
+//icons
+import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
+//conections
+import { loginApi } from "@/connections";
+
+//Helpers
+import { saveTokenToLocalStorage } from "@/helpers";
 
 export default function Home() {
+  const [type, setType] = useState("password");
   const { primaryColor, warning } = useSelector((state) => state.theme);
-
+  const { handleChange, formData, setInitialData } = useForm();
+  const { mutate: makeLogIn, isLoading } = useMutation(loginApi);
   const router = useRouter();
 
   const goRegister = () => {
-    // showModal(<ModalRegister />);
     router.replace("/register");
+  };
+
+  const allReady = formData?.email && formData?.password;
+
+  const logIn = () => {
+    if (allReady) {
+      makeLogIn(formData, {
+        onSuccess: (data) => {
+          saveTokenToLocalStorage(data.token);
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      });
+    }
   };
 
   return (
@@ -39,20 +58,43 @@ export default function Home() {
             border="1px solid gray"
             w="100%"
             name="email"
+            onChange={handleChange}
           />
-          <CustomInput
-            placeholder="Contraseña"
-            border="1px solid gray"
-            w="100%"
-            name="Password"
-          />
-          <CustomButton color="white" bg={primaryColor}>
+          <Flex
+            align="center"
+            justify="center"
+            style={{ border: "1px solid gray", borderRadius: "5px" }}
+          >
+            <CustomInput
+              placeholder="Contraseña"
+              w="100%"
+              name="password"
+              type={type}
+              onChange={handleChange}
+            />
+            {type == "text" ? (
+              <Flex w="fit-content" onClick={() => setType("password")}>
+                <EyeCloseIcon />
+              </Flex>
+            ) : (
+              <Flex w="fit-content" onClick={() => setType("text")}>
+                <EyeIcon />
+              </Flex>
+            )}
+          </Flex>
+          <CustomButton color="white" bg={primaryColor} onClick={() => logIn()}>
             Iniciar
           </CustomButton>
         </Flex>
         <Flex justify="center" align="center" gap="10px">
           <Text size="14px">¿Aun no tienes cuenta?</Text>
-          <Text color={primaryColor} onClick={() => goRegister()}>
+          <Text
+            color={primaryColor}
+            weight="bold"
+            style={{ cursor: "pointer" }}
+            onClick={() => goRegister()}
+          >
+            {isLoading && <Spinner color="white" mr="10px" />}
             Registrate
           </Text>
         </Flex>

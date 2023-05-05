@@ -28,7 +28,9 @@ const ModalRegister = () => {
         w="100%"
         name="repeatpassword"
       />
-      <CustomButton>Registrar</CustomButton>
+      <CustomButton color="white" bg={primaryColor}>
+        Registrar
+      </CustomButton>
     </Flex>
   );
 };

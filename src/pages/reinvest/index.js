@@ -26,11 +26,11 @@ import { CheckIcon } from "@/assets/icons";
 const headerProducts = [
   { name: "Nombre", id: 1, space: "30%" },
   { name: "Marca", id: 2, space: "15%" },
-  { name: "Stock", id: 3, space: "8%" },
-  { name: "Stock ideal", id: 4, space: "10%" },
-  { name: "Precio compra", id: 5, space: "12%" },
+  { name: "Stock", id: 3, space: "10%" },
+  { name: "Stock Ideal", id: 4, space: "10%" },
+  { name: "Precio Compra", id: 5, space: "15%" },
   { name: "Faltantes", id: 6, space: "10%" },
-  { name: "Total reinvercion", id: 7, space: "15%" },
+  { name: "Total Reinvercion", id: 7, space: "10%" },
 ];
 
 const Reinvest = () => {

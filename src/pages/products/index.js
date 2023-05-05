@@ -33,10 +33,11 @@ import { RemoveIcon } from "@/assets/icons";
 
 const headerProducts = [
   { name: "Nombre", id: 1, space: "30%" },
-  { name: "Marca", id: 2, space: "15%" },
-  { name: "Stock", id: 3, space: "15%" },
-  { name: "Precio", id: 4, space: "15%" },
-  { name: "Acciones", id: 5, space: "25%" },
+  { name: "Marca", id: 2, space: "12%" },
+  { name: "Stock", id: 3, space: "12%" },
+  { name: "Precio compra", id: 4, space: "12%" },
+  { name: "Precio venta", id: 5, space: "12%" },
+  { name: "Acciones", id: 6, space: "22%" },
 ];
 
 const Products = () => {
