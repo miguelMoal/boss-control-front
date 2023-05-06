@@ -8,14 +8,14 @@ const getHeaders = (requireToken) => {
   };
   if (requireToken) {
     headers["x-token"] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDJmMGQxNWExZDQ1MTEwOGI1ODZlYzUiLCJuYW1lIjoiVGVzbGEiLCJpYXQiOjE2ODI1NTE1NjJ9.41Kbm0_1zT6uXEa1j-_WP9kHvofSqS8JlktvP8wTSo8";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM0NTNkYjQ3ZjllNjc5MWQxM2JkNjAiLCJuYW1lIjoiRmFuaXNjYSIsImlhdCI6MTY4MjYyNDA3MH0.xNzpr_E0Grb50C6nymYVpBxQMWgRIniKKgnWrVhonj8";
   }
   return headers;
 };
 
 export const makeRequest = async (url, method, body, requireToken = true) => {
-  const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
-  // const baseUrl = `http://localhost:8080/api/${url}`;
+  // const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
+  const baseUrl = `http://localhost:8080/api/${url}`;
   const { data } = await axios({
     data: JSON.stringify(body),
     method,
