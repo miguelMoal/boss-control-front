@@ -13,6 +13,7 @@ import {
   AnalyticsIcon,
   AccountsIcon,
   SaleIcon,
+  HistoryIcon,
 } from "@/assets/icons";
 
 const sections = [
@@ -21,6 +22,12 @@ const sections = [
   { name: "Reinvertir", icon: <ReinvestIcon />, id: 3, path: "/reinvest" },
   { name: "Analitica", icon: <AnalyticsIcon />, id: 4, path: "/analytics" },
   { name: "Cuentas", icon: <AccountsIcon />, id: 5, path: "/accounts" },
+  {
+    name: "Historial",
+    icon: <HistoryIcon size="36px" />,
+    id: 5,
+    path: "/history",
+  },
 ];
 
 const Layout = ({ children }) => {

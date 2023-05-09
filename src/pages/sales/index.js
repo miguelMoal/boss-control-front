@@ -14,6 +14,7 @@ import {
   ItemTicket,
   ModalSaleProduct,
   ModalErrorSale,
+  ItemProductSale,
 } from "@/components";
 //conections
 import { getProductsApi } from "@/connections";
@@ -32,10 +33,10 @@ const headerProducts = [
 
 const headerProductsTicket = [
   { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
-  { name: "CANT", id: 1, space: "15%", direction: "flex-start" },
-  { name: "DESCRIPCION", id: 2, space: "40%", direction: "flex-start" },
-  { name: "PRECIO", id: 3, space: "15%", direction: "flex-end" },
-  { name: "IMPORTE", id: 4, space: "15%", direction: "flex-end" },
+  { name: "CANT", id: 2, space: "15%", direction: "flex-start" },
+  { name: "DESCRIPCION", id: 3, space: "40%", direction: "flex-start" },
+  { name: "PRECIO", id: 4, space: "15%", direction: "flex-end" },
+  { name: "IMPORTE", id: 5, space: "15%", direction: "flex-end" },
 ];
 
 const Sales = () => {
@@ -143,14 +144,14 @@ const Sales = () => {
               className="scroll"
             >
               {productsFiltered?.map((product) => (
-                <ItemProduct product={product}>
+                <ItemProductSale product={product}>
                   <CustomButton
                     onClick={() => handleAddToTicket(product)}
                     borderColor={success}
                   >
                     Añadir
                   </CustomButton>
-                </ItemProduct>
+                </ItemProductSale>
               ))}
             </Flex>
           </Flex>
