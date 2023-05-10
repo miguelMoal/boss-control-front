@@ -1,5 +1,7 @@
 //components
 import { Layout, Search, Flex, Text } from "@/components";
+//HOC
+import { ProtectedRoute } from "@/HOC";
 //Redux
 import { useSelector } from "react-redux";
 //Hooks
@@ -47,4 +49,4 @@ const History = () => {
   );
 };
 
-export default History;
+export default ProtectedRoute(History);

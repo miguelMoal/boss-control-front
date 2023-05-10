@@ -1,4 +1,6 @@
 import { useState } from "react";
+//HOC
+import { ProtectedRoute } from "@/HOC";
 
 import {
   Layout,
@@ -200,4 +202,4 @@ const Reinvest = () => {
   );
 };
 
-export default Reinvest;
+export default ProtectedRoute(Reinvest);

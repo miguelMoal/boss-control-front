@@ -1,5 +1,8 @@
 import { Layout } from "@/components";
 
+//HOC
+import { ProtectedRoute } from "@/HOC";
+
 //components
 import {
   PieChart,
@@ -140,23 +143,4 @@ const Analytics = () => {
   );
 };
 
-export default Analytics;
-
-{
-  /* <Flex justify="space-between" w="100%" align="center" h="80px">
-          <Text size="20px" weight="bold">
-            Desglose semanal
-          </Text>
-          <Flex w="fit-content" gap="15px">
-            <CustomButton bg={primaryColor} color="white">
-              Semanal
-            </CustomButton>
-            <CustomButton borderColor={primaryColor} color={primaryColor}>
-              Mensual
-            </CustomButton>
-            <CustomButton borderColor={primaryColor} color={primaryColor}>
-              Anual
-            </CustomButton>
-          </Flex>
-        </Flex> */
-}
+export default ProtectedRoute(Analytics);

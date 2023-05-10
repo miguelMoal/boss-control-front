@@ -9,18 +9,25 @@ import { useSelector } from "react-redux";
 //icons
 import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
 //Hooks
-import { useModal, useForm } from "@/hooks";
+import { useForm } from "@/hooks";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 //conections
 import { registerApi } from "@/connections";
+//Helpers
+import { validateEmail, validatePassword, validatePhone } from "@/helpers";
 
 const Register = () => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, error } = useSelector((state) => state.theme);
   const [type, setType] = useState("password");
   const [typeConfirmation, setTypeConfirmation] = useState("password");
   const { handleChange, formData } = useForm();
   const { mutate: register, isLoading } = useMutation(registerApi);
+
+  const [validEmail, setValidEmail] = useState(true);
+  const [validPhone, setValidPhone] = useState(true);
+  const [validPassword, setValidPassword] = useState(null);
+  const [validRepeatPassword, setValidRepeatPassword] = useState(true);
 
   const allReady =
     formData?.name &&
@@ -34,19 +41,38 @@ const Register = () => {
 
   const _register = () => {
     if (allReady) {
-      register(
-        { ...formData, role: "ADMIN_ROLE" },
-        {
-          onSuccess: (data) => {
-            addToast("Se registro correctamente");
-            router.replace("/");
-          },
-          onError: (error) => {
-            console.log(error);
-            addToast("Algo salió mal");
-          },
-        }
-      );
+      const _validEmail = validateEmail(formData.email);
+      const _validPassword = validatePassword(formData.password);
+      const _validPhone = validatePhone(formData.phone);
+      !_validEmail ? setValidEmail(false) : setValidEmail(true);
+      _validPassword
+        ? setValidPassword(_validPassword)
+        : setValidPassword(null);
+      formData.password != formData.repeatPassword
+        ? setValidRepeatPassword(false)
+        : setValidRepeatPassword(true);
+      !_validPhone ? setValidPhone(false) : setValidPhone(true);
+
+      if (
+        _validEmail &&
+        !_validPassword &&
+        _validPhone &&
+        formData.password == formData.repeatPassword
+      ) {
+        register(
+          { ...formData, role: "ADMIN_ROLE" },
+          {
+            onSuccess: (data) => {
+              addToast("Se registro correctamente");
+              router.replace("/");
+            },
+            onError: (error) => {
+              console.log(error);
+              addToast("Algo salió mal");
+            },
+          }
+        );
+      }
     }
   };
 
@@ -59,15 +85,7 @@ const Register = () => {
       align="center"
       justify="center"
     >
-      <Flex
-        direction="column"
-        align="center"
-        w="300px"
-        h="400px"
-        bg="white"
-        pd="10px"
-        gap="20px"
-      >
+      <Flex direction="column" w="300px" bg="white" pd="10px" gap="20px">
         <Flex>
           <Text weight="bold" size="20px">
             Registro
@@ -87,6 +105,11 @@ const Register = () => {
           name="email"
           onChange={handleChange}
         />
+        {!validEmail && (
+          <Text color={error} size="13px" mt="-8px">
+            Correo inváido
+          </Text>
+        )}
         <Flex
           align="center"
           justify="center"
@@ -100,15 +123,20 @@ const Register = () => {
             onChange={handleChange}
           />
           {type == "password" ? (
-            <Flex w="fit-content" onClick={() => setType("text")}>
+            <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
               <EyeIcon />
             </Flex>
           ) : (
-            <Flex w="fit-content" onClick={() => setType("password")}>
+            <Flex w="fit-content" mr="5px" onClick={() => setType("password")}>
               <EyeCloseIcon />
             </Flex>
           )}
         </Flex>
+        {validPassword && (
+          <Text color={error} size="13px" mt="-8px">
+            {validPassword}
+          </Text>
+        )}
         <Flex
           align="center"
           justify="center"
@@ -122,33 +150,51 @@ const Register = () => {
             onChange={handleChange}
           />
           {typeConfirmation == "password" ? (
-            <Flex w="fit-content" onClick={() => setTypeConfirmation("text")}>
+            <Flex
+              w="fit-content"
+              mr="5px"
+              onClick={() => setTypeConfirmation("text")}
+            >
               <EyeIcon />
             </Flex>
           ) : (
             <Flex
               w="fit-content"
+              mr="5px"
               onClick={() => setTypeConfirmation("password")}
             >
               <EyeCloseIcon />
             </Flex>
           )}
         </Flex>
+        {!validRepeatPassword && (
+          <Text color={error} size="13px" mt="-8px">
+            Las contraseñas no coinciden
+          </Text>
+        )}
         <CustomInput
           placeholder="Telefono"
           border="1px solid gray"
           w="100%"
           name="phone"
           onChange={handleChange}
+          type="number"
         />
-        <CustomButton
-          onClick={() => _register()}
-          color="white"
-          bg={primaryColor}
-        >
-          {isLoading && <Spinner color="white" mr="10px" />}
-          Registrar
-        </CustomButton>
+        {!validPhone && (
+          <Text color={error} size="13px" mt="-8px">
+            Teléfono inváido
+          </Text>
+        )}
+        <Flex justify="center">
+          <CustomButton
+            onClick={() => _register()}
+            color="white"
+            bg={primaryColor}
+          >
+            {isLoading && <Spinner color="white" mr="10px" />}
+            Registrar
+          </CustomButton>
+        </Flex>
       </Flex>
     </Flex>
   );

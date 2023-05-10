@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+//HOC
+import { ProtectedRoute } from "@/HOC";
+
 //components
 import {
   Layout,
@@ -166,4 +169,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default ProtectedRoute(Products);
