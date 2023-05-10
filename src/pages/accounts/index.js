@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+//HOC
+import { ProtectedRoute } from "@/HOC";
+
 import {
   Layout,
   CustomButton,
@@ -92,4 +95,4 @@ const Accounts = () => {
   );
 };
 
-export default Accounts;
+export default ProtectedRoute(Accounts);

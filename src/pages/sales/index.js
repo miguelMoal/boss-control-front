@@ -1,5 +1,7 @@
 //react
 import { useState } from "react";
+//HOC
+import { ProtectedRoute } from "@/HOC";
 //Redux
 import { useSelector } from "react-redux";
 //components
@@ -207,4 +209,4 @@ const Sales = () => {
   );
 };
 
-export default Sales;
+export default ProtectedRoute(Sales);

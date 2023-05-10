@@ -1,14 +1,16 @@
 import axios from "axios";
+import { parseCookies } from "nookies";
 
 const getHeaders = (requireToken) => {
+  const cookies = parseCookies();
+  const token = cookies.token;
   const headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
   };
   if (requireToken) {
-    headers["x-token"] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NDM0NTNkYjQ3ZjllNjc5MWQxM2JkNjAiLCJuYW1lIjoiRmFuaXNjYSIsImlhdCI6MTY4MjYyNDA3MH0.xNzpr_E0Grb50C6nymYVpBxQMWgRIniKKgnWrVhonj8";
+    headers["x-token"] = token;
   }
   return headers;
 };
@@ -59,4 +61,8 @@ export const generateId = () => {
 
 export const saveTokenToLocalStorage = (token) => {
   localStorage.setItem("token", token);
+};
+
+export const validatePhone = (phone) => {
+  return phone.length == 10;
 };

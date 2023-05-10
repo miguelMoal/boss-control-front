@@ -14,13 +14,20 @@ import { loginApi } from "@/connections";
 //Helpers
 import { saveTokenToLocalStorage } from "@/helpers";
 
+//Externals
+import { setCookie } from "nookies";
+
+//Helpers
+import { validateEmail } from "@/helpers";
+
 export default function Home() {
   const [type, setType] = useState("password");
-  const { primaryColor, warning } = useSelector((state) => state.theme);
-  const { handleChange, formData, setInitialData } = useForm();
+  const { primaryColor } = useSelector((state) => state.theme);
+  const { handleChange, formData } = useForm();
   const { mutate: makeLogIn, isLoading } = useMutation(loginApi);
-  const router = useRouter();
+  const [validEmail, setValidEmail] = useState(true);
 
+  const router = useRouter();
   const goRegister = () => {
     router.replace("/register");
   };
@@ -29,14 +36,23 @@ export default function Home() {
 
   const logIn = () => {
     if (allReady) {
-      makeLogIn(formData, {
-        onSuccess: (data) => {
-          saveTokenToLocalStorage(data.token);
-        },
-        onError: (error) => {
-          console.log(error);
-        },
-      });
+      const _validEmail = validateEmail(formData.email);
+      !_validEmail ? setValidEmail(false) : setValidEmail(true);
+      if (_validEmail) {
+        makeLogIn(formData, {
+          onSuccess: (data) => {
+            saveTokenToLocalStorage(data.token);
+            setCookie(null, "token", data.token, {
+              maxAge: 30 * 24 * 60 * 60,
+              path: "/",
+            });
+            router.replace("/sales");
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        });
+      }
     }
   };
 
@@ -59,7 +75,13 @@ export default function Home() {
             w="100%"
             name="email"
             onChange={handleChange}
+            autocomplete="nope"
           />
+          {!validEmail && (
+            <Text color={error} size="13px" mt="-8px">
+              Correo inváido
+            </Text>
+          )}
           <Flex
             align="center"
             justify="center"
@@ -71,6 +93,7 @@ export default function Home() {
               name="password"
               type={type}
               onChange={handleChange}
+              autocomplete="nope"
             />
             {type == "text" ? (
               <Flex w="fit-content" onClick={() => setType("password")}>
