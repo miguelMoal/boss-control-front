@@ -37,6 +37,8 @@ export const validateEmail = (email = "") => {
   return true;
 };
 
+// const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
+
 export const validatePassword = (password) => {
   if (!password.match(/[a-z]/g))
     return "Se requiere almenos una letra minúscula";
