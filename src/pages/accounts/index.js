@@ -8,7 +8,6 @@ import {
   Text,
   ItemUser,
   ModalCreateUser,
-  ModalSubscribe,
 } from "@/components";
 
 //Redux
@@ -47,7 +46,6 @@ const Accounts = () => {
 
   return (
     <Layout>
-      {/* <ModalSubscribe /> */}
       <ModalWrapper />
       <Flex align="center" justify="space-between" mb="15px" h="40px">
         <Search handleChange={handleChange} />

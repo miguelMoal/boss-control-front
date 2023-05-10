@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 
 //Components
-import { Flex, Text } from "@/components";
+import { Flex, Text, ModalSubscribe, Modal } from "@/components";
 //Elements
 import { NavBar, SideBar, ChildrenContainer, Content } from "./elements";
 //icons
@@ -34,6 +35,7 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const [mounted, setMounted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,8 +47,30 @@ const Layout = ({ children }) => {
     router.replace(section.path);
   };
 
+  axios.interceptors.response.use(
+    function (response) {
+      setShowModal(false);
+      return response;
+    },
+    function (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.msg === "invalidSubscription"
+      ) {
+        setShowModal(true);
+      } else {
+        setShowModal(false);
+      }
+      return Promise.reject(error);
+    }
+  );
+
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
+      <Modal isModalOpen={showModal}>
+        <ModalSubscribe />
+      </Modal>
       <NavBar />
       <Content>
         <SideBar>
