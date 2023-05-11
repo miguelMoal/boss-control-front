@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { destroyCookie } from "nookies";
 
 //Components
-import { Flex, Text, ModalSubscribe, Modal } from "@/components";
+import {
+  Flex,
+  Text,
+  ModalSubscribe,
+  Modal,
+  DropDown,
+  ModalDetailsSub,
+} from "@/components";
 //Elements
 import { NavBar, SideBar, ChildrenContainer, Content } from "./elements";
 //icons
@@ -16,6 +24,13 @@ import {
   SaleIcon,
   HistoryIcon,
 } from "@/assets/icons";
+
+//Hooks
+import { useQuery } from "react-query";
+import { useModal } from "@/hooks";
+
+//Connections
+import { getInfoUser } from "@/connections";
 
 const sections = [
   { name: "Ventas", icon: <SaleIcon size="36px" />, id: 1, path: "/sales" },
@@ -31,11 +46,20 @@ const sections = [
   },
 ];
 
+const options = [
+  { name: "Cerrar sesión", value: "close" },
+  { name: "Opciones", value: "options" },
+];
+
 const Layout = ({ children }) => {
   const router = useRouter();
 
   const [mounted, setMounted] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModalSub, setShowModalSub] = useState(false);
+
+  const { showModal, closeModal, ModalWrapper } = useModal();
+
+  const { data: infoUser } = useQuery("infoUser", getInfoUser);
 
   useEffect(() => {
     setTimeout(() => {
@@ -49,7 +73,7 @@ const Layout = ({ children }) => {
 
   axios.interceptors.response.use(
     function (response) {
-      setShowModal(false);
+      setShowModalSub(false);
       return response;
     },
     function (error) {
@@ -58,20 +82,43 @@ const Layout = ({ children }) => {
         error.response.data &&
         error.response.data.msg === "invalidSubscription"
       ) {
-        setShowModal(true);
+        setShowModalSub(true);
       } else {
-        setShowModal(false);
+        setShowModalSub(false);
       }
       return Promise.reject(error);
     }
   );
 
+  const closeSesion = () => {
+    destroyCookie(null, "token");
+    router.replace("/");
+  };
+
+  const handleActions = (e, val) => {
+    e.stopPropagation();
+    val == "options" &&
+      showModal(
+        <ModalDetailsSub infoUser={infoUser} closeModal={closeModal} />
+      );
+    val == "close" && closeSesion();
+  };
+
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
-      <Modal isModalOpen={showModal}>
+      <ModalWrapper />
+      <Modal isModalOpen={showModalSub}>
         <ModalSubscribe />
       </Modal>
-      <NavBar />
+      <NavBar>
+        <Flex w="fit-content" align="center" gap="20px">
+          <DropDown
+            title={infoUser?.name || ""}
+            options={options}
+            handleActions={handleActions}
+          />
+        </Flex>
+      </NavBar>
       <Content>
         <SideBar>
           <Flex h="150px" pd="0px" direction="column" align="center">

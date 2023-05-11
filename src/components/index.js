@@ -26,3 +26,6 @@ export { default as ModalSubscribe } from "./ModalSubscribe";
 export { default as ModalRegister } from "./ModalRegister";
 export { default as FormProduct } from "./FormProduct";
 export { default as ItemProductSale } from "./ItemProductSale";
+export { default as DropDown } from "./DropDown";
+export { default as ModalDetailsSub } from "./ModalDetailsSub";
+export { default as ModalConfirmAction } from "./ModalConfirmAction";

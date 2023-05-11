@@ -106,6 +106,7 @@ export default function Home() {
             )}
           </Flex>
           <CustomButton color="white" bg={primaryColor} onClick={() => logIn()}>
+            {isLoading && <Spinner color="white" mr="10px" />}
             Iniciar
           </CustomButton>
         </Flex>
@@ -117,7 +118,6 @@ export default function Home() {
             style={{ cursor: "pointer" }}
             onClick={() => goRegister()}
           >
-            {isLoading && <Spinner color="white" mr="10px" />}
             Registrate
           </Text>
         </Flex>

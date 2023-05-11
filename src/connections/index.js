@@ -83,3 +83,13 @@ export const registerApi = async (body) => {
   const msg = await makeRequest("auth/new", "POST", body, false);
   return msg;
 };
+
+export const getInfoUser = async () => {
+  const { msg } = await makeRequest("user", "GET");
+  return msg;
+};
+
+export const cancelSubscriptionApi = async () => {
+  const { msg } = await makeRequest("cancel-subscription", "POST");
+  return msg;
+};

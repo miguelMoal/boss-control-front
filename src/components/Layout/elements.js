@@ -4,6 +4,10 @@ export const NavBar = styled.div`
   width: 100%;
   height: 80px;
   background: ${({ theme }) => theme.primaryColor};
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 20px;
+  align-items: center;
 `;
 
 export const SideBar = styled.div`
