@@ -29,3 +29,5 @@ export { default as ItemProductSale } from "./ItemProductSale";
 export { default as DropDown } from "./DropDown";
 export { default as ModalDetailsSub } from "./ModalDetailsSub";
 export { default as ModalConfirmAction } from "./ModalConfirmAction";
+export { default as ErrorScreen } from "./ErrorScreen";
+export { default as NotFoundScreen } from "./NotFoundScreen";

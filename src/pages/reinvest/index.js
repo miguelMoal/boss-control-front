@@ -117,7 +117,7 @@ const Reinvest = () => {
 
   return (
     <Layout>
-      <HandleStatus status={status}>
+      <HandleStatus status={status} data={productsFiltered}>
         <Flex align="center" mb="15px" h="40px" justify="space-between">
           <Search handleChange={handleChange} />
           <Flex w="fit-content" gap="10px">

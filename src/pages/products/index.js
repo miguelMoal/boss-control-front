@@ -108,7 +108,7 @@ const Products = () => {
 
   return (
     <Layout>
-      <HandleStatus status={status}>
+      <HandleStatus status={status} data={productsFiltered}>
         <ModalWrapper />
         <Flex align="center" justify="space-between" mb="15px" h="40px">
           <Search handleChange={handleChange} />
