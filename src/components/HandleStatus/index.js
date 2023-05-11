@@ -1,19 +1,47 @@
 //components
-import { ItemProduct, Flex, Text } from "@/components";
+import {
+  ItemProduct,
+  Flex,
+  Text,
+  ErrorScreen,
+  Spinner,
+  NotFoundScreen,
+} from "@/components";
+//Redux
+import { useSelector } from "react-redux";
 
-const HandleStatus = ({ status, children }) => {
+const HandleStatus = ({ status, children, data }) => {
+  const { primaryColor, error } = useSelector((state) => state.theme);
   if (status == "loading") {
     return (
-      <Flex w="100%" h="100%" align="center" justify="center">
-        <Text>Cargando...</Text>
+      <Flex
+        direction="column"
+        w="100%"
+        h="100%"
+        align="center"
+        justify="center"
+        gap="15px"
+      >
+        <Spinner />
+        <Text color={primaryColor} size="20px">
+          Cargando...
+        </Text>
       </Flex>
     );
   } else if (status == "success") {
-    return <>{children}</>;
+    if (data.length > 0) {
+      return <>{children}</>;
+    } else {
+      return (
+        <Flex w="100%" h="100%" align="center" justify="center">
+          <NotFoundScreen />
+        </Flex>
+      );
+    }
   } else {
     return (
       <Flex w="100%" h="100%" align="center" justify="center">
-        <Text>Error...</Text>
+        <ErrorScreen />
       </Flex>
     );
   }

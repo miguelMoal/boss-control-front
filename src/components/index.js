@@ -26,3 +26,5 @@ export { default as ModalSubscribe } from "./ModalSubscribe";
 export { default as ModalRegister } from "./ModalRegister";
 export { default as FormProduct } from "./FormProduct";
 export { default as ItemProductSale } from "./ItemProductSale";
+export { default as ErrorScreen } from "./ErrorScreen";
+export { default as NotFoundScreen } from "./NotFoundScreen";
