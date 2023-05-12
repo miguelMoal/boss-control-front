@@ -31,3 +31,4 @@ export { default as ModalDetailsSub } from "./ModalDetailsSub";
 export { default as ModalConfirmAction } from "./ModalConfirmAction";
 export { default as ErrorScreen } from "./ErrorScreen";
 export { default as NotFoundScreen } from "./NotFoundScreen";
+export { default as ItemHistory } from "./ItemHistory";
