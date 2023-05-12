@@ -108,18 +108,18 @@ const Products = () => {
 
   return (
     <Layout>
+      <Flex align="center" justify="space-between" mb="15px" h="40px">
+        <Search handleChange={handleChange} />
+        <CustomButton
+          bg={primaryColor}
+          color="white"
+          onClick={() => addNewProduct()}
+        >
+          Añadir nuevo producto
+        </CustomButton>
+      </Flex>
+      <ModalWrapper />
       <HandleStatus status={status} data={productsFiltered}>
-        <ModalWrapper />
-        <Flex align="center" justify="space-between" mb="15px" h="40px">
-          <Search handleChange={handleChange} />
-          <CustomButton
-            bg={primaryColor}
-            color="white"
-            onClick={() => addNewProduct()}
-          >
-            Añadir nuevo producto
-          </CustomButton>
-        </Flex>
         <Flex
           pd="10px"
           align="center"

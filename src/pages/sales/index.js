@@ -157,7 +157,7 @@ const Sales = () => {
               ))}
             </Flex>
           </Flex>
-          <Flex w="40%" direction="column">
+          <Flex w="40%" direction="column" bg="#F7F7F7">
             <Flex
               pd="10px"
               align="center"
@@ -170,7 +170,7 @@ const Sales = () => {
                 Ticket
               </Text>
             </Flex>
-            <Flex mt="10px">
+            <Flex pd="10px" mt="10px">
               {headerProductsTicket.map((head) => (
                 <Flex justify={head.direction} w={head.space}>
                   <Text size="12px">{head.name}</Text>
@@ -178,6 +178,7 @@ const Sales = () => {
               ))}
             </Flex>
             <Flex
+              pd="10px"
               className="scroll"
               direction="column"
               style={{ height: "calc(100vh - 330px)", overflowY: "auto" }}
