@@ -66,3 +66,25 @@ export const saveTokenToLocalStorage = (token) => {
 export const validatePhone = (phone) => {
   return phone.length == 10;
 };
+
+export const transformDate = (_fecha) => {
+  var fecha = new Date(_fecha);
+  var dia = fecha.getDate();
+  var mes = fecha.getMonth() + 1; // Los meses en JavaScript son indexados desde 0, por lo que debemos sumar 1
+  var año = fecha.getFullYear();
+  var horas = fecha.getHours();
+  var minutos = fecha.getMinutes();
+
+  // Paso 3: Agregar ceros a la izquierda si es necesario
+  dia = dia < 10 ? "0" + dia : dia;
+  mes = mes < 10 ? "0" + mes : mes;
+  horas = horas < 10 ? "0" + horas : horas;
+  minutos = minutos < 10 ? "0" + minutos : minutos;
+
+  // Paso 4: Formatear la fecha en el formato deseado
+  var fechaFormateada =
+    dia + "/" + mes + "/" + año + " - " + horas + ":" + minutos;
+
+  // Paso 5: Imprimir la fecha formateada
+  return fechaFormateada;
+};

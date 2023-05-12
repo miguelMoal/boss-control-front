@@ -93,3 +93,8 @@ export const cancelSubscriptionApi = async () => {
   const { msg } = await makeRequest("cancel-subscription", "POST");
   return msg;
 };
+
+export const historyApi = async (body) => {
+  const respuesta = await makeRequest("history", "POST", body);
+  return respuesta;
+};
