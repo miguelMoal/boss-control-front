@@ -67,7 +67,9 @@ export default function Home() {
         direction="column"
         justify="center"
       >
-        <Text size="20px">Iniciar Sesión</Text>
+        <Text size="20px" weight="bold" color={primaryColor}>
+          Iniciar Sesión
+        </Text>
         <Flex direction="column" align="center" gap="20px">
           <CustomInput
             placeholder="CorreoElectronico"
@@ -115,7 +117,7 @@ export default function Home() {
           <Text
             color={primaryColor}
             weight="bold"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => goRegister()}
           >
             Registrate

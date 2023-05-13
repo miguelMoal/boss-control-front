@@ -26,13 +26,13 @@ import { useModal, useForm } from "@/hooks";
 import { CheckIcon } from "@/assets/icons";
 
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "30%" },
-  { name: "Marca", id: 2, space: "15%" },
+  { name: "Nombre", id: 1, space: "27%" },
+  { name: "Marca", id: 2, space: "13%" },
   { name: "Stock", id: 3, space: "10%" },
   { name: "Stock Ideal", id: 4, space: "10%" },
   { name: "Precio Compra", id: 5, space: "15%" },
   { name: "Faltantes", id: 6, space: "10%" },
-  { name: "Total Reinvercion", id: 7, space: "10%" },
+  { name: "Total Reinvercion", id: 7, space: "15%" },
 ];
 
 const Reinvest = () => {
@@ -141,16 +141,22 @@ const Reinvest = () => {
               <CustomInput
                 placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
-                w="100px"
+                w="105px"
                 name="budget"
                 onChange={handleChange}
               />
-              <Flex bg="#ebebeb" w="200px" h="10px">
+              <Flex direction="column" bg="#ebebeb" w="200px" h="10px">
                 <Flex
                   bg={investmentBudget() > 100 ? error : primaryColor}
                   w={`${investmentBudget()}%`}
                   h="10px"
-                ></Flex>
+                >
+                  {investmentBudget() > 100 && (
+                    <Text color={error} mt="15px" size="14px">
+                      Excediste el presupuesto
+                    </Text>
+                  )}
+                </Flex>
               </Flex>
             </Flex>
           </Flex>
@@ -177,8 +183,9 @@ const Reinvest = () => {
         </Flex>
         <Flex
           direction="column"
-          h="calc(100vh - 300px)"
+          h="calc(100vh - 280px)"
           style={{ overflowY: "auto" }}
+          className="scroll"
         >
           {productsSearch?.map((product) => (
             <ItemReinvest
