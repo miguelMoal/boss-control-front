@@ -80,8 +80,7 @@ const Register = () => {
               router.replace("/");
             },
             onError: (error) => {
-              console.log(error);
-              addToast("Algo salió mal");
+              addToast(error.response.data.msg, error.response.data.ok);
             },
           }
         );

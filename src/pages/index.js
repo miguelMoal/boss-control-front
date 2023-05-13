@@ -1,6 +1,7 @@
 import { useState } from "react";
 //components
 import { CustomButton, CustomInput, Flex, Text, Spinner } from "@/components";
+import { useToastContext } from "@/components/Toast";
 import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
@@ -34,6 +35,8 @@ export default function Home() {
 
   const allReady = formData?.email && formData?.password;
 
+  const addToast = useToastContext();
+
   const logIn = () => {
     if (allReady) {
       const _validEmail = validateEmail(formData.email);
@@ -49,7 +52,7 @@ export default function Home() {
             router.replace("/sales");
           },
           onError: (error) => {
-            console.log(error);
+            addToast(error.response.data.msg, error.response.data.ok);
           },
         });
       }

@@ -144,20 +144,26 @@ const Reinvest = () => {
                 w="105px"
                 name="budget"
                 onChange={handleChange}
+                type="number"
+                min={0}
               />
-              <Flex direction="column" bg="#ebebeb" w="200px" h="10px">
-                <Flex
-                  bg={investmentBudget() > 100 ? error : primaryColor}
-                  w={`${investmentBudget()}%`}
-                  h="10px"
-                >
-                  {investmentBudget() > 100 && (
-                    <Text color={error} mt="15px" size="14px">
-                      Excediste el presupuesto
-                    </Text>
-                  )}
+              {formData?.budget > 0 && (
+                <Flex direction="column" bg="#ebebeb" h="10px" w="200px">
+                  <Flex
+                    bg={investmentBudget() > 100 ? error : primaryColor}
+                    w={`${
+                      investmentBudget() > 100 ? 100 : investmentBudget()
+                    }%`}
+                    h="10px"
+                  >
+                    {investmentBudget() > 100 && (
+                      <Text color={error} mt="15px" size="12px">
+                        Excediste el presupuesto {`${investmentBudget()}%`}
+                      </Text>
+                    )}
+                  </Flex>
                 </Flex>
-              </Flex>
+              )}
             </Flex>
           </Flex>
         </Flex>
@@ -199,7 +205,11 @@ const Reinvest = () => {
           <Text
             weight="bold"
             size="30px"
-            color={investmentBudget() > 100 ? error : primaryColor}
+            color={
+              investmentBudget() > 100 && formData?.budget > 0
+                ? error
+                : primaryColor
+            }
           >
             Total ${productsReinvest()}
           </Text>

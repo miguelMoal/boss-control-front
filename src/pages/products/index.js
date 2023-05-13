@@ -54,18 +54,20 @@ const Products = () => {
 
   const { handleChange, formData } = useForm();
 
+  const productsFiltered = products?.filter((p) =>
+    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
+  );
+
   const queryClient = useQueryClient();
   const addToast = useToastContext();
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
   const addNewProduct = () => {
-    showModal(<ModalAddProduct closeModal={closeModal} />);
+    showModal(
+      <ModalAddProduct closeModal={closeModal} products={productsFiltered} />
+    );
   };
-
-  const productsFiltered = products?.filter((p) =>
-    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
-  );
 
   const handleEditProduct = (product) => {
     showModal(<ModalEditProduct closeModal={closeModal} product={product} />);

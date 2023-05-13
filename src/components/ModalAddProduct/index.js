@@ -1,3 +1,4 @@
+import { useState } from "react";
 //components
 import { Flex, Text, FormProduct, Header } from "@/components";
 import { useToastContext } from "@/components/Toast";
@@ -8,9 +9,11 @@ import { createProductApi } from "@/connections";
 //Externals
 import { useMutation, useQueryClient } from "react-query";
 //Helpers
-import { generateId } from "@/helpers";
+import { generateId, verifyNameProduct } from "@/helpers";
 
-const ModalAddProduct = ({ closeModal }) => {
+const ModalAddProduct = ({ closeModal, products }) => {
+  const [nameProd, setNameProd] = useState(null);
+
   const { handleChange, formData, setInitialData } = useForm();
 
   const { mutate: createProduct, isLoading } = useMutation(createProductApi);
@@ -27,7 +30,19 @@ const ModalAddProduct = ({ closeModal }) => {
     formData?.preferenceInStock;
 
   const sendProduct = () => {
-    if (!isLoading) {
+    if (!allReady) {
+      return;
+    }
+
+    const nameExist = verifyNameProduct(products, formData.name);
+
+    if (nameExist) {
+      setNameProd("El producto ya existe");
+    } else {
+      setNameProd(null);
+    }
+
+    if (!isLoading && !nameExist) {
       createProduct(
         { ...formData, color: "black", category: "all" },
         {
@@ -55,7 +70,6 @@ const ModalAddProduct = ({ closeModal }) => {
           Nuevo producto
         </Text>
       </Header>
-
       <Flex mt="20px" mb="20px" direction="column" w="400px">
         <FormProduct
           action={sendProduct}
@@ -64,6 +78,7 @@ const ModalAddProduct = ({ closeModal }) => {
           handleChange={handleChange}
           isLoading={isLoading}
           allReady={allReady}
+          nameProd={nameProd}
         />
       </Flex>
     </Flex>

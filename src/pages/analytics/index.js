@@ -17,13 +17,20 @@ import {
 import { useSelector } from "react-redux";
 
 //Icons
-import { DollarIcon, EarningsIcon, AverageIcon } from "@/assets/icons";
+import {
+  DollarIcon,
+  EarningsIcon,
+  AverageIcon,
+  ObjectsIcon,
+} from "@/assets/icons";
 
 //Connections
 import {
   getInfoPeriods,
   getTotalInvestApi,
   getTopSellingApi,
+  getTotalProductsApi,
+  getWeeklySalesApi,
 } from "@/connections";
 
 //Externals
@@ -35,6 +42,11 @@ const Analytics = () => {
   const { data: infoPeriods } = useQuery("info-periods", getInfoPeriods);
   const { data: invest } = useQuery("invest", getTotalInvestApi);
   const { data: top } = useQuery("topSelling", getTopSellingApi);
+  const { data: weeklySales } = useQuery("weeklySales", getWeeklySalesApi);
+  const { data: totalProducts } = useQuery(
+    "totalProducts",
+    getTotalProductsApi
+  );
 
   return (
     <Layout>
@@ -62,11 +74,11 @@ const Analytics = () => {
               </Flex>
               <Flex color={primaryColor} direction="column" align="center">
                 <Text mb="10px" color="gray">
-                  Promedio / día
+                  Variedad de productos
                 </Text>
-                <AverageIcon size="40px" />
+                <ObjectsIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
-                  48,000
+                  {totalProducts}
                 </Text>
               </Flex>
             </Flex>
@@ -74,34 +86,70 @@ const Analytics = () => {
         </Flex>
         <Flex gap="10px">
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Ventas hoy</Text>
+            <Text>
+              Ventas hoy
+              <span style={{ size: "14px", color: success }}> / utilidad</span>
+            </Text>
             <Flex align="center" justify="center">
-              <Text size="25px" mt="10px" weight="bold">
+              <Text size="22px" mt="10px" weight="bold">
                 $ {infoPeriods?.salesToday.totalSales}
+                <span style={{ size: "12px", color: success }}>
+                  {" "}
+                  / ${" "}
+                  {infoPeriods?.salesToday.totalSales -
+                    infoPeriods?.salesToday.totalPrice}
+                </span>
               </Text>
             </Flex>
           </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Ventas últimos 7 días</Text>
+            <Text>
+              Ventas últimos 7 días
+              <span style={{ size: "14px", color: success }}> / utilidad</span>
+            </Text>
             <Flex align="center" justify="center">
-              <Text size="25px" mt="10px" weight="bold">
+              <Text size="22px" mt="10px" weight="bold">
                 $ {infoPeriods?.salesLast7Days.totalSales}
+                <span style={{ size: "14px", color: success }}>
+                  {" "}
+                  / ${" "}
+                  {infoPeriods?.salesLast7Days.totalSales -
+                    infoPeriods?.salesLast7Days.totalPrice}
+                </span>
               </Text>
             </Flex>
           </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Ventas últimos 30 días</Text>
+            <Text>
+              Ventas últimos 30 días
+              <span style={{ size: "14px", color: success }}> / utilidad</span>
+            </Text>
             <Flex align="center" justify="center">
-              <Text size="25px" mt="10px" weight="bold">
+              <Text size="22px" mt="10px" weight="bold">
                 $ {infoPeriods?.salesLast30Days.totalSales}
+                <span style={{ size: "14px", color: success }}>
+                  {" "}
+                  / ${" "}
+                  {infoPeriods?.salesLast30Days.totalSales -
+                    infoPeriods?.salesLast30Days.totalPrice}
+                </span>
               </Text>
             </Flex>
           </CardContainer>
           <CardContainer h="100px" direction="column" pd="10px 15px">
-            <Text>Ventas últimos 365 días</Text>
+            <Text>
+              Ventas últimos 365 días
+              <span style={{ size: "14px", color: success }}> / utilidad</span>
+            </Text>
             <Flex align="center" justify="center">
-              <Text size="25px" mt="10px" weight="bold">
+              <Text size="22px" mt="10px" weight="bold">
                 $ {infoPeriods?.salesLastYear.totalSales}
+                <span style={{ size: "14px", color: success }}>
+                  {" "}
+                  / ${" "}
+                  {infoPeriods?.salesLastYear.totalSales -
+                    infoPeriods?.salesLastYear.totalPrice}
+                </span>
               </Text>
             </Flex>
           </CardContainer>
@@ -110,16 +158,8 @@ const Analytics = () => {
           <CardContainer direction="column" pd="20px" h="380px">
             <Text size="20px">Ventas última semana</Text>
             <BarChart
-              data={[20, 15, 10, 5, 3, 35, 1]}
-              categories={[
-                "Lunes",
-                "Martes",
-                "Miercoles",
-                "Jueves",
-                "Viernes",
-                "Sabado",
-                "Domingo",
-              ]}
+              data={weeklySales?.data || []}
+              categories={weeklySales?.categories || []}
             />
           </CardContainer>
           <CardContainer

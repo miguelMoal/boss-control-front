@@ -12,6 +12,7 @@ const FormProduct = ({
   isLoading,
   allReady,
   isEdit = false,
+  nameProd,
 }) => {
   const { primaryColor, error } = useSelector((state) => state.theme);
   return (
@@ -26,6 +27,11 @@ const FormProduct = ({
           name="name"
           onChange={handleChange}
         />
+        {nameProd && (
+          <Text size="12px" color={error} mt="5px">
+            {nameProd}
+          </Text>
+        )}
       </Flex>
       <Flex mt="20px" gap="10px">
         <Flex w="33%" direction="column">

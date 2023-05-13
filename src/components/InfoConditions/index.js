@@ -46,8 +46,7 @@ const InfoConditions = ({ checked, toggleCheck }) => {
         >
           términos y condiciones
         </span>{" "}
-        de la politica de protección de datos. Recibirás confirmación del
-        registro por correo electrónico.
+        de la politica de protección de datos.
       </Text>
     </Flex>
   );

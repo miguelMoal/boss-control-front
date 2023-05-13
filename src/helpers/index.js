@@ -87,3 +87,8 @@ export const transformDate = (_fecha) => {
   // Paso 5: Imprimir la fecha formateada
   return fechaFormateada;
 };
+
+export const verifyNameProduct = (products, name) => {
+  const exist = products.some((p) => p.name === name);
+  return exist;
+};

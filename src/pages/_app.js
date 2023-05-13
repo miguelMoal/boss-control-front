@@ -13,7 +13,13 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_KEY_STRIPE);
 
 export default function App({ Component, pageProps }) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   return (
     <Elements stripe={stripePromise}>
       <Provider store={store}>
