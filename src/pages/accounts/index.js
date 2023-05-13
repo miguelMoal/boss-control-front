@@ -11,6 +11,7 @@ import {
   Text,
   ItemUser,
   ModalCreateUser,
+  HandleStatus,
 } from "@/components";
 
 //Redux
@@ -39,13 +40,15 @@ const Accounts = () => {
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
-  const [loading, setLoading] = useState(false);
-
   const { data: subUsers, status } = useQuery(["subUsers"], getSubUsersApi);
 
   const handleCreateUser = () => {
     showModal(<ModalCreateUser closeModal={closeModal} />);
   };
+
+  const usersFiltered = subUsers?.filter((user) =>
+    user.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
+  );
 
   return (
     <Layout>
@@ -60,37 +63,39 @@ const Accounts = () => {
           Crear usuario
         </CustomButton>
       </Flex>
-      <Flex
-        pd="10px"
-        align="center"
-        h="60px"
-        shadow="0px 4px 8px #d9d9d9"
-        bg={primaryColor}
-        style={{ borderRadius: "5px" }}
-      >
-        {headerUsers.map((header, index) => (
-          <Text
-            w={header.space}
-            weight="bold"
-            color="white"
-            key={header.name + index}
-          >
-            {header.name}
-          </Text>
-        ))}
-      </Flex>
-      <Flex
-        className="scroll"
-        direction="column"
-        bg="white"
-        h="calc(100% - 120px)"
-        pd="0px"
-        style={{ overflowY: "auto" }}
-      >
-        {subUsers?.map((subUser) => (
-          <ItemUser user={subUser} />
-        ))}
-      </Flex>
+      <HandleStatus status={status} data={usersFiltered}>
+        <Flex
+          pd="10px"
+          align="center"
+          h="60px"
+          shadow="0px 4px 8px #d9d9d9"
+          bg={primaryColor}
+          style={{ borderRadius: "5px" }}
+        >
+          {headerUsers.map((header, index) => (
+            <Text
+              w={header.space}
+              weight="bold"
+              color="white"
+              key={header.name + index}
+            >
+              {header.name}
+            </Text>
+          ))}
+        </Flex>
+        <Flex
+          className="scroll"
+          direction="column"
+          bg="white"
+          h="calc(100% - 120px)"
+          pd="0px"
+          style={{ overflowY: "auto" }}
+        >
+          {usersFiltered?.map((subUser) => (
+            <ItemUser user={subUser} />
+          ))}
+        </Flex>
+      </HandleStatus>
     </Layout>
   );
 };

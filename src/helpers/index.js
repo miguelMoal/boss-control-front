@@ -16,8 +16,7 @@ const getHeaders = (requireToken) => {
 };
 
 export const makeRequest = async (url, method, body, requireToken = true) => {
-  const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
-  // const baseUrl = `http://localhost:8080/api/${url}`;
+  const baseUrl = `${process.env.NEXT_PUBLIC_HOST}${url}`;
   const { data } = await axios({
     data: JSON.stringify(body),
     method,
@@ -65,4 +64,31 @@ export const saveTokenToLocalStorage = (token) => {
 
 export const validatePhone = (phone) => {
   return phone.length == 10;
+};
+
+export const transformDate = (_fecha) => {
+  var fecha = new Date(_fecha);
+  var dia = fecha.getDate();
+  var mes = fecha.getMonth() + 1; // Los meses en JavaScript son indexados desde 0, por lo que debemos sumar 1
+  var año = fecha.getFullYear();
+  var horas = fecha.getHours();
+  var minutos = fecha.getMinutes();
+
+  // Paso 3: Agregar ceros a la izquierda si es necesario
+  dia = dia < 10 ? "0" + dia : dia;
+  mes = mes < 10 ? "0" + mes : mes;
+  horas = horas < 10 ? "0" + horas : horas;
+  minutos = minutos < 10 ? "0" + minutos : minutos;
+
+  // Paso 4: Formatear la fecha en el formato deseado
+  var fechaFormateada =
+    dia + "/" + mes + "/" + año + " - " + horas + ":" + minutos;
+
+  // Paso 5: Imprimir la fecha formateada
+  return fechaFormateada;
+};
+
+export const verifyNameProduct = (products, name) => {
+  const exist = products.some((p) => p.name === name);
+  return exist;
 };

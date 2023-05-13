@@ -54,18 +54,20 @@ const Products = () => {
 
   const { handleChange, formData } = useForm();
 
+  const productsFiltered = products?.filter((p) =>
+    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
+  );
+
   const queryClient = useQueryClient();
   const addToast = useToastContext();
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
   const addNewProduct = () => {
-    showModal(<ModalAddProduct closeModal={closeModal} />);
+    showModal(
+      <ModalAddProduct closeModal={closeModal} products={productsFiltered} />
+    );
   };
-
-  const productsFiltered = products?.filter((p) =>
-    p.name.includes(formData?.search || "")
-  );
 
   const handleEditProduct = (product) => {
     showModal(<ModalEditProduct closeModal={closeModal} product={product} />);
@@ -108,18 +110,18 @@ const Products = () => {
 
   return (
     <Layout>
-      <HandleStatus status={status}>
-        <ModalWrapper />
-        <Flex align="center" justify="space-between" mb="15px" h="40px">
-          <Search handleChange={handleChange} />
-          <CustomButton
-            bg={primaryColor}
-            color="white"
-            onClick={() => addNewProduct()}
-          >
-            Añadir nuevo producto
-          </CustomButton>
-        </Flex>
+      <Flex align="center" justify="space-between" mb="15px" h="40px">
+        <Search handleChange={handleChange} />
+        <CustomButton
+          bg={primaryColor}
+          color="white"
+          onClick={() => addNewProduct()}
+        >
+          Añadir nuevo producto
+        </CustomButton>
+      </Flex>
+      <ModalWrapper />
+      <HandleStatus status={status} data={productsFiltered}>
         <Flex
           pd="10px"
           align="center"
@@ -140,6 +142,7 @@ const Products = () => {
           h="calc(100% - 120px)"
           pd="0px"
           style={{ overflowY: "auto" }}
+          className="scroll"
         >
           {productsFiltered?.map((product) => (
             <ItemProduct product={product} key={product._id}>

@@ -10,12 +10,16 @@ import { ToastContextProvider } from "@/components/Toast";
 
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = loadStripe(
-  "pk_test_51MIbFPKIMXWjyb0RbwrsTmdV1UEMbLbWurChpX4l75ckVcJoa4SjMnaqiNpnryRlBKOtUliJoXKPW5dmOWUfEnTH00RS7kMPO7"
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_KEY_STRIPE);
 
 export default function App({ Component, pageProps }) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   return (
     <Elements stripe={stripePromise}>
       <Provider store={store}>

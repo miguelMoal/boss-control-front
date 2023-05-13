@@ -90,6 +90,21 @@ export const getInfoUser = async () => {
 };
 
 export const cancelSubscriptionApi = async () => {
-  const { msg } = await makeRequest("cancel-subscription", "POST");
+  const { msg } = await makeRequest("subscription/cancel-subscription", "POST");
   return msg;
+};
+
+export const historyApi = async (body) => {
+  const respuesta = await makeRequest("history", "POST", body);
+  return respuesta;
+};
+
+export const getTotalProductsApi = async () => {
+  const { msg } = await makeRequest("analytics/total-products", "GET");
+  return msg;
+};
+
+export const getWeeklySalesApi = async () => {
+  const result = await makeRequest("analytics/weekly-sales", "GET");
+  return result;
 };

@@ -1,5 +1,12 @@
 //components
-import { Flex, Text, CustomButton, CustomInput, Spinner } from "@/components";
+import {
+  Flex,
+  Text,
+  CustomButton,
+  InfoConditions,
+  CustomInput,
+  Spinner,
+} from "@/components";
 import { useToastContext } from "@/components/Toast";
 
 //react
@@ -9,7 +16,7 @@ import { useSelector } from "react-redux";
 //icons
 import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
 //Hooks
-import { useForm } from "@/hooks";
+import { useForm, useModal } from "@/hooks";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 //conections
@@ -29,6 +36,12 @@ const Register = () => {
   const [validPassword, setValidPassword] = useState(null);
   const [validRepeatPassword, setValidRepeatPassword] = useState(true);
 
+  const [checked, setChecked] = useState(false);
+
+  const toggleCheck = (value) => {
+    setChecked(value);
+  };
+
   const allReady =
     formData?.name &&
     formData?.email &&
@@ -40,7 +53,7 @@ const Register = () => {
   const addToast = useToastContext();
 
   const _register = () => {
-    if (allReady) {
+    if (allReady && checked) {
       const _validEmail = validateEmail(formData.email);
       const _validPassword = validatePassword(formData.password);
       const _validPhone = validatePhone(formData.phone);
@@ -67,8 +80,7 @@ const Register = () => {
               router.replace("/");
             },
             onError: (error) => {
-              console.log(error);
-              addToast("Algo salió mal");
+              addToast(error.response.data.msg, error.response.data.ok);
             },
           }
         );
@@ -87,7 +99,7 @@ const Register = () => {
     >
       <Flex direction="column" w="300px" bg="white" pd="10px" gap="20px">
         <Flex>
-          <Text weight="bold" size="20px">
+          <Text color={primaryColor} weight="bold" size="20px">
             Registro
           </Text>
         </Flex>
@@ -185,11 +197,12 @@ const Register = () => {
             Teléfono inváido
           </Text>
         )}
+        <InfoConditions checked={checked} toggleCheck={toggleCheck} />
         <Flex justify="center">
           <CustomButton
             onClick={() => _register()}
             color="white"
-            bg={primaryColor}
+            bg={allReady && checked ? primaryColor : "gray"}
           >
             {isLoading && <Spinner color="white" mr="10px" />}
             Registrar

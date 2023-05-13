@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 //Components
-import { Flex, Text, Spinner } from "@/components";
+import { Flex, Text, InfoConditions } from "@/components";
 import { useToastContext } from "@/components/Toast";
 
 //Connections
@@ -22,6 +22,8 @@ const ModalSubscribe = () => {
   const [processing, setProcessing] = useState(false);
   const { primaryColor } = useSelector(({ theme }) => theme);
 
+  const [checked, setChecked] = useState(false);
+
   const stripe = useStripe();
   const elements = useElements();
   const addToast = useToastContext();
@@ -29,6 +31,10 @@ const ModalSubscribe = () => {
   const queryClient = useQueryClient();
 
   const { mutate: sendSubscription } = useMutation(subscriptionApi);
+
+  const toggleCheck = (value) => {
+    setChecked(value);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,7 +47,6 @@ const ModalSubscribe = () => {
     });
 
     if (error) {
-      console.log("error>>>", error);
       setError(error.message);
       setProcessing(false);
       return;
@@ -59,11 +64,10 @@ const ModalSubscribe = () => {
         },
       }
     );
-    setProcessing(false);
   };
 
   return (
-    <Flex w="400px" pd="20px" h="200px" direction="column">
+    <Flex w="420px" pd="20px" h="250px" direction="column">
       <Text size="20px" weight="bold" mb="30px">
         Activa tu cuenta
       </Text>
@@ -80,12 +84,14 @@ const ModalSubscribe = () => {
             {error}
           </div>
         )}
-
+        <Flex mt="25px">
+          <InfoConditions toggleCheck={toggleCheck} checked={checked} />
+        </Flex>
         <button
           type="submit"
           disabled={!stripe || processing || !cardComplete}
           style={{
-            background: primaryColor,
+            background: checked ? primaryColor : "gray",
             color: "white",
             padding: "10px 25px",
             fontSize: "16px",

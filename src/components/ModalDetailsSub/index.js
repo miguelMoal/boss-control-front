@@ -8,12 +8,14 @@ import {
   CustomButton,
   ModalConfirmAction,
 } from "@/components";
+import { useToastContext } from "@/components/Toast";
 
 //Redux
 import { useSelector } from "react-redux";
 
 //Hooks
 import { useMutation } from "react-query";
+import { useModal } from "@/hooks";
 
 //Connections
 import { cancelSubscriptionApi } from "@/connections";
@@ -21,16 +23,43 @@ import { cancelSubscriptionApi } from "@/connections";
 const ModalDetailsSub = ({ infoUser, closeModal }) => {
   const { primaryColor, error } = useSelector((state) => state.theme);
 
+  const {
+    showModal,
+    closeModal: closeModalCancelSub,
+    ModalWrapper,
+  } = useModal();
+
   const [showInfo, setShowInfo] = useState(false);
 
-  const { mutate: cancelSubscription } = useMutation(cancelSubscriptionApi);
+  const addToast = useToastContext();
 
+  const { mutate: cancelSubscription, isLoading: isLoadingCancelSub } =
+    useMutation(cancelSubscriptionApi);
   const handleCancelSubscription = () => {
-    console.log("sdbuj");
+    showModal(
+      <ModalConfirmAction
+        action={() =>
+          cancelSubscription("", {
+            onSuccess: () => {
+              addToast("La subscripción se canceló correctamente", true);
+              closeModalCancelSub();
+            },
+            onError: () => {
+              addToast("Algo falló al cancelar la subscripción", false);
+            },
+          })
+        }
+        closeModalCancelSub={closeModalCancelSub}
+        isLoadingCancelSub={isLoadingCancelSub}
+        text="La subscripción se suspendera de manera automática al terminar el
+    período actual."
+      />
+    );
   };
 
   return (
     <Flex direction="column">
+      <ModalWrapper />
       <Header>
         <Text color="white" size="18px">
           Opciones

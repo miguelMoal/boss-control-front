@@ -1,6 +1,7 @@
 import { useState } from "react";
 //components
 import { CustomButton, CustomInput, Flex, Text, Spinner } from "@/components";
+import { useToastContext } from "@/components/Toast";
 import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
@@ -34,6 +35,8 @@ export default function Home() {
 
   const allReady = formData?.email && formData?.password;
 
+  const addToast = useToastContext();
+
   const logIn = () => {
     if (allReady) {
       const _validEmail = validateEmail(formData.email);
@@ -49,7 +52,7 @@ export default function Home() {
             router.replace("/sales");
           },
           onError: (error) => {
-            console.log(error);
+            addToast(error.response.data.msg, error.response.data.ok);
           },
         });
       }
@@ -67,7 +70,9 @@ export default function Home() {
         direction="column"
         justify="center"
       >
-        <Text size="20px">Iniciar Sesión</Text>
+        <Text size="20px" weight="bold" color={primaryColor}>
+          Iniciar Sesión
+        </Text>
         <Flex direction="column" align="center" gap="20px">
           <CustomInput
             placeholder="CorreoElectronico"
@@ -115,7 +120,7 @@ export default function Home() {
           <Text
             color={primaryColor}
             weight="bold"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => goRegister()}
           >
             Registrate
