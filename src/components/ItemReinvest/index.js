@@ -32,7 +32,7 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
       style={{ borderBottom: "1px solid gray", minHeight: "55px" }}
     >
       <Flex w="10px" h="100%" bg={handleColorBar()}></Flex>
-      <Flex gap="10px" w="30%" align="center">
+      <Flex gap="10px" w="27%" align="center">
         <Flex
           h="15px"
           w="15px"
@@ -47,14 +47,14 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
         </Flex>
         <Text>{product.name}</Text>
       </Flex>
-      <Text w="15%">{product.brand}</Text>
+      <Text w="13%">{product.brand}</Text>
       <Text w="10%">{product.available}</Text>
       <Text w="10%">{product.preferenceInStock}</Text>
       <Text w="15%">$ {product.priceBuy}</Text>
       <Text color={error} w="10%">
         {getMissingProduct(product)}
       </Text>
-      <Text w="10%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
+      <Text w="15%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
     </Flex>
   );
 };

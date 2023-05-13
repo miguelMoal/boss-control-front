@@ -140,6 +140,7 @@ const Products = () => {
           h="calc(100% - 120px)"
           pd="0px"
           style={{ overflowY: "auto" }}
+          className="scroll"
         >
           {productsFiltered?.map((product) => (
             <ItemProduct product={product} key={product._id}>
