@@ -64,7 +64,7 @@ const Products = () => {
   };
 
   const productsFiltered = products?.filter((p) =>
-    p.name.includes(formData?.search || "")
+    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
   );
 
   const handleEditProduct = (product) => {

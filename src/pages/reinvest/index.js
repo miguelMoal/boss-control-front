@@ -63,7 +63,7 @@ const Reinvest = () => {
   );
 
   const productsSearch = productsFiltered?.filter((p) =>
-    p.name.includes(formData?.search || "")
+    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
   );
 
   const getMissingProduct = (p) => {

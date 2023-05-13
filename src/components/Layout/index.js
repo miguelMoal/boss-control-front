@@ -32,6 +32,12 @@ import { useModal } from "@/hooks";
 //Connections
 import { getInfoUser } from "@/connections";
 
+//Redux
+import { useDispatch, useSelector } from "react-redux";
+
+//Actions
+import { addInfo } from "@/redux/slices/infoUser";
+
 const sections = [
   { name: "Ventas", icon: <SaleIcon size="36px" />, id: 1, path: "/sales" },
   { name: "Productos", icon: <ProductsIcon />, id: 2, path: "/products" },
@@ -59,7 +65,15 @@ const Layout = ({ children }) => {
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
-  const { data: infoUser } = useQuery("infoUser", getInfoUser);
+  const infoU = useSelector(({ infoUser }) => infoUser);
+
+  const dispatch = useDispatch();
+
+  const { data: infoUser } = useQuery("infoUser", getInfoUser, {
+    onSuccess: (data) => {
+      dispatch(addInfo(data));
+    },
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -98,9 +112,7 @@ const Layout = ({ children }) => {
   const handleActions = (e, val) => {
     e.stopPropagation();
     val == "options" &&
-      showModal(
-        <ModalDetailsSub infoUser={infoUser} closeModal={closeModal} />
-      );
+      showModal(<ModalDetailsSub infoUser={infoU} closeModal={closeModal} />);
     val == "close" && closeSesion();
   };
 
@@ -113,7 +125,7 @@ const Layout = ({ children }) => {
       <NavBar>
         <Flex w="fit-content" align="center" gap="20px">
           <DropDown
-            title={infoUser?.name || ""}
+            title={infoU?.name || ""}
             options={options}
             handleActions={handleActions}
           />

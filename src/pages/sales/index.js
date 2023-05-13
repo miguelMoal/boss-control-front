@@ -49,7 +49,7 @@ const Sales = () => {
   const { showModal, closeModal, ModalWrapper } = useModal();
 
   const productsFiltered = products?.filter((p) =>
-    p.name.includes(formData?.search || "")
+    p.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
   );
 
   const deleteProductTicket = (product) => {
@@ -116,11 +116,11 @@ const Sales = () => {
 
   return (
     <Layout>
+      <ModalWrapper />
+      <Flex align="center" justify="space-between" mb="15px" h="40px">
+        <Search handleChange={handleChange} />
+      </Flex>
       <HandleStatus status={status} data={productsFiltered}>
-        <ModalWrapper />
-        <Flex align="center" justify="space-between" mb="15px" h="40px">
-          <Search handleChange={handleChange} />
-        </Flex>
         <Flex gap="20px">
           <Flex direction="column" w="60%">
             <Flex

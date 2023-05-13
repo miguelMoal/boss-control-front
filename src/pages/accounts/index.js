@@ -46,20 +46,24 @@ const Accounts = () => {
     showModal(<ModalCreateUser closeModal={closeModal} />);
   };
 
+  const usersFiltered = subUsers?.filter((user) =>
+    user.name.toLowerCase()?.includes(formData?.search?.toLowerCase() || "")
+  );
+
   return (
     <Layout>
       <ModalWrapper />
-      <HandleStatus status={status} data={subUsers}>
-        <Flex align="center" justify="space-between" mb="15px" h="40px">
-          <Search handleChange={handleChange} />
-          <CustomButton
-            bg={primaryColor}
-            color="white"
-            onClick={() => handleCreateUser()}
-          >
-            Crear usuario
-          </CustomButton>
-        </Flex>
+      <Flex align="center" justify="space-between" mb="15px" h="40px">
+        <Search handleChange={handleChange} />
+        <CustomButton
+          bg={primaryColor}
+          color="white"
+          onClick={() => handleCreateUser()}
+        >
+          Crear usuario
+        </CustomButton>
+      </Flex>
+      <HandleStatus status={status} data={usersFiltered}>
         <Flex
           pd="10px"
           align="center"
@@ -87,7 +91,7 @@ const Accounts = () => {
           pd="0px"
           style={{ overflowY: "auto" }}
         >
-          {subUsers?.map((subUser) => (
+          {usersFiltered?.map((subUser) => (
             <ItemUser user={subUser} />
           ))}
         </Flex>
