@@ -16,7 +16,7 @@ const getHeaders = (requireToken) => {
 };
 
 export const makeRequest = async (url, method, body, requireToken = true) => {
-  const baseUrl = `${process.env.NEXT_PUBLIC_HOST}${url}`;
+  const baseUrl = `https://boss-control-one.vercel.app/api/${url}`;
   const { data } = await axios({
     data: JSON.stringify(body),
     method,
