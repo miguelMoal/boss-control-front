@@ -1,0 +1,9 @@
+.bgLogin {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("../assets/bg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  z-index: -10;
+}

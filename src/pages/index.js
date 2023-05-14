@@ -60,73 +60,86 @@ export default function Home() {
   };
 
   return (
-    <Flex h="100vh" w="100vw" justify="center" align="center" bg={primaryColor}>
+    <>
+      <div className="bgLogin"></div>
       <Flex
-        pd="10px"
-        gap="70px"
-        bg="white"
-        h="350px"
-        w="400px"
-        direction="column"
+        h="100vh"
+        w="100vw"
         justify="center"
+        align="center"
+        style={{ zIndex: 10 }}
       >
-        <Text size="20px" weight="bold" color={primaryColor}>
-          Iniciar Sesión
-        </Text>
-        <Flex direction="column" align="center" gap="20px">
-          <CustomInput
-            placeholder="CorreoElectronico"
-            border="1px solid gray"
-            w="100%"
-            name="email"
-            onChange={handleChange}
-            autocomplete="nope"
-          />
-          {!validEmail && (
-            <Text color={error} size="13px" mt="-8px">
-              Correo inváido
-            </Text>
-          )}
-          <Flex
-            align="center"
-            justify="center"
-            style={{ border: "1px solid gray", borderRadius: "5px" }}
-          >
+        <Flex
+          pd="10px"
+          gap="70px"
+          bg="white"
+          h="350px"
+          w="400px"
+          direction="column"
+          justify="center"
+        >
+          <Text size="20px" weight="bold" color={primaryColor}>
+            Iniciar Sesión
+          </Text>
+          <Flex direction="column" align="center" gap="20px">
             <CustomInput
-              placeholder="Contraseña"
+              placeholder="CorreoElectronico"
+              border="1px solid gray"
               w="100%"
-              name="password"
-              type={type}
+              name="email"
               onChange={handleChange}
               autocomplete="nope"
             />
-            {type == "text" ? (
-              <Flex w="fit-content" onClick={() => setType("password")}>
-                <EyeCloseIcon />
-              </Flex>
-            ) : (
-              <Flex w="fit-content" onClick={() => setType("text")}>
-                <EyeIcon />
-              </Flex>
+            {!validEmail && (
+              <Text color={error} size="13px" mt="-8px">
+                Correo inváido
+              </Text>
             )}
+            <Flex
+              align="center"
+              justify="center"
+              style={{ border: "1px solid gray", borderRadius: "5px" }}
+            >
+              <CustomInput
+                placeholder="Contraseña"
+                w="100%"
+                name="password"
+                type={type}
+                onChange={handleChange}
+                autocomplete="nope"
+              />
+              {type == "text" ? (
+                <Flex w="fit-content" onClick={() => setType("password")}>
+                  <EyeCloseIcon />
+                </Flex>
+              ) : (
+                <Flex w="fit-content" onClick={() => setType("text")}>
+                  <EyeIcon />
+                </Flex>
+              )}
+            </Flex>
+            <CustomButton
+              color="white"
+              bg={primaryColor}
+              onClick={() => logIn()}
+            >
+              {isLoading && <Spinner color="white" mr="10px" />}
+              Iniciar
+            </CustomButton>
           </Flex>
-          <CustomButton color="white" bg={primaryColor} onClick={() => logIn()}>
-            {isLoading && <Spinner color="white" mr="10px" />}
-            Iniciar
-          </CustomButton>
-        </Flex>
-        <Flex justify="center" align="center" gap="10px">
-          <Text size="14px">¿Aun no tienes cuenta?</Text>
-          <Text
-            color={primaryColor}
-            weight="bold"
-            style={{ cursor: "pointer", textDecoration: "underline" }}
-            onClick={() => goRegister()}
-          >
-            Registrate
-          </Text>
+          <Flex justify="center" align="center" gap="10px">
+            <Text size="14px">¿Aun no tienes cuenta?</Text>
+            <Text
+              color={primaryColor}
+              weight="bold"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={() => goRegister()}
+            >
+              Registrate
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 }
