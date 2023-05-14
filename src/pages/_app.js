@@ -12,6 +12,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_KEY_STRIPE);
 
+import "./module_login.css";
+
 export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient({
     defaultOptions: {

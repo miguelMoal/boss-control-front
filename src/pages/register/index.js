@@ -89,127 +89,133 @@ const Register = () => {
   };
 
   return (
-    <Flex
-      direction="column"
-      w="100vw"
-      h="100vh"
-      bg={primaryColor}
-      align="center"
-      justify="center"
-    >
-      <Flex direction="column" w="300px" bg="white" pd="10px" gap="20px">
-        <Flex>
-          <Text color={primaryColor} weight="bold" size="20px">
-            Registro
-          </Text>
-        </Flex>
-        <CustomInput
-          placeholder="Nombre"
-          border="1px solid gray"
-          w="100%"
-          name="name"
-          onChange={handleChange}
-        />
-        <CustomInput
-          placeholder="CorreoElectronico"
-          border="1px solid gray"
-          w="100%"
-          name="email"
-          onChange={handleChange}
-        />
-        {!validEmail && (
-          <Text color={error} size="13px" mt="-8px">
-            Correo inváido
-          </Text>
-        )}
-        <Flex
-          align="center"
-          justify="center"
-          style={{ border: "1px solid gray", borderRadius: "5px" }}
-        >
+    <>
+      <div className="bgLogin"></div>
+      <Flex
+        direction="column"
+        w="100vw"
+        h="100vh"
+        align="center"
+        justify="center"
+      >
+        <Flex direction="column" w="300px" bg="white" pd="10px" gap="20px">
+          <Flex>
+            <Text color={primaryColor} weight="bold" size="20px">
+              Registro
+            </Text>
+          </Flex>
           <CustomInput
-            placeholder="Contraseña"
+            placeholder="Nombre"
+            border="1px solid gray"
             w="100%"
-            type={type}
-            name="password"
+            name="name"
             onChange={handleChange}
           />
-          {type == "password" ? (
-            <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
-              <EyeIcon />
-            </Flex>
-          ) : (
-            <Flex w="fit-content" mr="5px" onClick={() => setType("password")}>
-              <EyeCloseIcon />
-            </Flex>
-          )}
-        </Flex>
-        {validPassword && (
-          <Text color={error} size="13px" mt="-8px">
-            {validPassword}
-          </Text>
-        )}
-        <Flex
-          align="center"
-          justify="center"
-          style={{ border: "1px solid gray", borderRadius: "5px" }}
-        >
           <CustomInput
-            placeholder="Repetir Contraseña"
+            placeholder="CorreoElectronico"
+            border="1px solid gray"
             w="100%"
-            type={typeConfirmation}
-            name="repeatPassword"
+            name="email"
             onChange={handleChange}
           />
-          {typeConfirmation == "password" ? (
-            <Flex
-              w="fit-content"
-              mr="5px"
-              onClick={() => setTypeConfirmation("text")}
-            >
-              <EyeIcon />
-            </Flex>
-          ) : (
-            <Flex
-              w="fit-content"
-              mr="5px"
-              onClick={() => setTypeConfirmation("password")}
-            >
-              <EyeCloseIcon />
-            </Flex>
+          {!validEmail && (
+            <Text color={error} size="13px" mt="-8px">
+              Correo inváido
+            </Text>
           )}
-        </Flex>
-        {!validRepeatPassword && (
-          <Text color={error} size="13px" mt="-8px">
-            Las contraseñas no coinciden
-          </Text>
-        )}
-        <CustomInput
-          placeholder="Telefono"
-          border="1px solid gray"
-          w="100%"
-          name="phone"
-          onChange={handleChange}
-          type="number"
-        />
-        {!validPhone && (
-          <Text color={error} size="13px" mt="-8px">
-            Teléfono inváido
-          </Text>
-        )}
-        <InfoConditions checked={checked} toggleCheck={toggleCheck} />
-        <Flex justify="center">
-          <CustomButton
-            onClick={() => _register()}
-            color="white"
-            bg={allReady && checked ? primaryColor : "gray"}
+          <Flex
+            align="center"
+            justify="center"
+            style={{ border: "1px solid gray", borderRadius: "5px" }}
           >
-            {isLoading && <Spinner color="white" mr="10px" />}
-            Registrar
-          </CustomButton>
+            <CustomInput
+              placeholder="Contraseña"
+              w="100%"
+              type={type}
+              name="password"
+              onChange={handleChange}
+            />
+            {type == "password" ? (
+              <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
+                <EyeIcon />
+              </Flex>
+            ) : (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setType("password")}
+              >
+                <EyeCloseIcon />
+              </Flex>
+            )}
+          </Flex>
+          {validPassword && (
+            <Text color={error} size="13px" mt="-8px">
+              {validPassword}
+            </Text>
+          )}
+          <Flex
+            align="center"
+            justify="center"
+            style={{ border: "1px solid gray", borderRadius: "5px" }}
+          >
+            <CustomInput
+              placeholder="Repetir Contraseña"
+              w="100%"
+              type={typeConfirmation}
+              name="repeatPassword"
+              onChange={handleChange}
+            />
+            {typeConfirmation == "password" ? (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setTypeConfirmation("text")}
+              >
+                <EyeIcon />
+              </Flex>
+            ) : (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setTypeConfirmation("password")}
+              >
+                <EyeCloseIcon />
+              </Flex>
+            )}
+          </Flex>
+          {!validRepeatPassword && (
+            <Text color={error} size="13px" mt="-8px">
+              Las contraseñas no coinciden
+            </Text>
+          )}
+          <CustomInput
+            placeholder="Telefono"
+            border="1px solid gray"
+            w="100%"
+            name="phone"
+            onChange={handleChange}
+            type="number"
+          />
+          {!validPhone && (
+            <Text color={error} size="13px" mt="-8px">
+              Teléfono inváido
+            </Text>
+          )}
+          <InfoConditions checked={checked} toggleCheck={toggleCheck} />
+          <Flex justify="center">
+            <CustomButton
+              onClick={() => _register()}
+              color="white"
+              bg={allReady && checked ? primaryColor : "gray"}
+            >
+              {isLoading && <Spinner color="white" mr="10px" />}
+              Registrar
+            </CustomButton>
+          </Flex>
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 
