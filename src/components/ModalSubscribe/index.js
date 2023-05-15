@@ -38,36 +38,38 @@ const ModalSubscribe = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (checked) {
+      setProcessing(true);
 
-    setProcessing(true);
+      const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement),
+      });
 
-    const { paymentMethod, error } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-    });
-
-    if (error) {
-      setError(error.message);
-      setProcessing(false);
-      return;
-    }
-    await sendSubscription(
-      { paymentMethod: paymentMethod.id },
-      {
-        onSuccess: () => {
-          addToast("El producto se creó correctamente", true);
-          router.replace("/sales");
-          queryClient.invalidateQueries(["products"]);
-        },
-        onError: () => {
-          addToast("Algo salio mal", false);
-        },
+      if (error) {
+        setError(error.message);
+        setProcessing(false);
+        return;
       }
-    );
+      await sendSubscription(
+        { paymentMethod: paymentMethod.id },
+        {
+          onSuccess: () => {
+            addToast("El producto se creó correctamente", true);
+            router.replace("/sales");
+            queryClient.invalidateQueries(["products"]);
+          },
+          onError: () => {
+            addToast("Algo salio mal", false);
+            queryClient.invalidateQueries(["products"]);
+          },
+        }
+      );
+    }
   };
 
   return (
-    <Flex w="420px" pd="20px" h="250px" direction="column">
+    <Flex w="420px" pd="20px" h="280px" direction="column">
       <Text size="20px" weight="bold" mb="30px">
         Activa tu cuenta
       </Text>
