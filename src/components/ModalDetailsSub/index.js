@@ -97,7 +97,7 @@ const ModalDetailsSub = ({ infoUser, closeModal }) => {
             {showInfo && (
               <>
                 <Flex>
-                  <Text>Precio de subscripción: $ 285 pesos MXN</Text>
+                  <Text>Precio de subscripción: $ 250 pesos MXN</Text>
                 </Flex>
                 <Flex>
                   <Text>Renovación: Automática</Text>

@@ -96,8 +96,9 @@ const Analytics = () => {
                 <span style={{ size: "12px", color: success }}>
                   {" "}
                   / ${" "}
-                  {infoPeriods?.salesToday.totalSales -
-                    infoPeriods?.salesToday.totalPrice}
+                  {infoPeriods?.salesToday.totalSales ||
+                    0 - infoPeriods?.salesToday.totalPrice ||
+                    0}
                 </span>
               </Text>
             </Flex>
@@ -113,8 +114,9 @@ const Analytics = () => {
                 <span style={{ size: "14px", color: success }}>
                   {" "}
                   / ${" "}
-                  {infoPeriods?.salesLast7Days.totalSales -
-                    infoPeriods?.salesLast7Days.totalPrice}
+                  {infoPeriods?.salesLast7Days.totalSales ||
+                    0 - infoPeriods?.salesLast7Days.totalPrice ||
+                    0}
                 </span>
               </Text>
             </Flex>
@@ -130,8 +132,9 @@ const Analytics = () => {
                 <span style={{ size: "14px", color: success }}>
                   {" "}
                   / ${" "}
-                  {infoPeriods?.salesLast30Days.totalSales -
-                    infoPeriods?.salesLast30Days.totalPrice}
+                  {infoPeriods?.salesLast30Days.totalSales ||
+                    0 - infoPeriods?.salesLast30Days.totalPrice ||
+                    0}
                 </span>
               </Text>
             </Flex>
@@ -147,8 +150,9 @@ const Analytics = () => {
                 <span style={{ size: "14px", color: success }}>
                   {" "}
                   / ${" "}
-                  {infoPeriods?.salesLastYear.totalSales -
-                    infoPeriods?.salesLastYear.totalPrice}
+                  {infoPeriods?.salesLastYear.totalSales ||
+                    0 - infoPeriods?.salesLastYear.totalPrice ||
+                    0}
                 </span>
               </Text>
             </Flex>

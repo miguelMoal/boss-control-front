@@ -38,7 +38,7 @@ const ModalConditions = ({ closeModal }) => {
           Pago y Facturación
           <br />
           Al suscribirse al Servicio, usted acepta pagar la tarifa de
-          suscripción mensual de [285 pesos mexicanos] a través de los métodos
+          suscripción mensual de [250 pesos mexicanos] a través de los métodos
           de pago disponibles en el sitio web de la empresa. Si la suscripción
           no se renueva automáticamente debido a problemas con su método de
           pago, su cuenta puede ser suspendida hasta que se resuelvan los
