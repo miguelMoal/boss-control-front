@@ -36,6 +36,10 @@ const History = () => {
     keepPreviousData: true,
   });
 
+  const historiesSearch = histories?.msg.filter((p) =>
+    p.date?.includes(formData?.search || "")
+  );
+
   useEffect(() => {
     const onScroll = () => {
       const container = containerRef.current;
@@ -99,7 +103,7 @@ const History = () => {
           style={{ overflowY: "auto" }}
           className="scroll"
         >
-          {histories?.msg.map((history, index) => (
+          {historiesSearch?.map((history, index) => (
             <ItemHistory history={history} key={history.date + index} />
           ))}
         </Flex>

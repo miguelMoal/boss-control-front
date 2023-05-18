@@ -1,5 +1,5 @@
+//components
 import { Flex, Text } from "@/components";
-
 //redux
 import { useSelector } from "react-redux";
 

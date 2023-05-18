@@ -141,7 +141,7 @@ const Reinvest = () => {
               <CustomInput
                 placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
-                w="105px"
+                w="140px"
                 name="budget"
                 onChange={handleChange}
                 type="number"

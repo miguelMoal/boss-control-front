@@ -43,7 +43,7 @@ const headerProductsTicket = [
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const { primaryColor, success } = useSelector((state) => state.theme);
+  const { primaryColor, success, error } = useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
   const { showModal, closeModal, ModalWrapper } = useModal();
@@ -114,6 +114,26 @@ const Sales = () => {
     setTicket([]);
   };
 
+  const soludOut = (product) => {
+    const productAvailable = Number(product.available);
+    if (productAvailable == 0) {
+      return (
+        <CustomButton color={error} pd={"0px 14px"} borderColor={error}>
+          Agotado
+        </CustomButton>
+      );
+    } else {
+      return (
+        <CustomButton
+          onClick={() => handleAddToTicket(product)}
+          borderColor={success}
+        >
+          Añadir
+        </CustomButton>
+      );
+    }
+  };
+
   return (
     <Layout>
       <ModalWrapper />
@@ -147,12 +167,7 @@ const Sales = () => {
             >
               {productsFiltered?.map((product) => (
                 <ItemProductSale product={product}>
-                  <CustomButton
-                    onClick={() => handleAddToTicket(product)}
-                    borderColor={success}
-                  >
-                    Añadir
-                  </CustomButton>
+                  {soludOut(product)}
                 </ItemProductSale>
               ))}
             </Flex>
@@ -181,7 +196,7 @@ const Sales = () => {
               pd="10px"
               className="scroll"
               direction="column"
-              style={{ height: "calc(100vh - 330px)", overflowY: "auto" }}
+              style={{ height: "calc(100vh - 340px)", overflowY: "auto" }}
             >
               {ticket.map((product) => (
                 <ItemTicket
