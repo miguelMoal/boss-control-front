@@ -32,3 +32,4 @@ export const Content = styled.div`
   max-height: calc(100vh - 80px);
   max-width: 100vw;
 `;
+ export const FlexBetween = styled.div``
