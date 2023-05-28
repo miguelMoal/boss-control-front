@@ -36,7 +36,8 @@ const headerProducts = [
 ];
 
 const Reinvest = () => {
-  const { primaryColor, warning, error } = useSelector((state) => state.theme);
+  const { primaryColor, warning, error, tertiaryColor, btnWarning, btnDanger } =
+    useSelector((state) => state.theme);
 
   const [allYellow, setAllYellow] = useState(false);
   const [allRed, setAllRed] = useState(false);
@@ -123,16 +124,16 @@ const Reinvest = () => {
           <Flex w="fit-content" gap="10px">
             <CustomButton
               borderColor={warning}
-              color="gray"
-              bg={allYellow && warning}
+              color="white"
+              bg={allYellow && btnWarning}
               onClick={() => activeAllYellow()}
             >
               <CheckIcon />
             </CustomButton>
             <CustomButton
               borderColor={error}
-              color="gray"
-              bg={allRed && error}
+              color="white"
+              bg={allRed && btnDanger}
               onClick={() => activeAllRed()}
             >
               <CheckIcon />
@@ -170,7 +171,7 @@ const Reinvest = () => {
         <Flex
           align="center"
           h="60px"
-          shadow="0px 4px 8px #d9d9d9"
+          shadow={`0px 4px 8px ${tertiaryColor}`}
           bg={primaryColor}
           style={{ borderRadius: "5px" }}
         >
@@ -201,14 +202,12 @@ const Reinvest = () => {
             />
           ))}
         </Flex>
-        <Flex align="end" direction="column">
+        <Flex align="end" direction="column" justify="center" h="70px">
           <Text
             weight="bold"
             size="30px"
             color={
-              investmentBudget() > 100 && formData?.budget > 0
-                ? error
-                : primaryColor
+              investmentBudget() > 100 && formData?.budget > 0 ? error : "white"
             }
           >
             Total ${productsReinvest()}

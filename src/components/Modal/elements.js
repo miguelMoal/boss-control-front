@@ -2,7 +2,7 @@ import styled, { keyframes } from "styled-components";
 
 export const BGModal = styled.div`
   position: fixed;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
@@ -18,13 +18,11 @@ export const BGModal = styled.div`
 
 export const ModalContainer = styled.div`
   position: fixed;
-  min-width: 30%;
-  min-height: 10%;
   height: auto;
   width: auto;
-  background: white;
+  background: ${({ bg }) => bg || "black"};
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.125) 2.4px 2.4px 3.2px;
+  box-shadow: rgba(0, 0, 0, 0.3) 5px 5px 5px;
   display: flex;
   flex-direction: column;
   align-items: start;
@@ -43,5 +41,4 @@ export const ModalBody = styled.div`
   direction: column;
   justify-items: start;
   align-items: center;
-  width: 100%;
 `;
