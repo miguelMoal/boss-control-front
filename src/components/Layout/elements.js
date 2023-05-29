@@ -22,7 +22,6 @@ export const ChildrenContainer = styled.div`
   width: calc(100vw - 350px);
   height: calc(100vh - 80px);
   padding: 10px;
-  background: white;
   box-sizing: border-box;
   overflow-y: hidden;
 `;
@@ -32,3 +31,4 @@ export const Content = styled.div`
   max-height: calc(100vh - 80px);
   max-width: 100vw;
 `;
+ export const FlexBetween = styled.div``

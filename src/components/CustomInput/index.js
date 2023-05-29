@@ -7,13 +7,13 @@ const CustomInput = styled.input`
   margin-bottom: ${({ mb }) => mb || "0px"};
   margin-left: ${({ ml }) => ml || "0px"};
   margin-right: ${({ mr }) => mr || "0px"};
-  color: ${({ color }) => color || "black"};
+  color: ${({ color }) => color || "white"};
   padding: ${({ pd }) => pd || "10px"};
   width: ${({ w }) => w || "fit-content"};
   height: ${({ h }) => h || "fit-content"};
-  border-color: ${({ borderColor }) => borderColor || "black"};
+  letter-spacing: 1.3px;
   border-radius: 5px;
-  &&:focus {
+  &:focus {
     outline: none;
   }
 `;

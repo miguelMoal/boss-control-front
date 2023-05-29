@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { CheckIcon } from "@/assets/icons";
 
 const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
-  const { primaryColor, success, error, warning } = useSelector(
+  const { btnPrimary, success, error, warning, tertiaryColor } = useSelector(
     (store) => store.theme
   );
 
@@ -29,7 +29,7 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
       mt="5px"
       align="center"
       h="55px"
-      style={{ borderBottom: "1px solid gray", minHeight: "55px" }}
+      style={{ borderBottom: `1px solid ${tertiaryColor}`, minHeight: "55px" }}
     >
       <Flex w="10px" h="100%" bg={handleColorBar()}></Flex>
       <Flex gap="10px" w="27%" align="center">
@@ -37,7 +37,7 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
           h="15px"
           w="15px"
           ml="10px"
-          bg={product.checked ? primaryColor : "gray"}
+          bg={product.checked ? btnPrimary : "gray"}
           style={{ borderRadius: "2px", color: "white" }}
           align="center"
           justify="center"

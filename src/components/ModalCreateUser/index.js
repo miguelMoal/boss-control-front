@@ -13,7 +13,15 @@ import { createSubUserApi } from "@/connections";
 import { useMutation, useQueryClient } from "react-query";
 
 const ModalCreateUser = ({ closeModal }) => {
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const {
+    primaryColor,
+    error,
+    btnDanger,
+    btnDefault,
+    gray,
+    btnSuccess,
+    success,
+  } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();
 
@@ -93,7 +101,7 @@ const ModalCreateUser = ({ closeModal }) => {
         <Flex direction="column" gap="10px" mb="20px">
           <CustomInput
             placeholder="Nombre del usuario"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="name"
             onChange={handleChange}
@@ -102,7 +110,7 @@ const ModalCreateUser = ({ closeModal }) => {
           />
           <CustomInput
             placeholder="Correo"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="email"
             onChange={handleChange}
@@ -116,7 +124,7 @@ const ModalCreateUser = ({ closeModal }) => {
           )}
           <CustomInput
             placeholder="Ingresa contraseña"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="password"
             onChange={handleChange}
@@ -130,7 +138,7 @@ const ModalCreateUser = ({ closeModal }) => {
           )}
           <CustomInput
             placeholder="Repetir contraseña"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="repeatPassword"
             onChange={handleChange}
@@ -146,24 +154,24 @@ const ModalCreateUser = ({ closeModal }) => {
           <Flex justify="center" gap="10px">
             <CustomButton
               onClick={() => togglePermissions("add")}
-              borderColor={!permissions["add"] && primaryColor}
-              bg={permissions["add"] && primaryColor}
+              borderColor={!permissions["add"] && success}
+              bg={permissions["add"] && btnSuccess}
               color={permissions["add"] && "white"}
             >
               Añadir
             </CustomButton>
             <CustomButton
               onClick={() => togglePermissions("edit")}
-              borderColor={!permissions["edit"] && primaryColor}
-              bg={permissions["edit"] && primaryColor}
+              borderColor={!permissions["edit"] && success}
+              bg={permissions["edit"] && btnSuccess}
               color={permissions["edit"] && "white"}
             >
               Editar
             </CustomButton>
             <CustomButton
               onClick={() => togglePermissions("delete")}
-              borderColor={!permissions["delete"] && primaryColor}
-              bg={permissions["delete"] && primaryColor}
+              borderColor={!permissions["delete"] && success}
+              bg={permissions["delete"] && btnSuccess}
               color={permissions["delete"] && "white"}
             >
               Eliminar
@@ -172,16 +180,12 @@ const ModalCreateUser = ({ closeModal }) => {
         </Flex>
         <Flex gap="20px" justify="center">
           {!loadingCreateUser && (
-            <CustomButton
-              borderColor={error}
-              color={error}
-              onClick={() => closeModal()}
-            >
+            <CustomButton bg={btnDanger} onClick={() => closeModal()}>
               Cancelar
             </CustomButton>
           )}
           <CustomButton
-            bg={allReady ? primaryColor : "gray"}
+            bg={allReady ? btnPrimary : btnDefault}
             color="white"
             onClick={() => sendUser()}
           >

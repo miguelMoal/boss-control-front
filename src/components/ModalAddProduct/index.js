@@ -64,7 +64,7 @@ const ModalAddProduct = ({ closeModal, products }) => {
   };
 
   return (
-    <Flex w="450px" align="center" direction="column">
+    <Flex align="center" direction="column" w="450px">
       <Header>
         <Text size="20px" color="white">
           Nuevo producto
