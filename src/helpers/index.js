@@ -92,3 +92,14 @@ export const verifyNameProduct = (products, name) => {
   const exist = products.some((p) => p.name === name);
   return exist;
 };
+
+export const tranformProducts = (products) => {
+  const newProducts = products.map((product) => {
+    return {
+      ...product,
+      priceBuy: product.priceBuy.toFixed(2),
+      priceSale: product.priceSale.toFixed(2),
+    };
+  });
+  return newProducts;
+};

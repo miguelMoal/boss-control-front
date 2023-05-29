@@ -35,9 +35,9 @@ const headerProducts = [
 const headerProductsTicket = [
   { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
   { name: "CANT", id: 2, space: "15%", direction: "flex-start" },
-  { name: "DESCRIPCION", id: 3, space: "40%", direction: "flex-start" },
-  { name: "PRECIO", id: 4, space: "15%", direction: "flex-end" },
-  { name: "IMPORTE", id: 5, space: "15%", direction: "flex-end" },
+  { name: "DESCRIPCION", id: 3, space: "34%", direction: "flex-start" },
+  { name: "PRECIO", id: 4, space: "18%", direction: "flex-end" },
+  { name: "IMPORTE", id: 5, space: "18%", direction: "flex-end" },
 ];
 
 const Sales = () => {

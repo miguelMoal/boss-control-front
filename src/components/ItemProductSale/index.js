@@ -31,8 +31,8 @@ const ItemProductSale = ({ product, children }) => {
       <Flex w="10px" h="100%" bg={handleColorBar()} mr="5px"></Flex>
       <Text w="30%">{product.name}</Text>
       <Text w="15%">{product.brand}</Text>
-      <Text w="15%">{product.available}</Text>
-      <Text w="15%">{product.priceSale}</Text>
+      <Text w="15%"> {product.available}</Text>
+      <Text w="15%">$ {product.priceSale}</Text>
       <Flex w="25%">{children}</Flex>
     </Flex>
   );
