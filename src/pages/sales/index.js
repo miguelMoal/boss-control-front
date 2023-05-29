@@ -42,9 +42,8 @@ const headerProductsTicket = [
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const { primaryColor, success, btnSuccess, tertiaryColor } = useSelector(
-    (state) => state.theme
-  );
+  const { primaryColor, success, btnSuccess, tertiaryColor, error } =
+    useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
   const { showModal, closeModal, ModalWrapper } = useModal();
