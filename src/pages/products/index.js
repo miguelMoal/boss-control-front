@@ -160,7 +160,6 @@ const Products = () => {
               </CustomButton>
               <CustomButton
                 ml="10px"
-                pd="0px"
                 color={error}
                 onClick={() => handleDelete(product._id)}
               >

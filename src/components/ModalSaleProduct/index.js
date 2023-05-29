@@ -62,18 +62,18 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
     <Flex pd="20px" mt="20px" align="center" direction="column">
       <Flex align="center" gap="10px" direction="column">
         <Text size="20px" weight="bold">
-          Total Neto:${total}
+          Total Neto: ${total}
         </Text>
         <CustomInput
           placeholder="Efectivo"
           border={`1px solid ${gray}`}
-          w="33%"
+          w="47%"
           name="cash"
           onChange={handleChange}
           type="number"
         />
         <Text size="20px" weight="bold">
-          Cambio:{getTotalSale()}
+          Cambio: ${getTotalSale()}
         </Text>
       </Flex>
 
