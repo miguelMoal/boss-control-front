@@ -33,3 +33,4 @@ export { default as NotFoundScreen } from "./NotFoundScreen";
 export { default as ItemHistory } from "./ItemHistory";
 export { default as ModalConditions } from "./ModalConditions";
 export { default as InfoConditions } from "./InfoConditions";
+export { default as ModalGoal } from "./ModalGoal";

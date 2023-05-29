@@ -11,6 +11,8 @@ import {
   Modal,
   DropDown,
   ModalDetailsSub,
+  CustomButton,
+  ModalGoal,
 } from "@/components";
 //Elements
 import { NavBar, SideBar, ChildrenContainer, Content } from "./elements";
@@ -116,6 +118,10 @@ const Layout = ({ children }) => {
     val == "close" && closeSesion();
   };
 
+  const handleDate = () => {
+    showModal(<ModalGoal />);
+  };
+
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
       <ModalWrapper />
@@ -133,7 +139,7 @@ const Layout = ({ children }) => {
       </NavBar>
       <Content>
         <SideBar>
-          <Flex h="150px" pd="0px" direction="column" align="center">
+          <Flex h="110px" pd="0px" direction="column" align="center">
             <Logo />
             <Text size="25px" weight="bold" color="#f1f1f1" mt="10px">
               Boss Control
@@ -145,7 +151,8 @@ const Layout = ({ children }) => {
                 align="center"
                 color="#f1f1f1"
                 key={section.id}
-                pd="10px"
+                pd="5px"
+                mb="3px"
                 onClick={() => selectSection(section)}
                 ml={mounted && router.asPath == section.path && "60px"}
                 style={{
@@ -162,6 +169,9 @@ const Layout = ({ children }) => {
                 </Text>
               </Flex>
             ))}
+          </Flex>
+          <Flex bg="pink">
+            <CustomButton onClick={() => handleDate()}>fecha</CustomButton>
           </Flex>
         </SideBar>
         <ChildrenContainer>{children}</ChildrenContainer>

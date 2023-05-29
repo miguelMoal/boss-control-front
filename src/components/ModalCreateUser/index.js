@@ -11,6 +11,8 @@ import { validateEmail, validatePassword } from "@/helpers";
 import { createSubUserApi } from "@/connections";
 //Externals
 import { useMutation, useQueryClient } from "react-query";
+//icons
+import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
 
 const ModalCreateUser = ({ closeModal }) => {
   const { primaryColor, error } = useSelector((state) => state.theme);
@@ -21,6 +23,9 @@ const ModalCreateUser = ({ closeModal }) => {
 
   const { mutate: createSubUser, isLoading: loadingCreateUser } =
     useMutation(createSubUserApi);
+
+  const [type, setType] = useState("password");
+  const [typeConfirmation, setTypeConfirmation] = useState("password");
 
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(null);
@@ -114,29 +119,73 @@ const ModalCreateUser = ({ closeModal }) => {
               Correo invaido
             </Text>
           )}
-          <CustomInput
-            placeholder="Ingresa contraseña"
-            border="1px solid gray"
-            w="100%"
-            name="password"
-            onChange={handleChange}
-            value={formData?.password}
-            disabled={loadingCreateUser}
-          />
+          <Flex
+            align="center"
+            justify="center"
+            style={{ border: "1px solid gray", borderRadius: "5px" }}
+          >
+            <CustomInput
+              placeholder="Ingresa contraseña"
+              w="100%"
+              type={type}
+              name="password"
+              onChange={handleChange}
+              value={formData?.password}
+              disabled={loadingCreateUser}
+            />
+            {type == "password" ? (
+              <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
+                <EyeIcon />
+              </Flex>
+            ) : (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setType("password")}
+              >
+                <EyeCloseIcon />
+              </Flex>
+            )}
+          </Flex>
+
           {validPassword && (
             <Text color={error} size="13px" mt="-8px">
               {validPassword}
             </Text>
           )}
-          <CustomInput
-            placeholder="Repetir contraseña"
-            border="1px solid gray"
-            w="100%"
-            name="repeatPassword"
-            onChange={handleChange}
-            value={formData?.repeatPassword}
-            disabled={loadingCreateUser}
-          />
+          <Flex
+            align="center"
+            justify="center"
+            style={{ border: "1px solid gray", borderRadius: "5px" }}
+          >
+            <CustomInput
+              placeholder="Repetir contraseña"
+              w="100%"
+              type={typeConfirmation}
+              name="repeatPassword"
+              onChange={handleChange}
+              value={formData?.repeatPassword}
+              disabled={loadingCreateUser}
+            />
+            {typeConfirmation == "password" ? (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setTypeConfirmation("text")}
+              >
+                <EyeIcon />
+              </Flex>
+            ) : (
+              <Flex
+                w="fit-content"
+                mr="5px"
+                onClick={() => setTypeConfirmation("password")}
+              >
+                <EyeCloseIcon />
+              </Flex>
+            )}
+          </Flex>
+
           {!validRepeatPassword && (
             <Text color={error} size="13px" mt="-8px">
               Las contraseñas no coinciden

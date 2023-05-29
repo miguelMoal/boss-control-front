@@ -22,6 +22,7 @@ import { useQuery } from "react-query";
 import { historyApi } from "@/connections";
 //Helpers
 import { transformDate } from "@/helpers";
+
 const History = () => {
   const { primaryColor, success } = useSelector((state) => state.theme);
 
@@ -37,7 +38,7 @@ const History = () => {
   });
 
   const historiesSearch = histories?.msg.filter((p) =>
-    p.date?.includes(formData?.search || "")
+    transformDate(p.date).includes(formData?.search || "")
   );
 
   useEffect(() => {

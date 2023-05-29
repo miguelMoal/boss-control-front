@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 //HOC
 import { ProtectedRoute } from "@/HOC";
 
