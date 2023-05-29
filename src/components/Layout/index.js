@@ -94,7 +94,7 @@ const Layout = ({ children }) => {
       if (
         error.response &&
         error.response.data &&
-        error.response.data.msg === "invalidSubscription"
+        error.response.data.msg === "Subscripción inactiva"
       ) {
         setShowModalSub(true);
       } else {

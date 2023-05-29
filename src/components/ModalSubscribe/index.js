@@ -30,6 +30,8 @@ const ModalSubscribe = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  console.log("ruta", router);
+
   const { mutate: sendSubscription } = useMutation(subscriptionApi);
 
   const toggleCheck = (value) => {
@@ -45,7 +47,6 @@ const ModalSubscribe = () => {
         type: "card",
         card: elements.getElement(CardElement),
       });
-
       if (error) {
         setError(error.message);
         setProcessing(false);
@@ -55,8 +56,12 @@ const ModalSubscribe = () => {
         { paymentMethod: paymentMethod.id },
         {
           onSuccess: () => {
-            addToast("El producto se creó correctamente", true);
-            router.replace("/sales");
+            addToast("La subscripción se creó correctamente", true);
+            if (router.route == "/sales") {
+              router.replace("/products");
+            } else {
+              router.replace("/sales");
+            }
             queryClient.invalidateQueries(["products"]);
           },
           onError: () => {
