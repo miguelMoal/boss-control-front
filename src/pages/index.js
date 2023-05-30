@@ -1,6 +1,13 @@
 import { useState } from "react";
 //components
-import { CustomButton, CustomInput, Flex, Text, Spinner } from "@/components";
+import {
+  CustomButton,
+  CustomInput,
+  Flex,
+  Text,
+  Spinner,
+  SquareFloat,
+} from "@/components";
 import { useToastContext } from "@/components/Toast";
 import { useSelector } from "react-redux";
 //Hooks
@@ -23,7 +30,9 @@ import { validateEmail } from "@/helpers";
 
 export default function Home() {
   const [type, setType] = useState("password");
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { tertiaryColor, btnPrimary, secondaryColor } = useSelector(
+    (state) => state.theme
+  );
   const { handleChange, formData } = useForm();
   const { mutate: makeLogIn, isLoading } = useMutation(loginApi);
   const [validEmail, setValidEmail] = useState(true);
@@ -60,8 +69,40 @@ export default function Home() {
   };
 
   return (
-    <>
-      <div className="bgLogin"></div>
+    <div
+      style={{
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      <SquareFloat top={"-200px"} />
+      <SquareFloat
+        top={"200px"}
+        left={"1000px"}
+        size="50px"
+        animationDelay={"4s"}
+      />
+      <SquareFloat
+        top={"600px"}
+        left={"500px"}
+        size="50px"
+        opacity={4}
+        animationDelay={"3s"}
+      />
+      <SquareFloat
+        top={"100px"}
+        left={"200px"}
+        size="500px"
+        opacity={0.1}
+        animationDelay={"7s"}
+      />
+      <SquareFloat
+        top={"400px"}
+        left={"px"}
+        size="330px"
+        opacity={4}
+        animationDelay={"5s"}
+      />
       <Flex
         h="100vh"
         w="100vw"
@@ -70,17 +111,36 @@ export default function Home() {
         style={{ zIndex: 10 }}
       >
         <Flex
-          pd="10px"
+          pd="20px"
           gap="70px"
-          h="350px"
           w="400px"
           direction="column"
           justify="center"
+          bg={tertiaryColor}
+          style={{ borderRadius: "5px", position: "relative" }}
         >
-          <Text size="20px" weight="bold" color={primaryColor}>
+          <Flex
+            h="70px"
+            w="250px"
+            bg={btnPrimary}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 1,
+              borderRadius: "0px 0px 100px 0px",
+              backgroundSize: "210% 210%",
+              backgroundPosition: "100% 0",
+            }}
+          ></Flex>
+          <Text
+            size="25px"
+            weight="bold"
+            style={{ position: "absolute", zIndex: 1, top: 20 }}
+          >
             Iniciar Sesión
           </Text>
-          <Flex direction="column" align="center" gap="20px">
+          <Flex direction="column" align="center" gap="20px" mt="100px">
             <CustomInput
               placeholder="CorreoElectronico"
               border="1px solid gray"
@@ -108,20 +168,24 @@ export default function Home() {
                 autocomplete="nope"
               />
               {type == "text" ? (
-                <Flex w="fit-content" onClick={() => setType("password")}>
+                <Flex
+                  w="fit-content"
+                  color="white"
+                  onClick={() => setType("password")}
+                >
                   <EyeCloseIcon />
                 </Flex>
               ) : (
-                <Flex w="fit-content" onClick={() => setType("text")}>
+                <Flex
+                  w="fit-content"
+                  color="white"
+                  onClick={() => setType("text")}
+                >
                   <EyeIcon />
                 </Flex>
               )}
             </Flex>
-            <CustomButton
-              color="white"
-              bg={primaryColor}
-              onClick={() => logIn()}
-            >
+            <CustomButton color="white" bg={btnPrimary} onClick={() => logIn()}>
               {isLoading && <Spinner color="white" mr="10px" />}
               Iniciar
             </CustomButton>
@@ -129,7 +193,7 @@ export default function Home() {
           <Flex justify="center" align="center" gap="10px">
             <Text size="14px">¿Aun no tienes cuenta?</Text>
             <Text
-              color={primaryColor}
+              color={secondaryColor}
               weight="bold"
               style={{ cursor: "pointer", textDecoration: "underline" }}
               onClick={() => goRegister()}
@@ -139,6 +203,6 @@ export default function Home() {
           </Flex>
         </Flex>
       </Flex>
-    </>
+    </div>
   );
 }

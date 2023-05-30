@@ -1,0 +1,16 @@
+.custom-card-element {
+  /* Estilos personalizados para el CardElement */
+  /* Por ejemplo: */
+  font-size: 16px;
+  color: #b8d35d !important;
+  /* ::placeholder {
+    color: #aab7c4;
+  } */
+  /* Otros estilos */
+}
+
+.custom-card-element.StripeElement--invalid {
+  /* Estilos personalizados para el CardElement en estado inválido */
+  /* Por ejemplo: */
+  color: #9e2146;
+}

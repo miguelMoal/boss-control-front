@@ -16,11 +16,13 @@ import { useSelector } from "react-redux";
 //Hooks
 import { useMutation, useQueryClient } from "react-query";
 
+import "./ModalSub.module.css";
+
 const ModalSubscribe = () => {
   const [cardComplete, setCardComplete] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const { primaryColor } = useSelector(({ theme }) => theme);
+  const { gray, btnPrimary, primaryColor } = useSelector(({ theme }) => theme);
 
   const [checked, setChecked] = useState(false);
 
@@ -29,6 +31,8 @@ const ModalSubscribe = () => {
   const addToast = useToastContext();
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  console.log("ruta", router);
 
   const { mutate: sendSubscription } = useMutation(subscriptionApi);
 
@@ -45,7 +49,6 @@ const ModalSubscribe = () => {
         type: "card",
         card: elements.getElement(CardElement),
       });
-
       if (error) {
         setError(error.message);
         setProcessing(false);
@@ -55,8 +58,12 @@ const ModalSubscribe = () => {
         { paymentMethod: paymentMethod.id },
         {
           onSuccess: () => {
-            addToast("El producto se creó correctamente", true);
-            router.replace("/sales");
+            addToast("La subscripción se creó correctamente", true);
+            if (router.route == "/sales") {
+              router.replace("/products");
+            } else {
+              router.replace("/sales");
+            }
             queryClient.invalidateQueries(["products"]);
           },
           onError: () => {
@@ -69,13 +76,20 @@ const ModalSubscribe = () => {
   };
 
   return (
-    <Flex w="420px" pd="20px" h="280px" direction="column">
-      <Text size="20px" weight="bold" mb="30px">
+    <Flex w="420px" pd="20px" direction="column" bg="white">
+      <Text size="25px" weight="bold" mb="30px" color={primaryColor}>
         Activa tu cuenta
       </Text>
+      <Flex direction="column" align="center" mb="30px">
+        <Text size="20px" color={primaryColor}>
+          $250.00 MXN / Mes
+        </Text>
+        <Text size="20px" color={primaryColor} mt="15px" mb="15px">
+          TU PRIMER MES GRATIS
+        </Text>
+      </Flex>
       <form onSubmit={handleSubmit} style={{ width: "100%" }}>
         <CardElement
-          className="form-control"
           onChange={(event) => {
             setCardComplete(event.complete);
             setError(event.error ? event.error.message : null);
@@ -86,23 +100,25 @@ const ModalSubscribe = () => {
             {error}
           </div>
         )}
-        <Flex mt="25px">
+        <Flex mt="35px">
           <InfoConditions toggleCheck={toggleCheck} checked={checked} />
         </Flex>
-        <button
-          type="submit"
-          disabled={!stripe || processing || !cardComplete}
-          style={{
-            background: checked ? primaryColor : "gray",
-            color: "white",
-            padding: "10px 25px",
-            fontSize: "16px",
-            marginTop: "35px",
-            cursor: "pointer",
-          }}
-        >
-          {processing ? "Processing..." : "Subscribirme"}
-        </button>
+        <Flex justify="center">
+          <button
+            type="submit"
+            disabled={!stripe || processing || !cardComplete}
+            style={{
+              background: checked ? btnPrimary : gray,
+              color: "white",
+              padding: "10px 25px",
+              fontSize: "16px",
+              marginTop: "45px",
+              cursor: "pointer",
+            }}
+          >
+            {processing ? "Processing..." : "Subscribirme"}
+          </button>
+        </Flex>
       </form>
     </Flex>
   );
