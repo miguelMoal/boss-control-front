@@ -80,7 +80,7 @@ const Reinvest = () => {
         result = result + priceReinvest;
       }
     });
-    return result;
+    return result.toFixed(2);
   };
 
   const activeAllYellow = () => {
@@ -112,7 +112,7 @@ const Reinvest = () => {
   const investmentBudget = () => {
     const progressBudget =
       Number(productsReinvest()) / Number(formData?.budget || 0);
-    const result = progressBudget.toFixed(2) * 100;
+    const result = progressBudget * 100;
     return result;
   };
 

@@ -22,7 +22,10 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
     }
   };
 
-  console.log(product);
+  const resultReinvest = () => {
+    const result = getMissingProduct(product) * product.priceBuy;
+    return result.toFixed(2);
+  };
 
   return (
     <Flex
@@ -54,7 +57,7 @@ const ItemReinvest = ({ product, toggleCheck, getMissingProduct }) => {
       <Text color={error} w="10%">
         {getMissingProduct(product)}
       </Text>
-      <Text w="15%"> $ {getMissingProduct(product) * product.priceBuy}</Text>
+      <Text w="15%"> $ {resultReinvest()}</Text>
     </Flex>
   );
 };
