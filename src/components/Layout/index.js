@@ -155,7 +155,7 @@ const Layout = ({ children }) => {
       <Content>
         <SideBar>
           <Flex h="150px" pd="0px" direction="column" align="center">
-            <Logo />
+            <Logo size="88px" />
             <Text size="25px" weight="bold" color="#f1f1f1" mt="10px">
               Boss Control
             </Text>

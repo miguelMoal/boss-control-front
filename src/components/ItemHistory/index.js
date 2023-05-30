@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 const ItemHistory = ({ history }) => {
   const { primaryColor, btnPrimary } = useSelector((state) => state.theme);
+
   return (
     <Flex
       key={history._id}
@@ -49,7 +50,7 @@ const ItemHistory = ({ history }) => {
               Cantidad: {prod.quantity}
             </Text>
             <Text weight="bold" w="33.3%" style={{ textAlign: "end" }}>
-              $ {prod.amount}
+              $ {prod.amount.toFixed(2)}
             </Text>
           </Flex>
         ))}

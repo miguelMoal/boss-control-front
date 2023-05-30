@@ -34,7 +34,7 @@ const InfoConditions = ({ checked, toggleCheck }) => {
       >
         <CheckIcon />
       </Flex>
-      <Text size="12px" color={primaryColor}>
+      <Text size="12px">
         Acepto los{" "}
         <span
           style={{

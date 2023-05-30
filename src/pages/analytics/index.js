@@ -55,27 +55,21 @@ const Analytics = () => {
           <CardContainer pd="20px">
             <Flex>
               <Flex color={success} direction="column" align="center">
-                <Text mb="10px" color="gray">
-                  inverción total
-                </Text>
+                <Text mb="10px">inverción total</Text>
                 <DollarIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
                   {invest?.total}
                 </Text>
               </Flex>
               <Flex color={"#008FFB"} direction="column" align="center">
-                <Text mb="10px" color="gray">
-                  Utilidad esperadas
-                </Text>
+                <Text mb="10px">Utilidad esperadas</Text>
                 <EarningsIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
                   {invest?.totalProfits}
                 </Text>
               </Flex>
               <Flex color={primaryColor} direction="column" align="center">
-                <Text mb="10px" color="gray">
-                  Variedad de productos
-                </Text>
+                <Text mb="10px">Variedad de productos</Text>
                 <ObjectsIcon size="40px" />
                 <Text mt="10px" size="25px" weight="bold">
                   {totalProducts}
@@ -85,7 +79,12 @@ const Analytics = () => {
           </CardContainer>
         </Flex>
         <Flex gap="10px">
-          <CardContainer h="100px" direction="column" pd="10px 15px">
+          <CardContainer
+            align="center"
+            h="100px"
+            direction="column"
+            pd="10px 15px"
+          >
             <Text>
               Ventas hoy
               <span style={{ size: "14px", color: success }}> / utilidad</span>
@@ -103,7 +102,12 @@ const Analytics = () => {
               </Text>
             </Flex>
           </CardContainer>
-          <CardContainer h="100px" direction="column" pd="10px 15px">
+          <CardContainer
+            align="center"
+            h="100px"
+            direction="column"
+            pd="10px 15px"
+          >
             <Text>
               Ventas últimos 7 días
               <span style={{ size: "14px", color: success }}> / utilidad</span>
@@ -121,7 +125,12 @@ const Analytics = () => {
               </Text>
             </Flex>
           </CardContainer>
-          <CardContainer h="100px" direction="column" pd="10px 15px">
+          <CardContainer
+            align="center"
+            h="100px"
+            direction="column"
+            pd="10px 15px"
+          >
             <Text>
               Ventas últimos 30 días
               <span style={{ size: "14px", color: success }}> / utilidad</span>
@@ -139,7 +148,12 @@ const Analytics = () => {
               </Text>
             </Flex>
           </CardContainer>
-          <CardContainer h="100px" direction="column" pd="10px 15px">
+          <CardContainer
+            align="center"
+            h="100px"
+            direction="column"
+            pd="10px 15px"
+          >
             <Text>
               Ventas últimos 365 días
               <span style={{ size: "14px", color: success }}> / utilidad</span>
