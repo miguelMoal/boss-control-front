@@ -1,6 +1,7 @@
 import { useState } from "react";
 //Componenets
 import { Flex, Text, CustomButton, CustomInput, Spinner } from "@/components";
+import { useToastContext } from "@/components/Toast";
 //Redux
 import { useSelector } from "react-redux";
 //Hooks
@@ -29,6 +30,7 @@ const ModalCreateUser = ({ closeModal }) => {
   const { handleChange, formData } = useForm();
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   const { mutate: createSubUser, isLoading: loadingCreateUser } =
     useMutation(createSubUserApi);
@@ -88,8 +90,8 @@ const ModalCreateUser = ({ closeModal }) => {
             queryClient.invalidateQueries("subUsers");
             closeModal();
           },
-          onError: (error) => {
-            console.log(error);
+          onError: (err) => {
+            addToast(err.response.data.msg, false);
           },
         }
       );
