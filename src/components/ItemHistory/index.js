@@ -8,7 +8,7 @@ import { transformDate } from "@/helpers";
 import { useSelector } from "react-redux";
 
 const ItemHistory = ({ history }) => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, btnPrimary } = useSelector((state) => state.theme);
   return (
     <Flex
       key={history._id}
@@ -24,8 +24,13 @@ const ItemHistory = ({ history }) => {
     >
       <Flex
         w="fit-content"
-        style={{ position: "absolute", top: "-20px" }}
-        bg={primaryColor}
+        style={{
+          position: "absolute",
+          top: "-20px",
+          backgroundSize: "210% 210%",
+          backgroundPosition: "100% 0",
+        }}
+        bg={btnPrimary}
         pd="0px 30px"
         h="40px"
         align="center"

@@ -14,7 +14,7 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
   const { handleChange, formData } = useForm();
   const { mutate: saleTicket, isLoading } = useMutation(sendTicketApi);
 
-  const { error, success } = useSelector((state) => state.theme);
+  const { btnSuccess, btnDanger, gray } = useSelector((state) => state.theme);
   const queryClient = useQueryClient();
   const addToast = useToastContext();
 
@@ -62,25 +62,30 @@ const ModalSaleProduct = ({ closeModal, total, ticket, cleanTicket }) => {
     <Flex pd="20px" mt="20px" align="center" direction="column">
       <Flex align="center" gap="10px" direction="column">
         <Text size="20px" weight="bold">
-          Total Neto:${total}
+          Total Neto: ${total}
         </Text>
         <CustomInput
           placeholder="Efectivo"
-          border="1px solid gray"
-          w="33%"
+          border={`1px solid ${gray}`}
+          w="47%"
           name="cash"
           onChange={handleChange}
+          type="number"
         />
         <Text size="20px" weight="bold">
-          Cambio:{getTotalSale()}
+          Cambio: ${getTotalSale()}
         </Text>
       </Flex>
 
       <Flex mt="20px" justify="center" gap="10px">
-        <CustomButton color="white" bg={error} onClick={() => closeModal()}>
+        <CustomButton color="white" bg={btnDanger} onClick={() => closeModal()}>
           Cancelar
         </CustomButton>
-        <CustomButton color="white" bg={success} onClick={() => sendTicket()}>
+        <CustomButton
+          color="white"
+          bg={btnSuccess}
+          onClick={() => sendTicket()}
+        >
           {isLoading && <Spinner color="white" size="25" mr="15px" />} Vender
         </CustomButton>
       </Flex>

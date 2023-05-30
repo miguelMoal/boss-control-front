@@ -1,8 +1,9 @@
-import { makeRequest } from "@/helpers";
+import { makeRequest, tranformProducts } from "@/helpers";
 
 export const getProductsApi = async () => {
   const result = await makeRequest("product", "GET");
-  return result.msg;
+  const productsTransform = tranformProducts(result.msg);
+  return productsTransform;
 };
 
 export const createProductApi = async (body) => {

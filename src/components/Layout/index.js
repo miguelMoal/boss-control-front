@@ -39,14 +39,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { addInfo } from "@/redux/slices/infoUser";
 
 const sections = [
-  { name: "Ventas", icon: <SaleIcon size="36px" />, id: 1, path: "/sales" },
-  { name: "Productos", icon: <ProductsIcon />, id: 2, path: "/products" },
-  { name: "Reinvertir", icon: <ReinvestIcon />, id: 3, path: "/reinvest" },
-  { name: "Analitica", icon: <AnalyticsIcon />, id: 4, path: "/analytics" },
-  { name: "Cuentas", icon: <AccountsIcon />, id: 5, path: "/accounts" },
+  { name: "Ventas", icon: <SaleIcon size="25px" />, id: 1, path: "/sales" },
+  {
+    name: "Productos",
+    icon: <ProductsIcon size="20px" />,
+    id: 2,
+    path: "/products",
+  },
+  {
+    name: "Reinvertir",
+    icon: <ReinvestIcon size="20px" />,
+    id: 3,
+    path: "/reinvest",
+  },
+  {
+    name: "Analitica",
+    icon: <AnalyticsIcon size="20px" />,
+    id: 4,
+    path: "/analytics",
+  },
+  {
+    name: "Cuentas",
+    icon: <AccountsIcon size="20px" />,
+    id: 5,
+    path: "/accounts",
+  },
   {
     name: "Historial",
-    icon: <HistoryIcon size="36px" />,
+    icon: <HistoryIcon size="25px" />,
     id: 5,
     path: "/history",
   },
@@ -66,6 +86,7 @@ const Layout = ({ children }) => {
   const { showModal, closeModal, ModalWrapper } = useModal();
 
   const infoU = useSelector(({ infoUser }) => infoUser);
+  const { secondaryColor } = useSelector(({ theme }) => theme);
 
   const dispatch = useDispatch();
 
@@ -149,6 +170,7 @@ const Layout = ({ children }) => {
                 onClick={() => selectSection(section)}
                 ml={mounted && router.asPath == section.path && "60px"}
                 style={{
+                  color: router.asPath == section.path && secondaryColor,
                   transform:
                     mounted && router.asPath == section.path && "scale(1.2)",
                   transition: "all 0.3s",
@@ -157,7 +179,10 @@ const Layout = ({ children }) => {
                 w="fit-content"
               >
                 {section.icon}
-                <Text ml="10px" color={"#f1f1f1"}>
+                <Text
+                  ml="10px"
+                  color={router.asPath == section.path && secondaryColor}
+                >
                   {section.name}
                 </Text>
               </Flex>

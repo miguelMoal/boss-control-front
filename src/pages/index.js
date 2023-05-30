@@ -72,7 +72,6 @@ export default function Home() {
         <Flex
           pd="10px"
           gap="70px"
-          bg="white"
           h="350px"
           w="400px"
           direction="column"

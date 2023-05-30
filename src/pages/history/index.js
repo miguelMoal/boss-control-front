@@ -23,7 +23,7 @@ import { historyApi } from "@/connections";
 //Helpers
 import { transformDate } from "@/helpers";
 const History = () => {
-  const { primaryColor, success } = useSelector((state) => state.theme);
+  const { primaryColor, btnWarning } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();
 
@@ -35,6 +35,10 @@ const History = () => {
     queryFn: () => historyApi({ page, perPage: 10 }),
     keepPreviousData: true,
   });
+
+  const historiesSearch = histories?.msg.filter((p) =>
+    p.date?.includes(formData?.search || "")
+  );
 
   useEffect(() => {
     const onScroll = () => {
@@ -99,13 +103,20 @@ const History = () => {
           style={{ overflowY: "auto" }}
           className="scroll"
         >
-          {histories?.msg.map((history, index) => (
+          {historiesSearch?.map((history, index) => (
             <ItemHistory history={history} key={history.date + index} />
           ))}
         </Flex>
         <Flex justify="flex-end" mt="10px">
           <Flex gap="15px" w="fit-content">
-            <CustomButton bg={primaryColor} onClick={() => handleLessPage()}>
+            <CustomButton
+              bg={btnWarning}
+              onClick={() => handleLessPage()}
+              style={{
+                backgroundSize: "210% 210%",
+                backgroundPosition: "100% 0",
+              }}
+            >
               <Text color="white">{`<`}</Text>
             </CustomButton>
             <Flex w="fit-content" align="center" h="40px">
@@ -113,7 +124,14 @@ const History = () => {
                 Página {histories?.currentPage} de {histories?.totalPages}
               </Text>
             </Flex>
-            <CustomButton bg={primaryColor} onClick={() => handlePlusPage()}>
+            <CustomButton
+              bg={btnWarning}
+              onClick={() => handlePlusPage()}
+              style={{
+                backgroundSize: "210% 210%",
+                backgroundPosition: "100% 0",
+              }}
+            >
               <Text color="white">{`>`}</Text>
             </CustomButton>
           </Flex>
