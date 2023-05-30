@@ -102,8 +102,8 @@ const Products = () => {
         queryClient.invalidateQueries("products");
         handleProductToDelete(null);
       },
-      onError: () => {
-        addToast("Ocurrió un error al eliminar el producto", false);
+      onError: (err) => {
+        addToast(err.response.data.msg, false);
         handleProductToDelete(null);
       },
     });
