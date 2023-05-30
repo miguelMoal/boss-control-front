@@ -38,14 +38,14 @@ const ItemTicket = ({ product, updateToSale, deleteProductTicket }) => {
         type="number"
         min={0}
       />
-      <Text ml="10px" w="35%">
+      <Text ml="10px" w="34%">
         {product.name}
       </Text>
-      <Flex justify="flex-end" w="15%">
-        <Text>{product.priceSale}</Text>
+      <Flex justify="flex-end" w="18%">
+        <Text>$ {product.priceSale}</Text>
       </Flex>
-      <Flex justify="flex-end" w="15%">
-        <Text>{getTotal()}</Text>
+      <Flex justify="flex-end" w="18%">
+        <Text>$ {getTotal()}</Text>
       </Flex>
     </Flex>
   );

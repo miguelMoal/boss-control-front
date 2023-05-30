@@ -69,7 +69,7 @@ const ItemUser = ({ user }) => {
         <Text ml="15px">{user.name}</Text>
       </Flex>
       <Text w="25%">{user.email}</Text>
-      <Flex w="25%" gap="20px">
+      <Flex color="white" w="25%" gap="20px">
         {showPermissions()}
       </Flex>
       <Flex w="30%" gap="20px">

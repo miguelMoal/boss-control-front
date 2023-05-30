@@ -112,7 +112,7 @@ const Reinvest = () => {
   const investmentBudget = () => {
     const progressBudget =
       Number(productsReinvest()) / Number(formData?.budget || 0);
-    const result = progressBudget * 100;
+    const result = progressBudget.toFixed(2) * 100;
     return result;
   };
 
@@ -142,7 +142,7 @@ const Reinvest = () => {
               <CustomInput
                 placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
-                w="105px"
+                w="140px"
                 name="budget"
                 onChange={handleChange}
                 type="number"

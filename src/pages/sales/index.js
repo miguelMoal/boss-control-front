@@ -35,16 +35,15 @@ const headerProducts = [
 const headerProductsTicket = [
   { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
   { name: "CANT", id: 2, space: "15%", direction: "flex-start" },
-  { name: "DESCRIPCION", id: 3, space: "40%", direction: "flex-start" },
-  { name: "PRECIO", id: 4, space: "15%", direction: "flex-end" },
-  { name: "IMPORTE", id: 5, space: "15%", direction: "flex-end" },
+  { name: "DESCRIPCION", id: 3, space: "34%", direction: "flex-start" },
+  { name: "PRECIO", id: 4, space: "18%", direction: "flex-end" },
+  { name: "IMPORTE", id: 5, space: "18%", direction: "flex-end" },
 ];
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const { primaryColor, success, btnSuccess, tertiaryColor } = useSelector(
-    (state) => state.theme
-  );
+  const { primaryColor, success, btnSuccess, tertiaryColor, error } =
+    useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
   const { showModal, closeModal, ModalWrapper } = useModal();
@@ -115,6 +114,26 @@ const Sales = () => {
     setTicket([]);
   };
 
+  const soludOut = (product) => {
+    const productAvailable = Number(product.available);
+    if (productAvailable == 0) {
+      return (
+        <CustomButton color={error} pd={"0px 14px"} borderColor={error}>
+          Agotado
+        </CustomButton>
+      );
+    } else {
+      return (
+        <CustomButton
+          onClick={() => handleAddToTicket(product)}
+          borderColor={success}
+        >
+          Añadir
+        </CustomButton>
+      );
+    }
+  };
+
   return (
     <Layout>
       <ModalWrapper />
@@ -147,12 +166,7 @@ const Sales = () => {
             >
               {productsFiltered?.map((product) => (
                 <ItemProductSale product={product}>
-                  <CustomButton
-                    onClick={() => handleAddToTicket(product)}
-                    borderColor={success}
-                  >
-                    Añadir
-                  </CustomButton>
+                  {soludOut(product)}
                 </ItemProductSale>
               ))}
             </Flex>

@@ -23,6 +23,7 @@ const ModalCreateUser = ({ closeModal }) => {
     gray,
     btnSuccess,
     success,
+    btnPrimary,
   } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();

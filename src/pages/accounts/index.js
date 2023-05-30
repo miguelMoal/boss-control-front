@@ -30,7 +30,7 @@ const headerUsers = [
   { name: "Nombre", id: 1, space: "20%" },
   { name: "Correo", id: 2, space: "25%" },
   { name: "Permisos", id: 3, space: "25%" },
-  { name: "Acciones", id: 3, space: "30%" },
+  { name: "Acciones", id: 4, space: "30%" },
 ];
 
 const Accounts = () => {

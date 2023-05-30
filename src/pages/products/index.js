@@ -36,11 +36,11 @@ import { RemoveIcon, EditIcon } from "@/assets/icons";
 
 const headerProducts = [
   { name: "Nombre", id: 1, space: "30%" },
-  { name: "Marca", id: 2, space: "12%" },
+  { name: "Marca", id: 2, space: "16%" },
   { name: "Stock", id: 3, space: "12%" },
   { name: "Precio compra", id: 4, space: "12%" },
   { name: "Precio venta", id: 5, space: "12%" },
-  { name: "Acciones", id: 6, space: "22%" },
+  { name: "Acciones", id: 6, space: "18%" },
 ];
 
 const Products = () => {
@@ -152,14 +152,14 @@ const Products = () => {
           {productsFiltered?.map((product) => (
             <ItemProduct product={product} key={product._id}>
               <CustomButton
+                pd="0px"
                 color={warning}
-                ml="10px"
                 onClick={() => handleEditProduct(product)}
               >
                 <EditIcon />
               </CustomButton>
               <CustomButton
-                ml="10px"
+                ml="20px"
                 pd="0px"
                 color={error}
                 onClick={() => handleDelete(product._id)}
