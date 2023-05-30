@@ -71,8 +71,8 @@ const ModalEditProduct = ({ closeModal, product }) => {
           addToast("El producto de actualizó correctamente", true);
           !isLoading && closeModal();
         },
-        onError: () => {
-          addToast("Algo salió mal al actualizar el producto", false);
+        onError: (err) => {
+          addToast(err.response.data.msg, false);
         },
       }
     );
