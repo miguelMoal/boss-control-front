@@ -22,7 +22,16 @@ const ModalSubscribe = () => {
   const [cardComplete, setCardComplete] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const { gray, btnPrimary, primaryColor } = useSelector(({ theme }) => theme);
+  const {
+    gray,
+    btnPrimary,
+    primaryColor,
+
+    btnDanger,
+    btnDefault,
+    btnSuccess,
+    success,
+  } = useSelector(({ theme }) => theme);
 
   const [checked, setChecked] = useState(false);
 
@@ -101,7 +110,11 @@ const ModalSubscribe = () => {
           </div>
         )}
         <Flex mt="35px">
-          <InfoConditions toggleCheck={toggleCheck} checked={checked} />
+          <InfoConditions
+            toggleCheck={toggleCheck}
+            checked={checked}
+            colorText={primaryColor}
+          />
         </Flex>
         <Flex justify="center">
           <button

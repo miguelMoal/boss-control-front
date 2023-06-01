@@ -237,7 +237,11 @@ const Register = () => {
               Teléfono inváido
             </Text>
           )}
-          <InfoConditions checked={checked} toggleCheck={toggleCheck} />
+          <InfoConditions
+            checked={checked}
+            toggleCheck={toggleCheck}
+            colorText="white"
+          />
           <Flex justify="center">
             <CustomButton
               onClick={() => _register()}
