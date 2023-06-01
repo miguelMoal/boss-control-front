@@ -23,9 +23,7 @@ const HandleStatus = ({ status, children, data }) => {
         gap="15px"
       >
         <Spinner />
-        <Text color={primaryColor} size="20px">
-          Cargando...
-        </Text>
+        <Text size="20px">Cargando...</Text>
       </Flex>
     );
   } else if (status == "success") {

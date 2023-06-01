@@ -34,7 +34,12 @@ const ModalAddProduct = ({ closeModal, products }) => {
       return;
     }
 
-    const nameExist = verifyNameProduct(products, formData.name);
+    const prevProducts = queryClient.getQueryData("products");
+
+    const nameExist = verifyNameProduct(
+      prevProducts || products,
+      formData.name
+    );
 
     if (nameExist) {
       setNameProd("El producto ya existe");
@@ -55,8 +60,8 @@ const ModalAddProduct = ({ closeModal, products }) => {
             ]);
             setInitialData({});
           },
-          onError: () => {
-            addToast("Ocurrió un error al crear el producto", false);
+          onError: (err) => {
+            addToast(err.response.data.msg, false);
           },
         }
       );
@@ -64,7 +69,7 @@ const ModalAddProduct = ({ closeModal, products }) => {
   };
 
   return (
-    <Flex w="450px" align="center" direction="column">
+    <Flex align="center" direction="column" w="450px">
       <Header>
         <Text size="20px" color="white">
           Nuevo producto

@@ -29,11 +29,13 @@ const headerUsers = [
   { name: "Nombre", id: 1, space: "20%" },
   { name: "Correo", id: 2, space: "25%" },
   { name: "Permisos", id: 3, space: "25%" },
-  { name: "Acciones", id: 3, space: "30%" },
+  { name: "Acciones", id: 4, space: "30%" },
 ];
 
 const Accounts = () => {
-  const { primaryColor } = useSelector((state) => state.theme);
+  const { primaryColor, tertiaryColor, btnPrimary } = useSelector(
+    (state) => state.theme
+  );
 
   const { handleChange, formData } = useForm();
 
@@ -55,7 +57,7 @@ const Accounts = () => {
       <Flex align="center" justify="space-between" mb="15px" h="40px">
         <Search handleChange={handleChange} />
         <CustomButton
-          bg={primaryColor}
+          bg={btnPrimary}
           color="white"
           onClick={() => handleCreateUser()}
         >
@@ -67,7 +69,7 @@ const Accounts = () => {
           pd="10px"
           align="center"
           h="60px"
-          shadow="0px 4px 8px #d9d9d9"
+          shadow={`0px 4px 8px ${tertiaryColor}`}
           bg={primaryColor}
           style={{ borderRadius: "5px" }}
         >
@@ -85,7 +87,6 @@ const Accounts = () => {
         <Flex
           className="scroll"
           direction="column"
-          bg="white"
           h="calc(100% - 120px)"
           pd="0px"
           style={{ overflowY: "auto" }}

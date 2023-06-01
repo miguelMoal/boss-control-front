@@ -1,6 +1,7 @@
 import { useState } from "react";
 //Componenets
 import { Flex, Text, CustomButton, CustomInput, Spinner } from "@/components";
+import { useToastContext } from "@/components/Toast";
 //Redux
 import { useSelector } from "react-redux";
 //Hooks
@@ -15,11 +16,21 @@ import { useMutation, useQueryClient } from "react-query";
 import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
 
 const ModalCreateUser = ({ closeModal }) => {
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const {
+    primaryColor,
+    error,
+    btnDanger,
+    btnDefault,
+    gray,
+    btnSuccess,
+    success,
+    btnPrimary,
+  } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();
 
   const queryClient = useQueryClient();
+  const addToast = useToastContext();
 
   const { mutate: createSubUser, isLoading: loadingCreateUser } =
     useMutation(createSubUserApi);
@@ -35,6 +46,9 @@ const ModalCreateUser = ({ closeModal }) => {
     edit: false,
     delete: false,
   });
+
+  const [type, setType] = useState("password");
+  const [typeConfirmation, setTypeConfirmation] = useState("password");
 
   const togglePermissions = (value) => {
     if (!loadingCreateUser) {
@@ -79,167 +93,14 @@ const ModalCreateUser = ({ closeModal }) => {
             queryClient.invalidateQueries("subUsers");
             closeModal();
           },
-          onError: (error) => {
-            console.log(error);
+          onError: (err) => {
+            addToast(err.response.data.msg, false);
           },
         }
       );
     }
   };
 
-  return (
-    <Flex direction="column">
-      <Flex bg={primaryColor} h="40px" align="center">
-        <Text color="white" size="20px" ml="15px">
-          Nuevo usuario
-        </Text>
-      </Flex>
-      <Flex direction="column" pd="20px">
-        <Flex direction="column" gap="10px" mb="20px">
-          <CustomInput
-            placeholder="Nombre del usuario"
-            border="1px solid gray"
-            w="100%"
-            name="name"
-            onChange={handleChange}
-            value={formData?.name}
-            disabled={loadingCreateUser}
-          />
-          <CustomInput
-            placeholder="Correo"
-            border="1px solid gray"
-            w="100%"
-            name="email"
-            onChange={handleChange}
-            value={formData?.email}
-            disabled={loadingCreateUser}
-          />
-          {!validEmail && (
-            <Text color={error} size="13px" mt="-8px">
-              Correo invaido
-            </Text>
-          )}
-          <Flex
-            align="center"
-            justify="center"
-            style={{ border: "1px solid gray", borderRadius: "5px" }}
-          >
-            <CustomInput
-              placeholder="Ingresa contraseña"
-              w="100%"
-              type={type}
-              name="password"
-              onChange={handleChange}
-              value={formData?.password}
-              disabled={loadingCreateUser}
-            />
-            {type == "password" ? (
-              <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
-                <EyeIcon />
-              </Flex>
-            ) : (
-              <Flex
-                w="fit-content"
-                mr="5px"
-                onClick={() => setType("password")}
-              >
-                <EyeCloseIcon />
-              </Flex>
-            )}
-          </Flex>
-
-          {validPassword && (
-            <Text color={error} size="13px" mt="-8px">
-              {validPassword}
-            </Text>
-          )}
-          <Flex
-            align="center"
-            justify="center"
-            style={{ border: "1px solid gray", borderRadius: "5px" }}
-          >
-            <CustomInput
-              placeholder="Repetir contraseña"
-              w="100%"
-              type={typeConfirmation}
-              name="repeatPassword"
-              onChange={handleChange}
-              value={formData?.repeatPassword}
-              disabled={loadingCreateUser}
-            />
-            {typeConfirmation == "password" ? (
-              <Flex
-                w="fit-content"
-                mr="5px"
-                onClick={() => setTypeConfirmation("text")}
-              >
-                <EyeIcon />
-              </Flex>
-            ) : (
-              <Flex
-                w="fit-content"
-                mr="5px"
-                onClick={() => setTypeConfirmation("password")}
-              >
-                <EyeCloseIcon />
-              </Flex>
-            )}
-          </Flex>
-
-          {!validRepeatPassword && (
-            <Text color={error} size="13px" mt="-8px">
-              Las contraseñas no coinciden
-            </Text>
-          )}
-          <Text>Selecciona los permisos para este usuario</Text>
-          <Flex justify="center" gap="10px">
-            <CustomButton
-              onClick={() => togglePermissions("add")}
-              borderColor={!permissions["add"] && primaryColor}
-              bg={permissions["add"] && primaryColor}
-              color={permissions["add"] && "white"}
-            >
-              Añadir
-            </CustomButton>
-            <CustomButton
-              onClick={() => togglePermissions("edit")}
-              borderColor={!permissions["edit"] && primaryColor}
-              bg={permissions["edit"] && primaryColor}
-              color={permissions["edit"] && "white"}
-            >
-              Editar
-            </CustomButton>
-            <CustomButton
-              onClick={() => togglePermissions("delete")}
-              borderColor={!permissions["delete"] && primaryColor}
-              bg={permissions["delete"] && primaryColor}
-              color={permissions["delete"] && "white"}
-            >
-              Eliminar
-            </CustomButton>
-          </Flex>
-        </Flex>
-        <Flex gap="20px" justify="center">
-          {!loadingCreateUser && (
-            <CustomButton
-              borderColor={error}
-              color={error}
-              onClick={() => closeModal()}
-            >
-              Cancelar
-            </CustomButton>
-          )}
-          <CustomButton
-            bg={allReady ? primaryColor : "gray"}
-            color="white"
-            onClick={() => sendUser()}
-          >
-            {loadingCreateUser && <Spinner mr="15px" color="white" />}
-            Crear usuario
-          </CustomButton>
-        </Flex>
-      </Flex>
-    </Flex>
-  );
+  return <Flex direction="column"></Flex>;
 };
 export default ModalCreateUser;

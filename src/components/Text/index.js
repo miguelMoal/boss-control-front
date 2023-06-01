@@ -9,7 +9,7 @@ const Text = styled.div`
   margin-right: ${({ mr }) => mr || "0px"};
   font-size: ${({ size }) => size || "16px"};
   font-weight: ${({ weight }) => weight || "ligth"};
-  color: ${({ color }) => color || "black"};
+  color: ${({ color }) => color || "white"};
   width: ${({ w }) => w || "fit-content"};
 `;
 

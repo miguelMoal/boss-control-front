@@ -24,7 +24,7 @@ import { historyApi } from "@/connections";
 import { transformDate } from "@/helpers";
 
 const History = () => {
-  const { primaryColor, success } = useSelector((state) => state.theme);
+  const { primaryColor, btnWarning } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();
 
@@ -110,7 +110,14 @@ const History = () => {
         </Flex>
         <Flex justify="flex-end" mt="10px">
           <Flex gap="15px" w="fit-content">
-            <CustomButton bg={primaryColor} onClick={() => handleLessPage()}>
+            <CustomButton
+              bg={btnWarning}
+              onClick={() => handleLessPage()}
+              style={{
+                backgroundSize: "210% 210%",
+                backgroundPosition: "100% 0",
+              }}
+            >
               <Text color="white">{`<`}</Text>
             </CustomButton>
             <Flex w="fit-content" align="center" h="40px">
@@ -118,7 +125,14 @@ const History = () => {
                 Página {histories?.currentPage} de {histories?.totalPages}
               </Text>
             </Flex>
-            <CustomButton bg={primaryColor} onClick={() => handlePlusPage()}>
+            <CustomButton
+              bg={btnWarning}
+              onClick={() => handlePlusPage()}
+              style={{
+                backgroundSize: "210% 210%",
+                backgroundPosition: "100% 0",
+              }}
+            >
               <Text color="white">{`>`}</Text>
             </CustomButton>
           </Flex>

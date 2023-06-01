@@ -34,3 +34,5 @@ export { default as ItemHistory } from "./ItemHistory";
 export { default as ModalConditions } from "./ModalConditions";
 export { default as InfoConditions } from "./InfoConditions";
 export { default as ModalGoal } from "./ModalGoal";
+export { default as SquareFloat } from "./SquareFloat";
+export { default as LayoutBoarding } from "./LayoutBoarding";

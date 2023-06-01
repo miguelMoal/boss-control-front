@@ -11,7 +11,6 @@ import {
   Text,
   HandleStatus,
   Search,
-  ItemProduct,
   CustomButton,
   ItemTicket,
   ModalSaleProduct,
@@ -36,14 +35,15 @@ const headerProducts = [
 const headerProductsTicket = [
   { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
   { name: "CANT", id: 2, space: "15%", direction: "flex-start" },
-  { name: "DESCRIPCION", id: 3, space: "40%", direction: "flex-start" },
-  { name: "PRECIO", id: 4, space: "15%", direction: "flex-end" },
-  { name: "IMPORTE", id: 5, space: "15%", direction: "flex-end" },
+  { name: "DESCRIPCION", id: 3, space: "34%", direction: "flex-start" },
+  { name: "PRECIO", id: 4, space: "18%", direction: "flex-end" },
+  { name: "IMPORTE", id: 5, space: "18%", direction: "flex-end" },
 ];
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const { primaryColor, success, error } = useSelector((state) => state.theme);
+  const { primaryColor, success, btnSuccess, tertiaryColor, error } =
+    useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
   const { showModal, closeModal, ModalWrapper } = useModal();
@@ -147,7 +147,7 @@ const Sales = () => {
               pd="10px"
               align="center"
               h="60px"
-              shadow="0px 4px 8px #d9d9d9"
+              shadow={`0px 4px 8px ${tertiaryColor}`}
               bg={primaryColor}
               style={{ borderRadius: "5px" }}
             >
@@ -159,7 +159,6 @@ const Sales = () => {
             </Flex>
             <Flex
               direction="column"
-              bg="white"
               pd="0px"
               h="calc(100vh - 220px)"
               style={{ overflowY: "auto" }}
@@ -172,12 +171,12 @@ const Sales = () => {
               ))}
             </Flex>
           </Flex>
-          <Flex w="40%" direction="column" bg="#F7F7F7">
+          <Flex w="40%" direction="column" bg={tertiaryColor}>
             <Flex
               pd="10px"
               align="center"
               h="60px"
-              shadow="0px 4px 8px #d9d9d9"
+              shadow={`0px 4px 8px ${tertiaryColor}`}
               bg={primaryColor}
               style={{ borderRadius: "5px" }}
             >
@@ -196,7 +195,7 @@ const Sales = () => {
               pd="10px"
               className="scroll"
               direction="column"
-              style={{ height: "calc(100vh - 340px)", overflowY: "auto" }}
+              style={{ height: "calc(100vh - 350px)", overflowY: "auto" }}
             >
               {ticket.map((product) => (
                 <ItemTicket
@@ -206,13 +205,20 @@ const Sales = () => {
                 />
               ))}
             </Flex>
-            <Flex gap="10px" align="end" direction="column">
-              <Text weight="bold" size="30px" color={primaryColor}>
+            <Flex
+              gap="10px"
+              align="end"
+              direction="column"
+              justify="center"
+              h="100px"
+              pd="10px"
+            >
+              <Text weight="bold" size="30px">
                 Total:$ {getTicketTotal()}
               </Text>
               <CustomButton
                 color="white"
-                bg={success}
+                bg={btnSuccess}
                 onClick={() => makeSale()}
               >
                 Vender

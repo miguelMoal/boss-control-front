@@ -6,6 +6,7 @@ import {
   InfoConditions,
   CustomInput,
   Spinner,
+  LayoutBoarding,
 } from "@/components";
 import { useToastContext } from "@/components/Toast";
 
@@ -25,7 +26,8 @@ import { registerApi } from "@/connections";
 import { validateEmail, validatePassword, validatePhone } from "@/helpers";
 
 const Register = () => {
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const { primaryColor, error, tertiaryColor, btnPrimary, secondaryColor } =
+    useSelector((state) => state.theme);
   const [type, setType] = useState("password");
   const [typeConfirmation, setTypeConfirmation] = useState("password");
   const { handleChange, formData } = useForm();
@@ -88,9 +90,12 @@ const Register = () => {
     }
   };
 
+  const goLogin = () => {
+    router.replace("/");
+  };
+
   return (
-    <>
-      <div className="bgLogin"></div>
+    <LayoutBoarding>
       <Flex
         direction="column"
         w="100vw"
@@ -98,9 +103,30 @@ const Register = () => {
         align="center"
         justify="center"
       >
-        <Flex direction="column" w="300px" bg="white" pd="10px" gap="20px">
-          <Flex>
-            <Text color={primaryColor} weight="bold" size="20px">
+        <Flex
+          direction="column"
+          w="400px"
+          bg={tertiaryColor}
+          pd="20px"
+          gap="25px"
+          style={{ position: "relative" }}
+        >
+          <Flex
+            h="70px"
+            w="250px"
+            align="center"
+            bg={btnPrimary}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 1,
+              borderRadius: "0px 0px 100px 0px",
+              backgroundSize: "210% 210%",
+              backgroundPosition: "100% 0",
+            }}
+          >
+            <Text ml="20px" weight="bold" size="25px">
               Registro
             </Text>
           </Flex>
@@ -110,6 +136,7 @@ const Register = () => {
             w="100%"
             name="name"
             onChange={handleChange}
+            mt="70px"
           />
           <CustomInput
             placeholder="CorreoElectronico"
@@ -136,11 +163,17 @@ const Register = () => {
               onChange={handleChange}
             />
             {type == "password" ? (
-              <Flex w="fit-content" mr="5px" onClick={() => setType("text")}>
+              <Flex
+                color="white"
+                w="fit-content"
+                mr="5px"
+                onClick={() => setType("text")}
+              >
                 <EyeIcon />
               </Flex>
             ) : (
               <Flex
+                color="white"
                 w="fit-content"
                 mr="5px"
                 onClick={() => setType("password")}
@@ -168,6 +201,7 @@ const Register = () => {
             />
             {typeConfirmation == "password" ? (
               <Flex
+                color="white"
                 w="fit-content"
                 mr="5px"
                 onClick={() => setTypeConfirmation("text")}
@@ -176,6 +210,7 @@ const Register = () => {
               </Flex>
             ) : (
               <Flex
+                color="white"
                 w="fit-content"
                 mr="5px"
                 onClick={() => setTypeConfirmation("password")}
@@ -202,20 +237,35 @@ const Register = () => {
               Teléfono inváido
             </Text>
           )}
-          <InfoConditions checked={checked} toggleCheck={toggleCheck} />
+          <InfoConditions
+            checked={checked}
+            toggleCheck={toggleCheck}
+            colorText="white"
+          />
           <Flex justify="center">
             <CustomButton
               onClick={() => _register()}
               color="white"
-              bg={allReady && checked ? primaryColor : "gray"}
+              bg={allReady && checked ? btnPrimary : "gray"}
             >
               {isLoading && <Spinner color="white" mr="10px" />}
               Registrar
             </CustomButton>
           </Flex>
+          <Flex justify="center" align="center" gap="10px">
+            <Text size="14px">¿Ya Tienes Cuenta?</Text>
+            <Text
+              color={secondaryColor}
+              weight="bold"
+              style={{ cursor: "pointer", textDecoration: "underline" }}
+              onClick={() => goLogin()}
+            >
+              Inicia Sesión
+            </Text>
+          </Flex>
         </Flex>
       </Flex>
-    </>
+    </LayoutBoarding>
   );
 };
 

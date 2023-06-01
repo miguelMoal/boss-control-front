@@ -12,11 +12,9 @@ const ErrorScreen = () => {
     <Flex align="center" gap="10px" direction="column" pd="20px">
       <Flex justify="center" gap="20px" align="center" color={error}>
         <ErrorIcon size="70px" />
-        <Text size="70px" color={primaryColor}>
-          Error
-        </Text>
+        <Text size="70px">Error</Text>
       </Flex>
-      <Text color={primaryColor}>Ha ocurrido un error intentalo mas tarde</Text>
+      <Text>Ha ocurrido un error intentalo mas tarde</Text>
     </Flex>
   );
 };

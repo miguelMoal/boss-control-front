@@ -10,8 +10,8 @@ import { useModal } from "@/hooks";
 //reactRedux
 import { useSelector } from "react-redux";
 
-const InfoConditions = ({ checked, toggleCheck }) => {
-  const { primaryColor } = useSelector((state) => state.theme);
+const InfoConditions = ({ checked, toggleCheck, colorText }) => {
+  const { secondaryColor, primaryColor } = useSelector((state) => state.theme);
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
@@ -26,7 +26,7 @@ const InfoConditions = ({ checked, toggleCheck }) => {
         h="15px"
         w="15px"
         mr="10px"
-        bg={checked ? primaryColor : "gray"}
+        bg={checked ? secondaryColor : "gray"}
         style={{ borderRadius: "2px", color: "white" }}
         align="center"
         justify="center"
@@ -34,11 +34,11 @@ const InfoConditions = ({ checked, toggleCheck }) => {
       >
         <CheckIcon />
       </Flex>
-      <Text size="12px">
+      <Text size="12px" color={colorText}>
         Acepto los{" "}
         <span
           style={{
-            color: `${primaryColor}`,
+            color: `${secondaryColor}`,
             cursor: "pointer",
             textDecoration: "underline",
           }}

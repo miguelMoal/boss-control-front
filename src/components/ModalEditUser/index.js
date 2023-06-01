@@ -13,7 +13,8 @@ import { updateSubUserApi } from "@/connections";
 import { useMutation, useQueryClient } from "react-query";
 
 const ModalEditUser = ({ user, closeModal }) => {
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const { primaryColor, error, success, btnSuccess, btnDefault, btnPrimary } =
+    useSelector((state) => state.theme);
 
   const permissionsIndexed = user.permissions.reduce(
     (acc, el) => ({
@@ -75,29 +76,29 @@ const ModalEditUser = ({ user, closeModal }) => {
       </Flex>
       <Flex direction="column" pd="20px">
         <Flex justify="center">
-          <Text>Selecciona los permisos para este usuario</Text>
+          <Text>Seleccione los permisos para este usuario</Text>
         </Flex>
         <Flex justify="center" gap="10px" mt="20px" mb="20px">
           <CustomButton
             onClick={() => togglePermissions("add")}
-            borderColor={!permissions["add"] && primaryColor}
-            bg={permissions["add"] && primaryColor}
+            borderColor={!permissions["add"] && success}
+            bg={permissions["add"] && btnSuccess}
             color={permissions["add"] && "white"}
           >
             Añadir
           </CustomButton>
           <CustomButton
             onClick={() => togglePermissions("edit")}
-            borderColor={!permissions["edit"] && primaryColor}
-            bg={permissions["edit"] && primaryColor}
+            borderColor={!permissions["edit"] && success}
+            bg={permissions["edit"] && btnSuccess}
             color={permissions["edit"] && "white"}
           >
             Editar
           </CustomButton>
           <CustomButton
             onClick={() => togglePermissions("delete")}
-            borderColor={!permissions["delete"] && primaryColor}
-            bg={permissions["delete"] && primaryColor}
+            borderColor={!permissions["delete"] && success}
+            bg={permissions["delete"] && btnSuccess}
             color={permissions["delete"] && "white"}
           >
             Eliminar
@@ -110,7 +111,7 @@ const ModalEditUser = ({ user, closeModal }) => {
             </CustomButton>
           )}
           <CustomButton
-            bg={primaryColor}
+            bg={btnPrimary}
             color="white"
             onClick={() => sendUser()}
           >

@@ -10,6 +10,34 @@ const BarChart = ({ data, categories, width = 500, height = 300 }) => {
     },
     xaxis: {
       categories: categories,
+      labels: {
+        style: {
+          colors: [
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+          ],
+        },
+      },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: [
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+          ],
+        },
+      },
     },
   };
 

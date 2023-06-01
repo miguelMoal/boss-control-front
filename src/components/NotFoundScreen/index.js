@@ -17,9 +17,7 @@ const NotFoundScreen = () => {
       gap="15px"
     >
       <NotFoundIcon size="80px" />
-      <Text size="20px" color={primaryColor}>
-        Aun no tienes datos registrados
-      </Text>
+      <Text size="20px">Aun no tienes datos registrados</Text>
     </Flex>
   );
 };

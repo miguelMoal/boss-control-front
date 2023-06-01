@@ -14,15 +14,17 @@ const FormProduct = ({
   isEdit = false,
   nameProd,
 }) => {
-  const { primaryColor, error } = useSelector((state) => state.theme);
+  const { btnPrimary, error, gray, btnDanger, btnDefault } = useSelector(
+    (state) => state.theme
+  );
   return (
     <>
       <Flex direction="column">
-        <Text>Nombre</Text>
+        <Text mb="5px">Nombre</Text>
         <CustomInput
           value={formData?.name}
           placeholder="Nombre del producto"
-          border="1px solid gray"
+          border={`1px solid ${gray}`}
           w="100%"
           name="name"
           onChange={handleChange}
@@ -35,11 +37,11 @@ const FormProduct = ({
       </Flex>
       <Flex mt="20px" gap="10px">
         <Flex w="33%" direction="column">
-          <Text>Precio compra</Text>
+          <Text mb="5px">Precio compra</Text>
           <CustomInput
             value={formData?.priceBuy}
             placeholder="Precio compra"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             name="priceBuy"
             w="100%"
             onChange={handleChange}
@@ -48,11 +50,11 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="33%" direction="column">
-          <Text>Precio venta</Text>
+          <Text mb="5px">Precio venta</Text>
           <CustomInput
             value={formData?.priceSale}
             placeholder="Precio venta"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="priceSale"
             onChange={handleChange}
@@ -61,11 +63,11 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="33%" direction="column">
-          <Text>Marca</Text>
+          <Text mb="5px">Marca</Text>
           <CustomInput
             value={formData?.brand}
             placeholder="Marca"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="brand"
             onChange={handleChange}
@@ -74,11 +76,11 @@ const FormProduct = ({
       </Flex>
       <Flex mt="20px" gap="10px">
         <Flex w="50%" direction="column">
-          <Text>Disponibles</Text>
+          <Text mb="5px">Disponibles</Text>
           <CustomInput
             value={formData?.available}
             placeholder="Disponibles"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="available"
             onChange={handleChange}
@@ -87,11 +89,11 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="50%" direction="column">
-          <Text>Ideal en stock</Text>
+          <Text mb="5px">Ideal en stock</Text>
           <CustomInput
             value={formData?.preferenceInStock}
             placeholder="Ideal en stock"
-            border="1px solid gray"
+            border={`1px solid ${gray}`}
             w="100%"
             name="preferenceInStock"
             onChange={handleChange}
@@ -102,13 +104,17 @@ const FormProduct = ({
       </Flex>
       <Flex mt="20px" justify="center" gap="10px">
         {!isLoading && (
-          <CustomButton onClick={() => closeModal()} color="white" bg={error}>
+          <CustomButton
+            onClick={() => closeModal()}
+            color="white"
+            bg={btnDanger}
+          >
             Salir
           </CustomButton>
         )}
         <CustomButton
           color="white"
-          bg={allReady ? primaryColor : "gray"}
+          bg={allReady ? btnPrimary : btnDefault}
           onClick={() => action()}
         >
           {isLoading && <Spinner color="white" size="25" mr="15px" />}

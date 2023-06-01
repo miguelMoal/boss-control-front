@@ -11,7 +11,7 @@ export const NavBar = styled.div`
 `;
 
 export const SideBar = styled.div`
-  width: 350px;
+  width: 300px;
   height: calc(100vh - 80px);
   background: ${({ theme }) => theme.primaryColor};
   display: flex;
@@ -19,10 +19,9 @@ export const SideBar = styled.div`
 `;
 
 export const ChildrenContainer = styled.div`
-  width: calc(100vw - 350px);
+  width: calc(100vw - 300px);
   height: calc(100vh - 80px);
   padding: 10px;
-  background: white;
   box-sizing: border-box;
   overflow-y: hidden;
 `;
@@ -32,3 +31,4 @@ export const Content = styled.div`
   max-height: calc(100vh - 80px);
   max-width: 100vw;
 `;
+export const FlexBetween = styled.div``;
