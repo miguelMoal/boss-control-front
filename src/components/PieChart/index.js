@@ -1,11 +1,18 @@
 //External
 import dynamic from "next/dynamic";
 
+//Redux
+import { useSelector } from "react-redux";
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const PieChart = ({ data, series, width = 500, height = 300 }) => {
+  const { secondaryColor, error, warning, success } = useSelector(
+    ({ theme }) => theme
+  );
+
   const options = {
-    colors: ["#fd5d93", "#1d8cf8", "#ff8d72", "#00bf9a", "#ff8d72"],
+    colors: [error, secondaryColor, "#ff8d72", success, warning],
     legend: {
       position: "right",
       labels: {

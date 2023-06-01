@@ -24,6 +24,21 @@ const BarChart = ({ data, categories, width = 500, height = 300 }) => {
         },
       },
     },
+    yaxis: {
+      labels: {
+        style: {
+          colors: [
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+            "white",
+          ],
+        },
+      },
+    },
   };
 
   const series = [
