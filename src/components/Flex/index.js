@@ -18,6 +18,18 @@ const Flex = styled.div`
   width: ${({ w }) => w || "100%"};
   color: ${({ color }) => color || "black"};
   box-shadow: ${({ shadow }) => shadow || "none"};
+
+  @media (max-width: 767px) {
+    ${({ smallStyles }) => smallStyles}
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    ${({ mediumStyles }) => mediumStyles}
+  }
+
+  @media (min-width: 1024px) {
+    ${({ largeStyles }) => largeStyles}
+  }
 `;
 
 export default Flex;
