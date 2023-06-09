@@ -36,8 +36,15 @@ const headerProducts = [
 ];
 
 const Reinvest = () => {
-  const { primaryColor, warning, error, tertiaryColor, btnWarning, btnDanger } =
-    useSelector((state) => state.theme);
+  const {
+    primaryColor,
+    warning,
+    error,
+    tertiaryColor,
+    btnWarning,
+    btnDanger,
+    btnSuccess,
+  } = useSelector((state) => state.theme);
 
   const [allYellow, setAllYellow] = useState(false);
   const [allRed, setAllRed] = useState(false);
@@ -151,7 +158,7 @@ const Reinvest = () => {
               {formData?.budget > 0 && (
                 <Flex direction="column" bg="#ebebeb" h="10px" w="200px">
                   <Flex
-                    bg={investmentBudget() > 100 ? error : primaryColor}
+                    bg={investmentBudget() > 100 ? error : btnSuccess}
                     w={`${
                       investmentBudget() > 100 ? 100 : investmentBudget()
                     }%`}
