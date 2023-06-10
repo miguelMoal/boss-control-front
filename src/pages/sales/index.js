@@ -16,6 +16,7 @@ import {
   ModalSaleProduct,
   ModalErrorSale,
   ItemProductSale,
+  ModalTicket,
 } from "@/components";
 //conections
 import { getProductsApi } from "@/connections";
@@ -24,26 +25,45 @@ import { useForm, useModal } from "@/hooks";
 //externals
 import { useQuery } from "react-query";
 
+//Icons
+import { AddIcon, StopIcon } from "@/assets/icons";
+
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "30%" },
-  { name: "Marca", id: 2, space: "15%" },
-  { name: "Stock", id: 3, space: "15%" },
-  { name: "Precio", id: 4, space: "15%" },
-  { name: "Acciones", id: 5, space: "25%" },
+  { name: "Nombre", id: 1, space: "35%", sm: `flex:3` },
+  {
+    name: "Marca",
+    id: 2,
+    space: "15%",
+    sm: `display: none`,
+  },
+  {
+    name: "Stock",
+    id: 3,
+    space: "15%",
+    sm: `display: none`,
+  },
+  { name: "Precio", id: 4, space: "15%", sm: `flex:2` },
+  { name: "Acciones", id: 5, space: "20%", sm: `flex:1` },
 ];
 
 const headerProductsTicket = [
-  { name: "ELIM", id: 1, space: "15%", direction: "flex-start" },
-  { name: "CANT", id: 2, space: "15%", direction: "flex-start" },
-  { name: "DESCRIPCION", id: 3, space: "34%", direction: "flex-start" },
-  { name: "PRECIO", id: 4, space: "18%", direction: "flex-end" },
-  { name: "IMPORTE", id: 5, space: "18%", direction: "flex-end" },
+  { name: "ELIM", id: 1, space: "45px", direction: "flex-start" },
+  { name: "CANT", id: 2, space: "65px", direction: "flex-start" },
+  { name: "DESCRIPCION", id: 3, space: "40%", direction: "flex-start" },
+  { name: "PRECIO", id: 4, space: "25%", direction: "flex-end" },
+  { name: "IMPORTE", id: 5, space: "25%", direction: "flex-end" },
 ];
 
 const Sales = () => {
   const [ticket, setTicket] = useState([]);
-  const { primaryColor, success, btnSuccess, tertiaryColor, error } =
-    useSelector((state) => state.theme);
+  const {
+    primaryColor,
+    success,
+    btnSuccess,
+    tertiaryColor,
+    error,
+    btnDefault,
+  } = useSelector((state) => state.theme);
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { handleChange, formData } = useForm();
   const { showModal, closeModal, ModalWrapper } = useModal();
@@ -110,6 +130,25 @@ const Sales = () => {
     }
   };
 
+  const showModalTicket = () => {
+    if (ticket.length > 0) {
+      const validNumber = ticket.every((p) => p.toSale > 0);
+      if (validNumber) {
+        showModal(
+          <ModalTicket
+            closeModal={closeModal}
+            ticket={ticket}
+            deleteProductTicket={deleteProductTicket}
+            updateToSale={updateToSale}
+            cleanTicket={cleanTicket}
+          />
+        );
+      } else {
+        showModal(<ModalErrorSale closeModal={closeModal} />);
+      }
+    }
+  };
+
   const cleanTicket = () => {
     setTicket([]);
   };
@@ -118,8 +157,24 @@ const Sales = () => {
     const productAvailable = Number(product.available);
     if (productAvailable == 0) {
       return (
-        <CustomButton color={error} pd={"0px 14px"} borderColor={error}>
-          Agotado
+        <CustomButton
+          color={error}
+          pd={"0px 14px"}
+          borderColor={error}
+          sm={`padding: 0px 5px; border:none`}
+          md={`padding: 0px 15px; border:none`}
+        >
+          <Text sm={`display: none`} md={`display: none`}>
+            Agotado
+          </Text>
+          <Flex
+            color={error}
+            lg={`display: none`}
+            xl={`display: none`}
+            xxl={`display: none`}
+          >
+            <StopIcon />
+          </Flex>
         </CustomButton>
       );
     } else {
@@ -127,8 +182,21 @@ const Sales = () => {
         <CustomButton
           onClick={() => handleAddToTicket(product)}
           borderColor={success}
+          sm={`padding: 0px 5px; border:none`}
+          md={`padding: 0px 15px; border:none`}
         >
-          Añadir
+          <Text sm={`display: none`} md={`display: none`}>
+            Añadir
+          </Text>
+          <Flex
+            w="100%"
+            color={success}
+            lg={`display: none`}
+            xl={`display: none`}
+            xxl={`display: none`}
+          >
+            <AddIcon />
+          </Flex>
         </CustomButton>
       );
     }
@@ -139,10 +207,22 @@ const Sales = () => {
       <ModalWrapper />
       <Flex align="center" justify="space-between" mb="15px" h="40px">
         <Search handleChange={handleChange} />
+        <CustomButton
+          bg={ticket.length > 0 ? btnSuccess : btnDefault}
+          onClick={() => showModalTicket()}
+          xxl={`display: none`}
+        >
+          <Text>Vender</Text>
+        </CustomButton>
       </Flex>
+      <Text mb="10px" xxl={`display: none`}>
+        {ticket.length > 0
+          ? `En ticket / ${ticket.length}`
+          : "No hay productos en el ticket"}
+      </Text>
       <HandleStatus status={status} data={productsFiltered}>
-        <Flex gap="20px">
-          <Flex direction="column" w="60%">
+        <Flex gap="20px" sm={`width: 100%`}>
+          <Flex direction="column" xxl={`width: 60%`}>
             <Flex
               pd="10px"
               align="center"
@@ -152,7 +232,12 @@ const Sales = () => {
               style={{ borderRadius: "5px" }}
             >
               {headerProducts.map((header) => (
-                <Text w={header.space} weight="bold" color="white">
+                <Text
+                  w={header.space}
+                  weight="bold"
+                  color="white"
+                  sm={header.sm}
+                >
                   {header.name}
                 </Text>
               ))}
@@ -171,7 +256,13 @@ const Sales = () => {
               ))}
             </Flex>
           </Flex>
-          <Flex w="40%" direction="column" bg={tertiaryColor}>
+          <Flex
+            w="40%"
+            direction="column"
+            bg={tertiaryColor}
+            display="none"
+            xxl={`display: flex`}
+          >
             <Flex
               pd="10px"
               align="center"
@@ -185,8 +276,12 @@ const Sales = () => {
               </Text>
             </Flex>
             <Flex pd="10px" mt="10px">
-              {headerProductsTicket.map((head) => (
-                <Flex justify={head.direction} w={head.space}>
+              {headerProductsTicket.map((head, index) => (
+                <Flex
+                  key={head.name + index}
+                  justify={head.direction}
+                  w={head.space}
+                >
                   <Text size="12px">{head.name}</Text>
                 </Flex>
               ))}
@@ -195,7 +290,9 @@ const Sales = () => {
               pd="10px"
               className="scroll"
               direction="column"
-              style={{ height: "calc(100vh - 350px)", overflowY: "auto" }}
+              h="calc(100vh - 380px)"
+              style={{ overflowY: "auto" }}
+              xxl={`height: calc(100vh - 360px)`}
             >
               {ticket.map((product) => (
                 <ItemTicket
@@ -213,7 +310,7 @@ const Sales = () => {
               h="100px"
               pd="10px"
             >
-              <Text weight="bold" size="30px">
+              <Text weight="bold" size="25px">
                 Total:$ {getTicketTotal()}
               </Text>
               <CustomButton

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Flex = styled.div`
-  display: flex;
+  display: ${({ display }) => display || "flex"};
   flex-wrap: ${({ wrap }) => wrap || "no-wrap"};
   box-sizing: ${({ boxSizing }) => boxSizing || "border-box"};
   gap: ${({ gap }) => gap || "0px"};
@@ -19,16 +19,28 @@ const Flex = styled.div`
   color: ${({ color }) => color || "black"};
   box-shadow: ${({ shadow }) => shadow || "none"};
 
-  @media (max-width: 767px) {
-    ${({ smallStyles }) => smallStyles}
+  @media (max-width: 575px) {
+    ${({ sm }) => sm}
   }
 
-  @media (min-width: 768px) and (max-width: 1023px) {
-    ${({ mediumStyles }) => mediumStyles}
+  @media (min-width: 576px) and (max-width: 767px) {
+    ${({ md }) => md}
   }
 
-  @media (min-width: 1024px) {
-    ${({ largeStyles }) => largeStyles}
+  @media (min-width: 768px) and (max-width: 991px) {
+    ${({ lg }) => lg}
+  }
+
+  @media (min-width: 992px) and (max-width: 1199px) {
+    ${({ xl }) => xl}
+  }
+
+  @media (min-width: 1200px) {
+    ${({ xxl }) => xxl}
+  }
+
+  @media (min-width: 1400px) {
+    ${({ bigger }) => bigger}
   }
 `;
 

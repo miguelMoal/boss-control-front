@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+//Components
 import { Flex, CustomInput } from "@/components";
+
 //icons
 import { SearchIcon } from "@/assets/icons";
 
@@ -31,6 +33,7 @@ const Search = ({ handleChange }) => {
       onFocus={handleFocus}
       onBlur={handleBlur}
       color={"#5A6066"}
+      sm={`width: calc(100% - 110px)`}
     >
       <SearchIcon size="20px" />
       <CustomInput

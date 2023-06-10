@@ -14,16 +14,24 @@ export const SideBar = styled.div`
   width: 300px;
   height: calc(100vh - 80px);
   background: ${({ theme }) => theme.primaryColor};
-  display: flex;
-  flex-direction: column;
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const ChildrenContainer = styled.div`
-  width: calc(100vw - 300px);
-  height: calc(100vh - 80px);
+  width: 100vw;
+  height: calc(100vh - 100px);
   padding: 10px;
   box-sizing: border-box;
   overflow-y: hidden;
+  @media (min-width: 1200px) {
+    width: calc(100vw - 300px);
+    height: calc(100vh - 80px);
+  }
 `;
 
 export const Content = styled.div`
@@ -31,4 +39,5 @@ export const Content = styled.div`
   max-height: calc(100vh - 80px);
   max-width: 100vw;
 `;
+
 export const FlexBetween = styled.div``;

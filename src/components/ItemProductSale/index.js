@@ -27,13 +27,24 @@ const ItemProductSale = ({ product, children }) => {
       align="center"
       h="55px"
       style={{ borderBottom: `1px solid ${tertiaryColor}`, minHeight: "55px" }}
+      sm={`display: flex; justify-content: space-between`}
     >
       <Flex w="10px" h="100%" bg={handleColorBar()} mr="5px"></Flex>
-      <Text w="30%">{product.name}</Text>
-      <Text w="15%">{product.brand}</Text>
-      <Text w="15%"> {product.available}</Text>
-      <Text w="15%">$ {product.priceSale}</Text>
-      <Flex w="25%">{children}</Flex>
+      <Text w="35%" sm={`flex:3`}>
+        {product.name}
+      </Text>
+      <Text w="15%" sm={`display: none`}>
+        {product.brand}
+      </Text>
+      <Text w="15%" sm={`display: none`}>
+        {product.available}
+      </Text>
+      <Text w="15%" sm={`flex:2`}>
+        $ {product.priceSale}
+      </Text>
+      <Flex w="20%" sm={`flex:1`}>
+        {children}
+      </Flex>
     </Flex>
   );
 };
