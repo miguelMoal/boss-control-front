@@ -11,6 +11,7 @@ import {
   ItemReinvest,
   CustomButton,
   CustomInput,
+  CustomTable,
 } from "@/components";
 
 //externals
@@ -25,6 +26,13 @@ import { useModal, useForm } from "@/hooks";
 //icons
 import { CheckIcon } from "@/assets/icons";
 
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+
 const headerProducts = [
   { name: "Nombre", id: 1, space: "27%" },
   { name: "Marca", id: 2, space: "13%" },
@@ -33,6 +41,33 @@ const headerProducts = [
   { name: "Precio Compra", id: 5, space: "15%" },
   { name: "Faltantes", id: 6, space: "10%" },
   { name: "Total Reinvercion", id: 7, space: "15%" },
+];
+
+const defaultData = [
+  {
+    firstName: "tanner",
+    lastName: "linsley",
+    age: 24,
+    visits: 100,
+    status: "In Relationship",
+    progress: 50,
+  },
+  {
+    firstName: "tandy",
+    lastName: "miller",
+    age: 40,
+    visits: 40,
+    status: "Single",
+    progress: 80,
+  },
+  {
+    firstName: "joe",
+    lastName: "dirte",
+    age: 45,
+    visits: 20,
+    status: "Complicated",
+    progress: 10,
+  },
 ];
 
 const Reinvest = () => {
@@ -116,8 +151,70 @@ const Reinvest = () => {
     return result;
   };
 
+  const columnHelper = createColumnHelper();
+
+  const columns = [
+    columnHelper.accessor("name", {
+      cell: (info) => console.log(info),
+    }),
+    columnHelper.accessor("brand", {
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("available", {
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("preferenceInStock", {
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("priceBuy", {
+      cell: (info) => <p> ${info.getValue()}</p>,
+    }),
+    columnHelper.accessor("available", {
+      cell: (info) => info.getValue(),
+    }),
+  ];
+
+  // const [data, setData] = useState(() => [...productsFiltered]);
+
+  const table = useReactTable({
+    data: productsFiltered || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   return (
     <Layout>
+      <Flex>
+        <CustomTable>
+          <CustomTable.Thead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <CustomTable.TR key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <CustomTable.TH key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </CustomTable.TH>
+                ))}
+              </CustomTable.TR>
+            ))}
+          </CustomTable.Thead>
+          <CustomTable.Tbody>
+            {table.getRowModel().rows.map((row) => (
+              <CustomTable.TR key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <CustomTable.TD key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </CustomTable.TD>
+                ))}
+              </CustomTable.TR>
+            ))}
+          </CustomTable.Tbody>
+        </CustomTable>
+      </Flex>
       <HandleStatus status={status} data={productsFiltered}>
         <Flex align="center" mb="15px" h="40px" justify="space-between">
           <Search handleChange={handleChange} />

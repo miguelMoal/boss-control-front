@@ -1,57 +1,39 @@
-import styled from "styled-components";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableTR,
+  TableTH,
+  TableTD,
+} from "./elements";
 
-const TableWrapper = styled.div`
-  overflow-x: auto;
-`;
+//Redux
+import { useSelector } from "react-redux";
 
-const Table = styled.table`
-  width: 100%;
-  border-collapse: collapse;
+const CustomTable = ({ children }) => {
+  return <Table>{children}</Table>;
+};
 
-  th,
-  td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
+CustomTable.Thead = ({ children }) => {
+  const { primaryColor } = useSelector(({ theme }) => theme);
 
-  th {
-    background-color: #f2f2f2;
-  }
+  return <TableHead bg={primaryColor}>{children}</TableHead>;
+};
 
-  @media (max-width: 768px) {
-    th,
-    td {
-      padding: 4px;
-      font-size: 12px;
-    }
-  }
-`;
+CustomTable.Tbody = ({ children }) => {
+  return <TableBody>{children}</TableBody>;
+};
 
-const CustomTable = ({ headers, data, children }) => {
-  return (
-    <TableWrapper>
-      <Table>
-        <thead>
-          <tr>
-            {headers.map((header, index) => (
-              <th key={index}>{header}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              {row.map((cell, index) => (
-                <td key={index}>{cell}</td>
-              ))}
-              {children && <td>{children}</td>}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </TableWrapper>
-  );
+CustomTable.TR = ({ children }) => {
+  return <TableTR>{children}</TableTR>;
+};
+
+CustomTable.TH = ({ children }) => {
+  return <TableTH>{children}</TableTH>;
+};
+
+CustomTable.TD = ({ children }) => {
+  return <TableTD>{children}</TableTD>;
 };
 
 export default CustomTable;

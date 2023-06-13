@@ -36,3 +36,4 @@ export { default as InfoConditions } from "./InfoConditions";
 export { default as SquareFloat } from "./SquareFloat";
 export { default as LayoutBoarding } from "./LayoutBoarding";
 export { default as ModalTicket } from "./ModalTicket";
+export { default as CustomTable } from "./CustomTable";
