@@ -29,12 +29,24 @@ const ItemProduct = ({ product, children }) => {
       style={{ borderBottom: `1px solid ${tertiaryColor}`, minHeight: "55px" }}
     >
       <Flex w="10px" h="100%" bg={handleColorBar()} mr="5px"></Flex>
-      <Text w="30%">{product.name}</Text>
-      <Text w="16%">{product.brand}</Text>
-      <Text w="12%">{product.available}</Text>
-      <Text w="12%">$ {product.priceBuy}</Text>
-      <Text w="12%">$ {product.priceSale}</Text>
-      <Flex w="18%">{children}</Flex>
+      <Text w="30%" sm={`width: 30%; font-size: 14px`}>
+        {product.name}
+      </Text>
+      <Text w="16%" sm={`display: none`}>
+        {product.brand}
+      </Text>
+      <Text w="12%" sm={`display: none`}>
+        {product.available}
+      </Text>
+      <Text w="12%" sm={`width: 25%; font-size: 14px`}>
+        $ {product.priceBuy}
+      </Text>
+      <Text w="12%" sm={`width: 25%; font-size: 14px`}>
+        $ {product.priceSale}
+      </Text>
+      <Flex w="18%" sm={`width: 25%; font-size: 14px`}>
+        {children}
+      </Flex>
     </Flex>
   );
 };

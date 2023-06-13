@@ -191,8 +191,9 @@ const Reinvest = () => {
         <Flex
           direction="column"
           h="calc(100vh - 280px)"
-          style={{ overflowY: "auto" }}
+          style={{ overflow: "auto" }}
           className="scroll"
+          w="500px"
         >
           {productsSearch?.map((product) => (
             <ItemReinvest

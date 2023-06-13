@@ -20,7 +20,9 @@ const FormProduct = ({
   return (
     <>
       <Flex direction="column">
-        <Text mb="5px">Nombre</Text>
+        <Text mb="5px" sm={`font-size: 14px`}>
+          Nombre
+        </Text>
         <CustomInput
           value={formData?.name}
           placeholder="Nombre del producto"
@@ -37,7 +39,9 @@ const FormProduct = ({
       </Flex>
       <Flex mt="20px" gap="10px">
         <Flex w="33%" direction="column">
-          <Text mb="5px">Precio compra</Text>
+          <Text mb="5px" sm={`font-size: 14px`}>
+            Precio compra
+          </Text>
           <CustomInput
             value={formData?.priceBuy}
             placeholder="Precio compra"
@@ -50,7 +54,9 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="33%" direction="column">
-          <Text mb="5px">Precio venta</Text>
+          <Text mb="5px" sm={`font-size: 14px`}>
+            Precio venta
+          </Text>
           <CustomInput
             value={formData?.priceSale}
             placeholder="Precio venta"
@@ -63,7 +69,9 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="33%" direction="column">
-          <Text mb="5px">Marca</Text>
+          <Text mb="5px" sm={`font-size: 14px`}>
+            Marca
+          </Text>
           <CustomInput
             value={formData?.brand}
             placeholder="Marca"
@@ -76,7 +84,9 @@ const FormProduct = ({
       </Flex>
       <Flex mt="20px" gap="10px">
         <Flex w="50%" direction="column">
-          <Text mb="5px">Disponibles</Text>
+          <Text mb="5px" sm={`font-size: 14px`}>
+            Disponibles
+          </Text>
           <CustomInput
             value={formData?.available}
             placeholder="Disponibles"
@@ -89,7 +99,9 @@ const FormProduct = ({
           />
         </Flex>
         <Flex w="50%" direction="column">
-          <Text mb="5px">Ideal en stock</Text>
+          <Text mb="5px" sm={`font-size: 14px`}>
+            Ideal en stock
+          </Text>
           <CustomInput
             value={formData?.preferenceInStock}
             placeholder="Ideal en stock"

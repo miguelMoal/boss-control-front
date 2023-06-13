@@ -69,13 +69,20 @@ const ModalAddProduct = ({ closeModal, products }) => {
   };
 
   return (
-    <Flex align="center" direction="column" w="450px">
+    <Flex align="center" direction="column" w="450px" sm={`width: 95vw`}>
       <Header>
         <Text size="20px" color="white">
           Nuevo producto
         </Text>
       </Header>
-      <Flex mt="20px" mb="20px" direction="column" w="400px">
+      <Flex
+        mt="20px"
+        mb="20px"
+        direction="column"
+        w="400px"
+        sm={`width: 100%`}
+        pd="10px"
+      >
         <FormProduct
           action={sendProduct}
           closeModal={closeModal}

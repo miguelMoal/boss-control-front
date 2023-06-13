@@ -35,12 +35,22 @@ import { useModal, useForm } from "@/hooks";
 import { RemoveIcon, EditIcon } from "@/assets/icons";
 
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "30%" },
-  { name: "Marca", id: 2, space: "16%" },
-  { name: "Stock", id: 3, space: "12%" },
-  { name: "Precio compra", id: 4, space: "12%" },
-  { name: "Precio venta", id: 5, space: "12%" },
-  { name: "Acciones", id: 6, space: "18%" },
+  { name: "Nombre", id: 1, space: "30%", sm: `width: 30%; font-size: 14px` },
+  { name: "Marca", id: 2, space: "16%", sm: `display: none` },
+  { name: "Stock", id: 3, space: "12%", sm: `display: none` },
+  {
+    name: "Precio compra",
+    id: 4,
+    space: "12%",
+    sm: `width: 25%; font-size: 14px`,
+  },
+  {
+    name: "Precio venta",
+    id: 5,
+    space: "12%",
+    sm: `width: 25%; font-size: 14px`,
+  },
+  { name: "Acciones", id: 6, space: "18%", sm: `width: 25%; font-size: 14px` },
 ];
 
 const Products = () => {
@@ -123,7 +133,8 @@ const Products = () => {
             backgroundPosition: "100% 0",
           }}
         >
-          Añadir nuevo producto
+          <Text sm={`display: none`}>Añadir nuevo producto</Text>
+          <Text md={`display: none`}>Añadir </Text>
         </CustomButton>
       </Flex>
       <ModalWrapper />
@@ -135,9 +146,16 @@ const Products = () => {
           shadow="0px 4px 8px #161948"
           bg={primaryColor}
           style={{ borderRadius: "5px" }}
+          sm={`overflow-x: scroll`}
         >
-          {headerProducts.map((header) => (
-            <Text w={header.space} weight="bold" color="white">
+          {headerProducts.map((header, index) => (
+            <Text
+              key={header.name + index}
+              w={header.space}
+              weight="bold"
+              color="white"
+              sm={header.sm}
+            >
               {header.name}
             </Text>
           ))}
@@ -146,7 +164,7 @@ const Products = () => {
           direction="column"
           h="calc(100% - 120px)"
           pd="0px"
-          style={{ overflowY: "auto" }}
+          style={{ overflowY: "auto", overflowX: "auto" }}
           className="scroll"
         >
           {productsFiltered?.map((product) => (
