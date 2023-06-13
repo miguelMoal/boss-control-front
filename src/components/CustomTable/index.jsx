@@ -24,8 +24,8 @@ CustomTable.Tbody = ({ children }) => {
   return <TableBody>{children}</TableBody>;
 };
 
-CustomTable.TR = ({ children }) => {
-  return <TableTR>{children}</TableTR>;
+CustomTable.TR = ({ children, bg }) => {
+  return <TableTR bg={bg}>{children}</TableTR>;
 };
 
 CustomTable.TH = ({ children }) => {

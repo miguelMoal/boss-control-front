@@ -11,7 +11,9 @@ export const TableHead = styled.thead`
 
 export const TableBody = styled.tbody``;
 
-export const TableTR = styled.tr``;
+export const TableTR = styled.tr`
+  background: ${({ bg }) => bg || "none"};
+`;
 
 export const TableTH = styled.th`
   text-align: left;
@@ -21,6 +23,6 @@ export const TableTH = styled.th`
 `;
 
 export const TableTD = styled.td`
-  padding-left: 15px;
   color: white;
+  padding-left: 15px;
 `;
