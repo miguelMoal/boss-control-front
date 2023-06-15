@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 //HOC
 import { ProtectedRoute } from "@/HOC";
 
@@ -8,10 +6,9 @@ import {
   CustomButton,
   Flex,
   Search,
-  Text,
-  ItemUser,
   ModalCreateUser,
   HandleStatus,
+  TableAccounts,
 } from "@/components";
 
 //Redux
@@ -26,17 +23,8 @@ import { getSubUsersApi } from "@/connections";
 //Externals
 import { useQuery } from "react-query";
 
-const headerUsers = [
-  { name: "Nombre", id: 1, space: "20%" },
-  { name: "Correo", id: 2, space: "25%" },
-  { name: "Permisos", id: 3, space: "25%" },
-  { name: "Acciones", id: 4, space: "30%" },
-];
-
 const Accounts = () => {
-  const { primaryColor, tertiaryColor, btnPrimary } = useSelector(
-    (state) => state.theme
-  );
+  const { btnPrimary } = useSelector((state) => state.theme);
 
   const { handleChange, formData } = useForm();
 
@@ -56,7 +44,7 @@ const Accounts = () => {
     <Layout>
       <ModalWrapper />
       <Flex align="center" justify="space-between" mb="15px" h="40px">
-        <Search handleChange={handleChange} />
+        <Search handleChange={handleChange} sm={`width: calc(100vw - 170px)`} />
         <CustomButton
           bg={btnPrimary}
           color="white"
@@ -66,36 +54,7 @@ const Accounts = () => {
         </CustomButton>
       </Flex>
       <HandleStatus status={status} data={usersFiltered}>
-        <Flex
-          pd="10px"
-          align="center"
-          h="60px"
-          shadow={`0px 4px 8px ${tertiaryColor}`}
-          bg={primaryColor}
-          style={{ borderRadius: "5px" }}
-        >
-          {headerUsers.map((header, index) => (
-            <Text
-              w={header.space}
-              weight="bold"
-              color="white"
-              key={header.name + index}
-            >
-              {header.name}
-            </Text>
-          ))}
-        </Flex>
-        <Flex
-          className="scroll"
-          direction="column"
-          h="calc(100% - 120px)"
-          pd="0px"
-          style={{ overflowY: "auto" }}
-        >
-          {usersFiltered?.map((subUser) => (
-            <ItemUser user={subUser} />
-          ))}
-        </Flex>
+        <TableAccounts usersFiltered={usersFiltered} />
       </HandleStatus>
     </Layout>
   );

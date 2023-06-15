@@ -1,30 +1,30 @@
-import { Flex, CustomTable, Text } from "@/components";
+import { Flex, CustomTable, Text, CustomButton, Spinner } from "@/components";
 
 //Redux
 import { useSelector } from "react-redux";
 
 //icons
-import { CheckIcon } from "@/assets/icons";
+import { RemoveIcon, EditIcon } from "@/assets/icons";
 
 const headerProducts = [
   { name: "Nombre", id: 1, minWidth: "220px" },
   { name: "Marca", id: 2, minWidth: "130px" },
   { name: "Stock", id: 3, minWidth: "80px" },
-  { name: "Stock Ideal", id: 4, minWidth: "120px" },
-  { name: "Precio Compra", id: 5, minWidth: "150px" },
-  { name: "Faltantes", id: 6, minWidth: "100px" },
-  { name: "Total Reinvercion", id: 7, minWidth: "180px" },
+  { name: "Precio Compra", id: 4, minWidth: "150px" },
+  { name: "Precio Venta", id: 5, minWidth: "150px" },
+  { name: "Acciones", id: 6, minWidth: "150px" },
 ];
 
-const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
-  const { tertiaryColor, error, warning, btnPrimary } = useSelector(
+const TableProducts = ({
+  productsFiltered,
+  loadingDeleteProduct,
+  handleEditProduct,
+  handleDelete,
+  productToDelete,
+}) => {
+  const { tertiaryColor, error, warning, background, success } = useSelector(
     (state) => state.theme
   );
-
-  const resultReinvest = (product) => {
-    const result = getMissingProduct(product) * product.priceBuy;
-    return result.toFixed(2);
-  };
 
   const handleColorBar = (product) => {
     const productAvailable = Number(product.available);
@@ -40,9 +40,7 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
 
   return (
     <Flex
-      sm={`height: calc(100vh - 270px)`}
-      md={`height: calc(100vh - 270px)`}
-      lg={`height: calc(100vh - 220px)`}
+      h="calc(100vh - 160px)"
       style={{ overflow: "auto" }}
       className="scroll"
     >
@@ -53,6 +51,7 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
               <CustomTable.TH
                 key={header.name + index}
                 minWidth={header.minWidth}
+                fixed={header.id == 6}
               >
                 {header.name}
               </CustomTable.TH>
@@ -60,7 +59,7 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
           </CustomTable.TR>
         </CustomTable.Thead>
         <CustomTable.Tbody>
-          {productsSearch?.map((product, index) => (
+          {productsFiltered?.map((product, index) => (
             <CustomTable.TR bg={index % 2 && tertiaryColor}>
               <CustomTable.TD pin={index == 5 && "red"}>
                 <Flex align="center">
@@ -70,31 +69,39 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
                     mr="10px"
                     bg={handleColorBar(product)}
                   ></Flex>
-                  <Flex
-                    h="15px"
-                    w="15px"
-                    mr="10px"
-                    bg={product.checked ? btnPrimary : "gray"}
-                    style={{
-                      borderRadius: "2px",
-                      color: "white",
-                      cursor: "pointer",
-                    }}
-                    align="center"
-                    justify="center"
-                    onClick={() => toggleCheck(product)}
-                  >
-                    <CheckIcon />
-                  </Flex>
                   <Text>{product.name}</Text>
                 </Flex>
               </CustomTable.TD>
               <CustomTable.TD>{product.brand}</CustomTable.TD>
               <CustomTable.TD>{product.available}</CustomTable.TD>
-              <CustomTable.TD>{product.preferenceInStock}</CustomTable.TD>
               <CustomTable.TD>$ {product.priceBuy}</CustomTable.TD>
-              <CustomTable.TD>{getMissingProduct(product)}</CustomTable.TD>
-              <CustomTable.TD>$ {resultReinvest(product)}</CustomTable.TD>
+              <CustomTable.TD>$ {product.priceSale}</CustomTable.TD>
+              <CustomTable.TD
+                fixed={true}
+                bg={index % 2 ? tertiaryColor : background}
+              >
+                <Flex>
+                  <CustomButton
+                    pd="0px"
+                    color={warning}
+                    onClick={() => handleEditProduct(product)}
+                  >
+                    <EditIcon />
+                  </CustomButton>
+                  <CustomButton
+                    ml="20px"
+                    pd="0px"
+                    color={error}
+                    onClick={() => handleDelete(product._id)}
+                  >
+                    {loadingDeleteProduct && productToDelete == product._id ? (
+                      <Spinner color={error} size="25" />
+                    ) : (
+                      <RemoveIcon />
+                    )}
+                  </CustomButton>
+                </Flex>
+              </CustomTable.TD>
             </CustomTable.TR>
           ))}
         </CustomTable.Tbody>
@@ -102,4 +109,4 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
     </Flex>
   );
 };
-export default TableReinvest;
+export default TableProducts;

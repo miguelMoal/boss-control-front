@@ -8,7 +8,6 @@ import {
   Text,
   Search,
   HandleStatus,
-  ItemReinvest,
   CustomButton,
   CustomInput,
   TableReinvest,
@@ -22,7 +21,7 @@ import { getProductsApi } from "@/connections";
 //Redux
 import { useSelector } from "react-redux";
 //Hooks
-import { useModal, useForm } from "@/hooks";
+import { useForm } from "@/hooks";
 //icons
 import { CheckIcon } from "@/assets/icons";
 
@@ -116,11 +115,16 @@ const Reinvest = () => {
           mb="25px"
           h="40px"
           justify="space-between"
-          direction="column"
-          sm={`height: 90px`}
+          direction="row"
+          sm={`height: 90px; flex-direction: column`}
+          md={`height: 90px; flex-direction: column`}
         >
-          <Search handleChange={handleChange} sm={`width: 100%`} />
-          <Flex gap="10px" mt="10px">
+          <Search
+            handleChange={handleChange}
+            sm={`width: 100%`}
+            md={`width: 100%`}
+          />
+          <Flex gap="10px" w="350px" sm={`width: 100%`} md={`width: 100%`}>
             <CustomButton
               borderColor={warning}
               color="white"
@@ -137,18 +141,33 @@ const Reinvest = () => {
             >
               <CheckIcon />
             </CustomButton>
-            <Flex gap="10px" align="center" direction="column">
+            <Flex
+              gap="10px"
+              align="center"
+              direction="column"
+              style={{ position: "relative" }}
+            >
               <CustomInput
                 placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
-                w="100%"
                 name="budget"
                 onChange={handleChange}
                 type="number"
                 min={0}
+                w="180px"
+                sm={`width: 100%`}
+                md={`width: 100%`}
               />
               {formData?.budget > 0 && (
-                <Flex direction="column" bg="#ebebeb" h="10px" w="100%">
+                <Flex
+                  direction="column"
+                  bg="#ebebeb"
+                  h="10px"
+                  w="180px"
+                  sm={`width: 100%`}
+                  md={`width: 100%`}
+                  style={{ position: "absolute", bottom: "-15px" }}
+                >
                   <Flex
                     bg={investmentBudget() > 100 ? error : primaryColor}
                     w={`${

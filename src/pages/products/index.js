@@ -6,7 +6,6 @@ import { ProtectedRoute } from "@/HOC";
 //components
 import {
   Layout,
-  ItemProduct,
   Flex,
   Text,
   CustomButton,
@@ -15,7 +14,7 @@ import {
   HandleStatus,
   ModalEditProduct,
   ModalRemove,
-  Spinner,
+  TableProducts,
 } from "@/components";
 import { useToastContext } from "@/components/Toast";
 
@@ -31,34 +30,10 @@ import { useSelector } from "react-redux";
 //Hooks
 import { useModal, useForm } from "@/hooks";
 
-//icons
-import { RemoveIcon, EditIcon } from "@/assets/icons";
-
-const headerProducts = [
-  { name: "Nombre", id: 1, space: "30%", sm: `width: 30%; font-size: 14px` },
-  { name: "Marca", id: 2, space: "16%", sm: `display: none` },
-  { name: "Stock", id: 3, space: "12%", sm: `display: none` },
-  {
-    name: "Precio compra",
-    id: 4,
-    space: "12%",
-    sm: `width: 25%; font-size: 14px`,
-  },
-  {
-    name: "Precio venta",
-    id: 5,
-    space: "12%",
-    sm: `width: 25%; font-size: 14px`,
-  },
-  { name: "Acciones", id: 6, space: "18%", sm: `width: 25%; font-size: 14px` },
-];
-
 const Products = () => {
   const [productToDelete, setProductToDelete] = useState(null);
 
-  const { primaryColor, error, btnPrimary, warning } = useSelector(
-    (state) => state.theme
-  );
+  const { btnPrimary } = useSelector((state) => state.theme);
 
   const { data: products, status } = useQuery(["products"], getProductsApi);
   const { mutate: deleteProduct, isLoading: loadingDeleteProduct } =
@@ -134,63 +109,25 @@ const Products = () => {
           }}
         >
           <Text sm={`display: none`}>Añadir nuevo producto</Text>
-          <Text md={`display: none`}>Añadir </Text>
+          <Text
+            md={`display: none`}
+            xl={`display: none`}
+            xxl={`display: none`}
+            bigger={`display: none`}
+          >
+            Añadir
+          </Text>
         </CustomButton>
       </Flex>
       <ModalWrapper />
       <HandleStatus status={status} data={productsFiltered}>
-        <Flex
-          pd="10px"
-          align="center"
-          h="60px"
-          shadow="0px 4px 8px #161948"
-          bg={primaryColor}
-          style={{ borderRadius: "5px" }}
-          sm={`overflow-x: scroll`}
-        >
-          {headerProducts.map((header, index) => (
-            <Text
-              key={header.name + index}
-              w={header.space}
-              weight="bold"
-              color="white"
-              sm={header.sm}
-            >
-              {header.name}
-            </Text>
-          ))}
-        </Flex>
-        <Flex
-          direction="column"
-          h="calc(100% - 120px)"
-          pd="0px"
-          style={{ overflowY: "auto", overflowX: "auto" }}
-          className="scroll"
-        >
-          {productsFiltered?.map((product) => (
-            <ItemProduct product={product} key={product._id}>
-              <CustomButton
-                pd="0px"
-                color={warning}
-                onClick={() => handleEditProduct(product)}
-              >
-                <EditIcon />
-              </CustomButton>
-              <CustomButton
-                ml="20px"
-                pd="0px"
-                color={error}
-                onClick={() => handleDelete(product._id)}
-              >
-                {loadingDeleteProduct && productToDelete == product._id ? (
-                  <Spinner color={error} size="25" />
-                ) : (
-                  <RemoveIcon />
-                )}
-              </CustomButton>
-            </ItemProduct>
-          ))}
-        </Flex>
+        <TableProducts
+          productsFiltered={productsFiltered}
+          loadingDeleteProduct={loadingDeleteProduct}
+          handleEditProduct={handleEditProduct}
+          handleDelete={handleDelete}
+          productToDelete={productToDelete}
+        />
       </HandleStatus>
     </Layout>
   );

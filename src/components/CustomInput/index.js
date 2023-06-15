@@ -16,6 +16,30 @@ const CustomInput = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media (max-width: 575px) {
+    ${({ sm }) => sm}
+  }
+
+  @media (min-width: 576px) and (max-width: 767px) {
+    ${({ md }) => md}
+  }
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    ${({ lg }) => lg}
+  }
+
+  @media (min-width: 992px) and (max-width: 1199px) {
+    ${({ xl }) => xl}
+  }
+
+  @media (min-width: 1200px) {
+    ${({ xxl }) => xxl}
+  }
+
+  @media (min-width: 1400px) {
+    ${({ bigger }) => bigger}
+  }
 `;
 
 export default CustomInput;

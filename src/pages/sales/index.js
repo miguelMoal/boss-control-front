@@ -15,8 +15,8 @@ import {
   ItemTicket,
   ModalSaleProduct,
   ModalErrorSale,
-  ItemProductSale,
   ModalTicket,
+  TableProductSale,
 } from "@/components";
 //conections
 import { getProductsApi } from "@/connections";
@@ -27,24 +27,6 @@ import { useQuery } from "react-query";
 
 //Icons
 import { AddIcon, StopIcon } from "@/assets/icons";
-
-const headerProducts = [
-  { name: "Nombre", id: 1, space: "35%", sm: `flex:3` },
-  {
-    name: "Marca",
-    id: 2,
-    space: "15%",
-    sm: `display: none`,
-  },
-  {
-    name: "Stock",
-    id: 3,
-    space: "15%",
-    sm: `display: none`,
-  },
-  { name: "Precio", id: 4, space: "15%", sm: `flex:2` },
-  { name: "Acciones", id: 5, space: "20%", sm: `flex:1` },
-];
 
 const headerProductsTicket = [
   { name: "ELIM", id: 1, space: "45px", direction: "flex-start" },
@@ -221,41 +203,11 @@ const Sales = () => {
           : "No hay productos en el ticket"}
       </Text>
       <HandleStatus status={status} data={productsFiltered}>
-        <Flex gap="20px" sm={`width: 100%`}>
-          <Flex direction="column" xxl={`width: 60%`}>
-            <Flex
-              pd="10px"
-              align="center"
-              h="60px"
-              shadow={`0px 4px 8px ${tertiaryColor}`}
-              bg={primaryColor}
-              style={{ borderRadius: "5px" }}
-            >
-              {headerProducts.map((header) => (
-                <Text
-                  w={header.space}
-                  weight="bold"
-                  color="white"
-                  sm={header.sm}
-                >
-                  {header.name}
-                </Text>
-              ))}
-            </Flex>
-            <Flex
-              direction="column"
-              pd="0px"
-              h="calc(100vh - 220px)"
-              style={{ overflowY: "auto" }}
-              className="scroll"
-            >
-              {productsFiltered?.map((product) => (
-                <ItemProductSale product={product}>
-                  {soludOut(product)}
-                </ItemProductSale>
-              ))}
-            </Flex>
-          </Flex>
+        <Flex gap="10px" sm={`width: 100%`}>
+          <TableProductSale
+            productsFiltered={productsFiltered}
+            handleAddToTicket={handleAddToTicket}
+          />
           <Flex
             w="40%"
             direction="column"
@@ -293,6 +245,7 @@ const Sales = () => {
               h="calc(100vh - 380px)"
               style={{ overflowY: "auto" }}
               xxl={`height: calc(100vh - 360px)`}
+              w="450px"
             >
               {ticket.map((product) => (
                 <ItemTicket

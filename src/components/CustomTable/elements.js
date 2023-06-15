@@ -4,7 +4,6 @@ const tdFixed = css`
   color: white;
   padding-left: 15px;
   &:last-child {
-    background-color: red;
     position: sticky;
     right: 0;
   }
@@ -23,8 +22,6 @@ const thFixed = css`
   height: 10px;
   line-height: 1;
   &:last-child {
-    /* Estilos para filas cada 3 elementos */
-    background-color: red;
     position: sticky;
     right: 0;
   }
@@ -51,10 +48,7 @@ export const TableHead = styled.thead`
   z-index: 1;
 `;
 
-export const TableBody = styled.tbody`
-  height: 400px;
-  overflow-y: auto;
-`;
+export const TableBody = styled.tbody``;
 
 export const TableTR = styled.tr`
   background: ${({ bg }) => bg || "none"};
@@ -63,10 +57,12 @@ export const TableTR = styled.tr`
 `;
 
 export const TableTH = styled.th`
+  background: ${({ bg }) => bg || "none"};
   min-width: ${({ minWidth }) => minWidth || "auto"};
   ${({ fixed }) => (fixed ? thFixed : thBasic)}
 `;
 
 export const TableTD = styled.td`
+  background: ${({ bg }) => bg || "none"};
   ${({ fixed }) => (fixed ? tdFixed : tdBasic)}
 `;

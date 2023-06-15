@@ -9,7 +9,7 @@ import { SearchIcon } from "@/assets/icons";
 //Redux
 import { useSelector } from "react-redux";
 
-const Search = ({ handleChange, sm = `width: calc(100% - 110px)` }) => {
+const Search = ({ handleChange, sm = `width: calc(100% - 110px)`, md }) => {
   const { secondaryColor } = useSelector(({ theme }) => theme);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -34,6 +34,7 @@ const Search = ({ handleChange, sm = `width: calc(100% - 110px)` }) => {
       onBlur={handleBlur}
       color={"#5A6066"}
       sm={sm}
+      md={md}
     >
       <SearchIcon size="20px" />
       <CustomInput

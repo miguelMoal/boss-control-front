@@ -29,15 +29,20 @@ CustomTable.TR = ({ children, bg }) => {
 };
 
 CustomTable.TH = ({ children, fixed, minWidth }) => {
+  const { primaryColor } = useSelector(({ theme }) => theme);
   return (
-    <TableTH fixed={fixed} minWidth={minWidth}>
+    <TableTH fixed={fixed} minWidth={minWidth} bg={primaryColor}>
       {children}
     </TableTH>
   );
 };
 
-CustomTable.TD = ({ children, fixed }) => {
-  return <TableTD fixed={fixed}>{children}</TableTD>;
+CustomTable.TD = ({ children, fixed, bg }) => {
+  return (
+    <TableTD fixed={fixed} bg={bg}>
+      {children}
+    </TableTD>
+  );
 };
 
 export default CustomTable;
