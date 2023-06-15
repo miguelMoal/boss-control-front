@@ -136,3 +136,14 @@ a {
   background: #363756;
   border-radius: 9px;
 }
+
+table,
+th,
+td {
+  /* Estilos por defecto para table, th, y td */
+  /* Por ejemplo, si deseas quitar todos los estilos y dejarlos en blanco: */
+  margin: 0;
+  padding: 0;
+  border: none;
+  /* Otros estilos que desees quitar */
+}

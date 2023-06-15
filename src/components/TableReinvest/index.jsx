@@ -7,13 +7,13 @@ import { useSelector } from "react-redux";
 import { CheckIcon } from "@/assets/icons";
 
 const headerProducts = [
-  { name: "Nombre", id: 1, space: "27%" },
-  { name: "Marca", id: 2, space: "13%" },
-  { name: "Stock", id: 3, space: "10%" },
-  { name: "Stock Ideal", id: 4, space: "10%" },
-  { name: "Precio Compra", id: 5, space: "15%" },
-  { name: "Faltantes", id: 6, space: "10%" },
-  { name: "Total Reinvercion", id: 7, space: "15%" },
+  { name: "Nombre", id: 1, minWidth: "200px" },
+  { name: "Marca", id: 2, minWidth: "100px" },
+  { name: "Stock", id: 3, minWidth: "100px" },
+  { name: "Stock Ideal", id: 4, minWidth: "150px" },
+  { name: "Precio Compra", id: 5, minWidth: "150px" },
+  { name: "Faltantes", id: 6, minWidth: "120px" },
+  { name: "Total Reinvercion", id: 7, minWidth: "180px" },
 ];
 
 const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
@@ -40,12 +40,15 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
   };
 
   return (
-    <Flex>
+    <Flex sm={`height: calc(100vh - 270px)`} style={{ overflow: "auto" }}>
       <CustomTable>
         <CustomTable.Thead>
           <CustomTable.TR>
             {headerProducts?.map((header, index) => (
-              <CustomTable.TH key={header.name + index}>
+              <CustomTable.TH
+                key={header.name + index}
+                minWidth={header.minWidth}
+              >
                 {header.name}
               </CustomTable.TH>
             ))}
@@ -54,14 +57,13 @@ const TableReinvest = ({ productsSearch, getMissingProduct, toggleCheck }) => {
         <CustomTable.Tbody>
           {productsSearch?.map((product, index) => (
             <CustomTable.TR bg={index % 2 && tertiaryColor}>
-              <CustomTable.TD>
-                <Flex h="55px" align="center">
+              <CustomTable.TD pin={index == 5 && "red"}>
+                <Flex align="center">
                   <Flex w="10px" h="100%" bg={handleColorBar()}></Flex>
-                  <Flex gap="10px" align="center">
+                  <Flex align="center">
                     <Flex
                       h="15px"
                       w="15px"
-                      ml="10px"
                       bg={product.checked ? btnPrimary : "gray"}
                       style={{
                         borderRadius: "2px",

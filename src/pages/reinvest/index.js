@@ -26,16 +26,6 @@ import { useModal, useForm } from "@/hooks";
 //icons
 import { CheckIcon } from "@/assets/icons";
 
-const headerProducts = [
-  { name: "Nombre", id: 1, space: "27%" },
-  { name: "Marca", id: 2, space: "13%" },
-  { name: "Stock", id: 3, space: "10%" },
-  { name: "Stock Ideal", id: 4, space: "10%" },
-  { name: "Precio Compra", id: 5, space: "15%" },
-  { name: "Faltantes", id: 6, space: "10%" },
-  { name: "Total Reinvercion", id: 7, space: "15%" },
-];
-
 const Reinvest = () => {
   const { primaryColor, warning, error, btnWarning, btnDanger } = useSelector(
     (state) => state.theme
@@ -121,9 +111,16 @@ const Reinvest = () => {
   return (
     <Layout>
       <HandleStatus status={status} data={productsFiltered}>
-        <Flex align="center" mb="15px" h="40px" justify="space-between">
-          <Search handleChange={handleChange} />
-          <Flex w="fit-content" gap="10px">
+        <Flex
+          align="center"
+          mb="25px"
+          h="40px"
+          justify="space-between"
+          direction="column"
+          sm={`height: 90px`}
+        >
+          <Search handleChange={handleChange} sm={`width: 100%`} />
+          <Flex gap="10px" mt="10px">
             <CustomButton
               borderColor={warning}
               color="white"
@@ -140,18 +137,18 @@ const Reinvest = () => {
             >
               <CheckIcon />
             </CustomButton>
-            <Flex gap="10px" align="center">
+            <Flex gap="10px" align="center" direction="column">
               <CustomInput
                 placeholder="$Presupuesto"
                 border="1px solid #ebebeb"
-                w="140px"
+                w="100%"
                 name="budget"
                 onChange={handleChange}
                 type="number"
                 min={0}
               />
               {formData?.budget > 0 && (
-                <Flex direction="column" bg="#ebebeb" h="10px" w="200px">
+                <Flex direction="column" bg="#ebebeb" h="10px" w="100%">
                   <Flex
                     bg={investmentBudget() > 100 ? error : primaryColor}
                     w={`${

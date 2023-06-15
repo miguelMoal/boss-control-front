@@ -20,20 +20,24 @@ CustomTable.Thead = ({ children }) => {
   return <TableHead bg={primaryColor}>{children}</TableHead>;
 };
 
-CustomTable.Tbody = ({ children }) => {
-  return <TableBody>{children}</TableBody>;
+CustomTable.Tbody = ({ children, h }) => {
+  return <TableBody h={h}>{children}</TableBody>;
 };
 
 CustomTable.TR = ({ children, bg }) => {
   return <TableTR bg={bg}>{children}</TableTR>;
 };
 
-CustomTable.TH = ({ children }) => {
-  return <TableTH>{children}</TableTH>;
+CustomTable.TH = ({ children, fixed, minWidth }) => {
+  return (
+    <TableTH fixed={fixed} minWidth={minWidth}>
+      {children}
+    </TableTH>
+  );
 };
 
-CustomTable.TD = ({ children }) => {
-  return <TableTD>{children}</TableTD>;
+CustomTable.TD = ({ children, fixed }) => {
+  return <TableTD fixed={fixed}>{children}</TableTD>;
 };
 
 export default CustomTable;
