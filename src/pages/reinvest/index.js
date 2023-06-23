@@ -26,7 +26,7 @@ import { useForm } from "@/hooks";
 import { CheckIcon } from "@/assets/icons";
 
 const Reinvest = () => {
-  const { primaryColor, warning, error, btnWarning, btnDanger } = useSelector(
+  const { warning, error, btnWarning, btnDanger, btnSuccess } = useSelector(
     (state) => state.theme
   );
 
@@ -169,7 +169,7 @@ const Reinvest = () => {
                   style={{ position: "absolute", bottom: "-15px" }}
                 >
                   <Flex
-                    bg={investmentBudget() > 100 ? error : primaryColor}
+                    bg={investmentBudget() > 100 ? error : btnSuccess}
                     w={`${
                       investmentBudget() > 100 ? 100 : investmentBudget()
                     }%`}
