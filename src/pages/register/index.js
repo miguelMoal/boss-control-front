@@ -97,11 +97,10 @@ const Register = () => {
   return (
     <LayoutBoarding>
       <Flex
-        direction="column"
-        w="100vw"
-        h="100vh"
-        align="center"
         justify="center"
+        mt="50px"
+        pd="20px 0px"
+        style={{ minHeight: "calc(100vh - 165px)" }}
       >
         <Flex
           direction="column"

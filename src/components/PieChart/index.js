@@ -14,7 +14,7 @@ const PieChart = ({ data, series, width = 500, height = 300 }) => {
   const options = {
     colors: [error, secondaryColor, "#ff8d72", success, warning],
     legend: {
-      position: "right",
+      position: "bottom",
       labels: {
         colors: "white", // Cambiar el color de los elementos de leyenda
       },

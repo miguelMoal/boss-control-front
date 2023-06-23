@@ -11,6 +11,7 @@ import {
   Modal,
   DropDown,
   ModalDetailsSub,
+  MenuDrawer,
 } from "@/components";
 //Elements
 import { NavBar, SideBar, ChildrenContainer, Content } from "./elements";
@@ -23,6 +24,7 @@ import {
   AccountsIcon,
   SaleIcon,
   HistoryIcon,
+  MenuIcon,
 } from "@/assets/icons";
 
 //Hooks
@@ -82,6 +84,7 @@ const Layout = ({ children }) => {
 
   const [mounted, setMounted] = useState(false);
   const [showModalSub, setShowModalSub] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   const { showModal, closeModal, ModalWrapper } = useModal();
 
@@ -137,6 +140,10 @@ const Layout = ({ children }) => {
     val == "close" && closeSesion();
   };
 
+  const closeMenu = () => {
+    setShowMenu(false);
+  };
+
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
       <ModalWrapper />
@@ -144,7 +151,19 @@ const Layout = ({ children }) => {
         <ModalSubscribe />
       </Modal>
       <NavBar>
-        <Flex w="fit-content" align="center" gap="20px">
+        <Flex justify="space-between" align="center" gap="20px">
+          <Flex w="fit-content">
+            <Flex
+              color="white"
+              onClick={() => setShowMenu(true)}
+              display="none"
+              sm={`display: flex`}
+              md={`display: flex`}
+              lg={`display: flex`}
+            >
+              <MenuIcon />
+            </Flex>
+          </Flex>
           <DropDown
             title={infoU?.name || ""}
             options={options}
@@ -191,6 +210,12 @@ const Layout = ({ children }) => {
         </SideBar>
         <ChildrenContainer>{children}</ChildrenContainer>
       </Content>
+      <MenuDrawer
+        sections={sections}
+        isOpen={showMenu}
+        selectSection={selectSection}
+        closeMenu={closeMenu}
+      />
     </Flex>
   );
 };

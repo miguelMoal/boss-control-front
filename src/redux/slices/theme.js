@@ -13,7 +13,7 @@ const themeSlice = createSlice({
     btnPrimary: "linear-gradient(to bottom left,#1d8cf8,#3358f4,#1d8cf8)",
     btnDanger: "linear-gradient(to bottom left,#fd5d93,#ec250d,#fd5d93)",
     btnWarning: "linear-gradient(to bottom left,#ff8d72,#ff6491,#ff8d72)",
-    btnSuccess: "linear-gradient(to bottom left,#00f2c3,#0098f0,#00f2c3)",
+    btnSuccess: "linear-gradient(to bottom left,#00f2c3,#0098f0,#1FB396)",
     btnDefault: "linear-gradient(to bottom left,#344675,#313C53,#344675)",
     gray: "#5A6066",
   },

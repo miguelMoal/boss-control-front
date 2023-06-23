@@ -72,11 +72,10 @@ export default function Home() {
   return (
     <LayoutBoarding>
       <Flex
-        h="100vh"
-        w="100vw"
         justify="center"
-        align="center"
-        style={{ zIndex: 10 }}
+        mt="50px"
+        pd="20px 0px"
+        style={{ minHeight: "calc(100vh - 165px)" }}
       >
         <Flex
           pd="20px"

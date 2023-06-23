@@ -38,3 +38,5 @@ export { default as TableReinvest } from "./TableReinvest";
 export { default as TableProducts } from "./TableProducts";
 export { default as TableProductSale } from "./TableProductSale";
 export { default as TableAccounts } from "./TableAccounts";
+export { default as ItemAnalitycs } from "./ItemAnalitycs";
+export { default as MenuDrawer } from "./MenuDrawer";

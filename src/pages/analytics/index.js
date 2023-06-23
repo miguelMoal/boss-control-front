@@ -11,6 +11,7 @@ import {
   Text,
   CardContainer,
   CustomButton,
+  ItemAnalitycs,
 } from "@/components";
 
 //Redux
@@ -37,7 +38,16 @@ import {
 import { useQuery } from "react-query";
 
 const Analytics = () => {
-  const { primaryColor, success } = useSelector((state) => state.theme);
+  const {
+    primaryColor,
+    btnPrimary,
+    secondaryColor,
+    btnWarning,
+    warning,
+    error,
+    btnSuccess,
+    success,
+  } = useSelector((state) => state.theme);
 
   const { data: infoPeriods } = useQuery("info-periods", getInfoPeriods);
   const { data: invest } = useQuery("invest", getTotalInvestApi);
@@ -50,149 +60,223 @@ const Analytics = () => {
 
   return (
     <Layout>
-      <Flex gap="10px" direction="column">
+      <Flex
+        h="100vh"
+        gap="10px"
+        direction="column"
+        style={{ overflowY: "auto", overflowX: "hidden" }}
+        className="scroll"
+      >
         <Flex gap="10pc">
           <CardContainer pd="20px">
-            <Flex>
-              <Flex color={success} direction="column" align="center">
-                <Text mb="10px">inverción total</Text>
-                <DollarIcon size="40px" />
-                <Text mt="10px" size="25px" weight="bold">
-                  {invest?.total}
-                </Text>
-              </Flex>
-              <Flex color={"#008FFB"} direction="column" align="center">
-                <Text mb="10px">Utilidad esperadas</Text>
-                <EarningsIcon size="40px" />
-                <Text mt="10px" size="25px" weight="bold">
-                  {invest?.totalProfits}
-                </Text>
-              </Flex>
-              <Flex color={primaryColor} direction="column" align="center">
-                <Text mb="10px">Variedad de productos</Text>
-                <ObjectsIcon size="40px" />
-                <Text mt="10px" size="25px" weight="bold">
-                  {totalProducts}
-                </Text>
-              </Flex>
+            <Flex
+              direction="column"
+              gap="10px"
+              xl={`flex-direction: row`}
+              xxl={`flex-direction: row`}
+              bigger={`flex-direction: row`}
+            >
+              <ItemAnalitycs
+                textColor={"white"}
+                title={"inverción total"}
+                value={invest?.total}
+                icon={<DollarIcon size="100%" />}
+                bg={btnPrimary}
+                iconBg={secondaryColor}
+              />
+              <ItemAnalitycs
+                textColor={"white"}
+                title={"Utilidad esperadas"}
+                value={invest?.totalProfits}
+                icon={<EarningsIcon size="100%" />}
+                bg={btnWarning}
+                iconBg={error}
+              />
+              <ItemAnalitycs
+                textColor={"white"}
+                title={"Variedad de productos"}
+                value={totalProducts}
+                icon={<ObjectsIcon size="100%" />}
+                bg={btnSuccess}
+                iconBg={success}
+              />
             </Flex>
           </CardContainer>
         </Flex>
-        <Flex gap="10px">
-          <CardContainer
-            align="center"
-            h="100px"
-            direction="column"
-            pd="10px 15px"
-          >
-            <Text>
-              Ventas hoy
-              <span style={{ size: "14px", color: success }}> / utilidad</span>
+        <Flex gap="10px" direction="column">
+          <Flex justify="center">
+            <Text size="30px" weight="bold">
+              Ventas
             </Text>
-            <Flex align="center" justify="center">
-              <Text size="22px" mt="10px" weight="bold">
-                $ {infoPeriods?.salesToday.totalSales}
-                <span style={{ size: "12px", color: success }}>
-                  {" "}
-                  / ${" "}
-                  {infoPeriods?.salesToday.totalSales ||
-                    0 - infoPeriods?.salesToday.totalPrice ||
-                    0}
-                </span>
-              </Text>
-            </Flex>
-          </CardContainer>
-          <CardContainer
-            align="center"
-            h="100px"
+          </Flex>
+          <Flex
             direction="column"
-            pd="10px 15px"
+            xxl={`flex-direction: row`}
+            bigger={`flex-direction: row`}
           >
-            <Text>
-              Ventas últimos 7 días
-              <span style={{ size: "14px", color: success }}> / utilidad</span>
-            </Text>
-            <Flex align="center" justify="center">
-              <Text size="22px" mt="10px" weight="bold">
-                $ {infoPeriods?.salesLast7Days.totalSales}
-                <span style={{ size: "14px", color: success }}>
-                  {" "}
-                  / ${" "}
-                  {infoPeriods?.salesLast7Days.totalSales ||
-                    0 - infoPeriods?.salesLast7Days.totalPrice ||
-                    0}
-                </span>
-              </Text>
+            <Flex
+              direction="column"
+              xl={`flex-direction: row`}
+              xxl={`flex-direction: row`}
+              bigger={`flex-direction: row`}
+            >
+              <CardContainer
+                align="center"
+                h="100px"
+                direction="column"
+                pd="10px 15px"
+              >
+                <Text>
+                  Hoy
+                  <span style={{ size: "14px", color: success }}>
+                    {" "}
+                    / utilidad
+                  </span>
+                </Text>
+                <Flex align="center" justify="center">
+                  <Text size="22px" mt="10px" weight="bold">
+                    $ {infoPeriods?.salesToday.totalSales}
+                    <span style={{ size: "12px", color: success }}>
+                      {" "}
+                      / ${" "}
+                      {infoPeriods?.salesToday.totalSales ||
+                        0 - infoPeriods?.salesToday.totalPrice ||
+                        0}
+                    </span>
+                  </Text>
+                </Flex>
+              </CardContainer>
+              <CardContainer
+                align="center"
+                h="100px"
+                direction="column"
+                pd="10px 15px"
+              >
+                <Text>
+                  Últimos 7 días
+                  <span style={{ size: "14px", color: success }}>
+                    {" "}
+                    / utilidad
+                  </span>
+                </Text>
+                <Flex align="center" justify="center">
+                  <Text size="22px" mt="10px" weight="bold">
+                    $ {infoPeriods?.salesLast7Days.totalSales}
+                    <span style={{ size: "14px", color: success }}>
+                      {" "}
+                      / ${" "}
+                      {infoPeriods?.salesLast7Days.totalSales ||
+                        0 - infoPeriods?.salesLast7Days.totalPrice ||
+                        0}
+                    </span>
+                  </Text>
+                </Flex>
+              </CardContainer>
             </Flex>
-          </CardContainer>
-          <CardContainer
-            align="center"
-            h="100px"
-            direction="column"
-            pd="10px 15px"
-          >
-            <Text>
-              Ventas últimos 30 días
-              <span style={{ size: "14px", color: success }}> / utilidad</span>
-            </Text>
-            <Flex align="center" justify="center">
-              <Text size="22px" mt="10px" weight="bold">
-                $ {infoPeriods?.salesLast30Days.totalSales}
-                <span style={{ size: "14px", color: success }}>
-                  {" "}
-                  / ${" "}
-                  {infoPeriods?.salesLast30Days.totalSales ||
-                    0 - infoPeriods?.salesLast30Days.totalPrice ||
-                    0}
-                </span>
-              </Text>
+            <Flex
+              direction="column"
+              xl={`flex-direction: row`}
+              xxl={`flex-direction: row`}
+              bigger={`flex-direction: row`}
+            >
+              <CardContainer
+                align="center"
+                h="100px"
+                direction="column"
+                pd="10px 15px"
+              >
+                <Text>
+                  Últimos 30 días
+                  <span style={{ size: "14px", color: success }}>
+                    {" "}
+                    / utilidad
+                  </span>
+                </Text>
+                <Flex align="center" justify="center">
+                  <Text size="22px" mt="10px" weight="bold">
+                    $ {infoPeriods?.salesLast30Days.totalSales}
+                    <span style={{ size: "14px", color: success }}>
+                      {" "}
+                      / ${" "}
+                      {infoPeriods?.salesLast30Days.totalSales ||
+                        0 - infoPeriods?.salesLast30Days.totalPrice ||
+                        0}
+                    </span>
+                  </Text>
+                </Flex>
+              </CardContainer>
+              <CardContainer
+                align="center"
+                h="100px"
+                direction="column"
+                pd="10px 15px"
+              >
+                <Text>
+                  Últimos 365 días
+                  <span style={{ size: "14px", color: success }}>
+                    {" "}
+                    / utilidad
+                  </span>
+                </Text>
+                <Flex align="center" justify="center">
+                  <Text size="22px" mt="10px" weight="bold">
+                    $ {infoPeriods?.salesLastYear.totalSales}
+                    <span style={{ size: "14px", color: success }}>
+                      {" "}
+                      / ${" "}
+                      {infoPeriods?.salesLastYear.totalSales ||
+                        0 - infoPeriods?.salesLastYear.totalPrice ||
+                        0}
+                    </span>
+                  </Text>
+                </Flex>
+              </CardContainer>
             </Flex>
-          </CardContainer>
-          <CardContainer
-            align="center"
-            h="100px"
-            direction="column"
-            pd="10px 15px"
-          >
-            <Text>
-              Ventas últimos 365 días
-              <span style={{ size: "14px", color: success }}> / utilidad</span>
-            </Text>
-            <Flex align="center" justify="center">
-              <Text size="22px" mt="10px" weight="bold">
-                $ {infoPeriods?.salesLastYear.totalSales}
-                <span style={{ size: "14px", color: success }}>
-                  {" "}
-                  / ${" "}
-                  {infoPeriods?.salesLastYear.totalSales ||
-                    0 - infoPeriods?.salesLastYear.totalPrice ||
-                    0}
-                </span>
-              </Text>
-            </Flex>
-          </CardContainer>
+          </Flex>
         </Flex>
-        <Flex gap="10px">
-          <CardContainer direction="column" pd="20px" h="380px">
+        <Flex
+          gap="10px"
+          direction="column"
+          h="800px"
+          xl={`flex-direction: row`}
+          xxl={`flex-direction: row`}
+          bigger={`flex-direction: row`}
+          mb="10px"
+        >
+          <CardContainer
+            direction="column"
+            pd="20px"
+            h="380px"
+            align="center"
+            xl={`width: 50%`}
+            xxl={`width: 50%`}
+            bigger={`width: 50%`}
+            style={{ overflowX: "auto" }}
+          >
             <Text size="20px">Ventas última semana</Text>
             <BarChart
               data={weeklySales?.data || []}
               categories={weeklySales?.categories || []}
+              height={290}
             />
           </CardContainer>
           <CardContainer
             direction="column"
             pd="20px"
-            h="380px"
-            justify="space-between"
+            align="center"
+            xl={`width: 50%`}
+            xxl={`width: 50%`}
+            bigger={`width: 50%`}
           >
-            <Text size="20px">Productos más vendidos</Text>
-            <Flex mb="20px" justify="center">
-              <PieChart
-                data={top?.names || []}
-                series={top?.quantities || []}
-                height={320}
-              />
+            <Flex direction="column" h="390px" w="100%">
+              <Text size="20px">Productos más vendidos</Text>
+              <Flex justify="center">
+                <PieChart
+                  data={top?.names || []}
+                  series={top?.quantities || []}
+                  height={310}
+                />
+              </Flex>
             </Flex>
           </CardContainer>
         </Flex>
