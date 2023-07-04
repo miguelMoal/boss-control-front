@@ -135,55 +135,6 @@ const Sales = () => {
     setTicket([]);
   };
 
-  const soludOut = (product) => {
-    const productAvailable = Number(product.available);
-    if (productAvailable == 0) {
-      return (
-        <CustomButton
-          color={error}
-          pd={"0px 14px"}
-          borderColor={error}
-          sm={`padding: 0px 5px; border:none`}
-          md={`padding: 0px 15px; border:none`}
-        >
-          <Text sm={`display: none`} md={`display: none`}>
-            Agotado
-          </Text>
-          <Flex
-            color={error}
-            lg={`display: none`}
-            xl={`display: none`}
-            xxl={`display: none`}
-          >
-            <StopIcon />
-          </Flex>
-        </CustomButton>
-      );
-    } else {
-      return (
-        <CustomButton
-          onClick={() => handleAddToTicket(product)}
-          borderColor={success}
-          sm={`padding: 0px 5px; border:none`}
-          md={`padding: 0px 15px; border:none`}
-        >
-          <Text sm={`display: none`} md={`display: none`}>
-            Añadir
-          </Text>
-          <Flex
-            w="100%"
-            color={success}
-            lg={`display: none`}
-            xl={`display: none`}
-            xxl={`display: none`}
-          >
-            <AddIcon />
-          </Flex>
-        </CustomButton>
-      );
-    }
-  };
-
   return (
     <Layout>
       <ModalWrapper />

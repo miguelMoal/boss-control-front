@@ -1,8 +1,22 @@
 //Components
-import { Flex, ItemTicket, Header, Text, CustomButton } from "@/components";
+import {
+  Flex,
+  ItemTicket,
+  Header,
+  Text,
+  CustomButton,
+  Spinner,
+} from "@/components";
+import { useToastContext } from "@/components/Toast";
 
 //Redux
 import { useSelector } from "react-redux";
+
+//connections
+import { sendTicketApi } from "@/connections";
+
+//externals
+import { useMutation, useQueryClient } from "react-query";
 
 const ModalTicket = ({
   ticket,
@@ -15,9 +29,46 @@ const ModalTicket = ({
     ({ theme }) => theme
   );
 
+  const { mutate: saleTicket, isLoading } = useMutation(sendTicketApi);
+
   const handleResetTicket = () => {
     cleanTicket();
     closeModal();
+  };
+
+  const addToast = useToastContext();
+  const queryClient = useQueryClient();
+
+  const sendTicket = () => {
+    const newTicket = ticket.map((product) => {
+      return { productId: product._id, quantity: Number(product.toSale) };
+    });
+    const body = { products: newTicket };
+    saleTicket(body, {
+      onSuccess: () => {
+        addToast("La venta se realizó correctamente", true);
+        queryClient.invalidateQueries("products");
+        queryClient.setQueryData("products", (oldData) => {
+          const newData = oldData.map((p) => {
+            const pInTicket = ticket.find((_p) => _p._id == p._id);
+            if (pInTicket) {
+              return {
+                ...p,
+                available: Number(p.available) - Number(pInTicket.toSale),
+              };
+            } else {
+              return p;
+            }
+          });
+          return newData;
+        });
+        cleanTicket();
+        !isLoading && closeModal();
+      },
+      onError: () => {
+        addToast("Ocurrió un error al tratar de vender", false);
+      },
+    });
   };
 
   return (
@@ -65,8 +116,13 @@ const ModalTicket = ({
             </Flex>
           </CustomButton>
         </Flex>
-        <CustomButton bg={btnSuccess} style={{ width: "100%" }}>
+        <CustomButton
+          bg={btnSuccess}
+          style={{ width: "100%" }}
+          onClick={() => sendTicket()}
+        >
           <Flex justify="center">
+            {isLoading && <Spinner color="white" size="25" mr="15px" />}
             <Text>Confirmar venta</Text>
           </Flex>
         </CustomButton>
