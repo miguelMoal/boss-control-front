@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import { destroyCookie } from "nookies";
 
 //Components
 import {
   Flex,
   Text,
-  ModalSubscribe,
-  Modal,
   DropDown,
   ModalDetailsSub,
   MenuDrawer,
@@ -83,7 +80,6 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   const [mounted, setMounted] = useState(false);
-  const [showModalSub, setShowModalSub] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
   const { showModal, closeModal, ModalWrapper } = useModal();
@@ -109,25 +105,6 @@ const Layout = ({ children }) => {
     router.replace(section.path);
   };
 
-  axios.interceptors.response.use(
-    function (response) {
-      setShowModalSub(false);
-      return response;
-    },
-    function (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.msg === "Subscripción inactiva"
-      ) {
-        setShowModalSub(true);
-      } else {
-        setShowModalSub(false);
-      }
-      return Promise.reject(error);
-    }
-  );
-
   const closeSesion = () => {
     destroyCookie(null, "token");
     router.replace("/");
@@ -147,9 +124,6 @@ const Layout = ({ children }) => {
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
       <ModalWrapper />
-      <Modal isModalOpen={showModalSub}>
-        <ModalSubscribe />
-      </Modal>
       <NavBar>
         <Flex justify="space-between" align="center" gap="20px">
           <Flex w="fit-content">

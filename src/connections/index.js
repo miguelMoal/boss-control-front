@@ -109,3 +109,8 @@ export const getWeeklySalesApi = async () => {
   const result = await makeRequest("analytics/weekly-sales", "GET");
   return result;
 };
+
+export const loginGoogleApi = async (credentials) => {
+  const result = await makeRequest("auth/google", "POST", credentials);
+  return result;
+};

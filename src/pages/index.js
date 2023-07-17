@@ -1,72 +1,70 @@
-import { useState } from "react";
 //components
-import {
-  CustomButton,
-  CustomInput,
-  Flex,
-  Text,
-  Spinner,
-  SquareFloat,
-  LayoutBoarding,
-} from "@/components";
+import { CustomButton, Flex, Text, LayoutBoarding } from "@/components";
 import { useToastContext } from "@/components/Toast";
 import { useSelector } from "react-redux";
 //Hooks
-import { useModal, useForm } from "@/hooks";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
-//icons
-import { EyeIcon, EyeCloseIcon } from "@/assets/icons";
 //conections
-import { loginApi } from "@/connections";
+import { loginGoogleApi } from "@/connections";
 
 //Helpers
 import { saveTokenToLocalStorage } from "@/helpers";
 
 //Externals
 import { setCookie } from "nookies";
+import { GoogleLogin } from "@react-oauth/google";
 
-//Helpers
-import { validateEmail } from "@/helpers";
+const info = [
+  { desc: "Nunca vuelvas a quedarte sin inventario.", id: 1 },
+  {
+    desc: "Mantén el control total sobre tus ventas y ganancias mensuales.",
+    id: 2,
+  },
+  {
+    desc: "Descubre cómo invertir de manera precisa y eficiente en tus productos más solicitados.",
+    id: 3,
+  },
+  {
+    desc: "Conoce en detalle cuáles son tus artículos más vendidos y asegúrate de tener suficiente cantidad para satisfacer la demanda.",
+    id: 4,
+  },
+  {
+    desc: "No dejes que la falta de stock te tome por sorpresa.",
+    id: 5,
+  },
+  {
+    desc: "Toma decisiones informadas y maximiza tus ganancias.",
+    id: 6,
+  },
+];
 
 export default function Home() {
-  const [type, setType] = useState("password");
-  const { tertiaryColor, btnPrimary, secondaryColor } = useSelector(
-    (state) => state.theme
-  );
-  const { handleChange, formData } = useForm();
-  const { mutate: makeLogIn, isLoading } = useMutation(loginApi);
-  const [validEmail, setValidEmail] = useState(true);
+  const { tertiaryColor, btnPrimary } = useSelector((state) => state.theme);
+
+  const { mutate: loginGoogle } = useMutation(loginGoogleApi);
 
   const router = useRouter();
-  const goRegister = () => {
-    router.replace("/register");
-  };
-
-  const allReady = formData?.email && formData?.password;
 
   const addToast = useToastContext();
 
-  const logIn = () => {
-    if (allReady) {
-      const _validEmail = validateEmail(formData.email);
-      !_validEmail ? setValidEmail(false) : setValidEmail(true);
-      if (_validEmail) {
-        makeLogIn(formData, {
-          onSuccess: (data) => {
-            saveTokenToLocalStorage(data.token);
-            setCookie(null, "token", data.token, {
-              maxAge: 30 * 24 * 60 * 60,
-              path: "/",
-            });
-            router.replace("/sales");
-          },
-          onError: (error) => {
-            addToast(error.response.data.msg, error.response.data.ok);
-          },
-        });
+  const handelLoginGloogle = (credentialResponse) => {
+    loginGoogle(
+      { credentials: credentialResponse.credential },
+      {
+        onSuccess: (data) => {
+          saveTokenToLocalStorage(data.token);
+          setCookie(null, "token", data.token, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+          });
+          router.replace("/sales");
+        },
+        onError: (error) => {
+          addToast(error.response.data.msg, error.response.data.ok);
+        },
       }
-    }
+    );
   };
 
   return (
@@ -82,7 +80,6 @@ export default function Home() {
           gap="70px"
           w="400px"
           direction="column"
-          justify="center"
           bg={tertiaryColor}
           style={{ borderRadius: "5px", position: "relative" }}
         >
@@ -107,71 +104,43 @@ export default function Home() {
           >
             Iniciar Sesión
           </Text>
-          <Flex direction="column" align="center" gap="20px" mt="100px">
-            <CustomInput
-              placeholder="CorreoElectronico"
-              border="1px solid gray"
-              w="100%"
-              name="email"
-              onChange={handleChange}
-              autocomplete="nope"
-            />
-            {!validEmail && (
-              <Text color={error} size="13px" mt="-8px">
-                Correo inváido
+
+          <Flex
+            justify="center"
+            mt="60px"
+            pd="20px"
+            direction="column"
+            gap="20px"
+            align="center"
+          >
+            <Flex align="center" direction="column" gap="10px">
+              <Text size="20px" weight="bold">
+                Inicia gratis con Google
               </Text>
-            )}
-            <Flex
-              align="center"
-              justify="center"
-              style={{ border: "1px solid gray", borderRadius: "5px" }}
-            >
-              <CustomInput
-                placeholder="Contraseña"
-                w="100%"
-                name="password"
-                type={type}
-                onChange={handleChange}
-                autocomplete="nope"
-              />
-              {type == "text" ? (
-                <Flex
-                  w="fit-content"
-                  color="white"
-                  onClick={() => setType("password")}
-                >
-                  <EyeCloseIcon />
-                </Flex>
-              ) : (
-                <Flex
-                  mr="5px"
-                  w="fit-content"
-                  color="white"
-                  onClick={() => setType("text")}
-                >
-                  <EyeIcon />
-                </Flex>
-              )}
+              <Flex w="fit-content" mb="20px" mt="10px">
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    handelLoginGloogle(credentialResponse);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </Flex>
+              <Flex direction="column" gap="10px" align="center">
+                {info.map((inf) => (
+                  <Flex key={inf.id}>
+                    <Text style={{ color: "#6E8FD7" }}>•</Text>
+                    <Text style={{ color: "#6E8FD7" }} ml="10px">
+                      {inf.desc}
+                    </Text>
+                  </Flex>
+                ))}
+                <CustomButton color="white" bg={btnPrimary} mt="10px">
+                  Más Información
+                </CustomButton>
+              </Flex>
             </Flex>
-            <CustomButton
-              color="white"
-              bg={allReady ? btnPrimary : "gray"}
-              onClick={() => logIn()}
-            >
-              {isLoading && <Spinner color="white" mr="10px" />}
-              Iniciar
-            </CustomButton>
-          </Flex>
-          <Flex justify="center" align="center" gap="10px">
-            <Text size="14px">¿Aun no tienes cuenta?</Text>
-            <Text
-              color={secondaryColor}
-              weight="bold"
-              style={{ cursor: "pointer", textDecoration: "underline" }}
-              onClick={() => goRegister()}
-            >
-              Registrate
-            </Text>
           </Flex>
         </Flex>
       </Flex>
