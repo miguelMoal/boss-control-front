@@ -18,6 +18,7 @@ const Flex = styled.div`
   width: ${({ w }) => w || "100%"};
   color: ${({ color }) => color || "black"};
   box-shadow: ${({ shadow }) => shadow || "none"};
+  border-radius: ${({ radius }) => radius || "0px"};
 
   @media (max-width: 575px) {
     ${({ sm }) => sm}

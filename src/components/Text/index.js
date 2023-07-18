@@ -12,6 +12,9 @@ const Text = styled.div`
   color: ${({ color }) => color || "white"};
   width: ${({ w }) => w || "fit-content"};
   display: ${({ display }) => display || "block"};
+  text-align: ${({ textAlign }) => textAlign || "left"};
+  line-height: ${({ lineHeight }) => lineHeight || "normal"};
+  letter-spacing: ${({ letterSpacing }) => letterSpacing || "normal"};
 
   @media (max-width: 575px) {
     ${({ sm }) => sm}

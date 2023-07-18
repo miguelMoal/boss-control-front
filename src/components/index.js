@@ -40,3 +40,4 @@ export { default as TableProductSale } from "./TableProductSale";
 export { default as TableAccounts } from "./TableAccounts";
 export { default as ItemAnalitycs } from "./ItemAnalitycs";
 export { default as MenuDrawer } from "./MenuDrawer";
+export { default as CardPlan } from "./CardPlan";

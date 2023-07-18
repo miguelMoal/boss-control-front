@@ -16,8 +16,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import "./module_login.css";
 
-const clientGoogle =
-  "423204195451-eo7fm1rvicltnc4bmttvbg4f8p1alupq.apps.googleusercontent.com";
+const clientGoogle = process.env.CLIENT_GOOGLE;
 
 export default function App({ Component, pageProps }) {
   const queryClient = new QueryClient({
@@ -27,9 +26,15 @@ export default function App({ Component, pageProps }) {
       },
     },
   });
+
+  const options = {
+    // passing the client secret obtained from the server
+    clientSecret: stripePromise,
+  };
+
   return (
     <GoogleOAuthProvider clientId={clientGoogle}>
-      <Elements stripe={stripePromise}>
+      <Elements stripe={stripePromise} options={options}>
         <Provider store={store}>
           <ToastContextProvider>
             <QueryClientProvider client={queryClient}>

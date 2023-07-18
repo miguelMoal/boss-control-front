@@ -10,7 +10,6 @@ import {
   Flex,
   Text,
   CardContainer,
-  CustomButton,
   ItemAnalitycs,
 } from "@/components";
 
@@ -18,12 +17,7 @@ import {
 import { useSelector } from "react-redux";
 
 //Icons
-import {
-  DollarIcon,
-  EarningsIcon,
-  AverageIcon,
-  ObjectsIcon,
-} from "@/assets/icons";
+import { DollarIcon, EarningsIcon, ObjectsIcon } from "@/assets/icons";
 
 //Connections
 import {
@@ -38,16 +32,8 @@ import {
 import { useQuery } from "react-query";
 
 const Analytics = () => {
-  const {
-    primaryColor,
-    btnPrimary,
-    secondaryColor,
-    btnWarning,
-    warning,
-    error,
-    btnSuccess,
-    success,
-  } = useSelector((state) => state.theme);
+  const { btnPrimary, secondaryColor, btnWarning, error, btnSuccess, success } =
+    useSelector((state) => state.theme);
 
   const { data: infoPeriods } = useQuery("info-periods", getInfoPeriods);
   const { data: invest } = useQuery("invest", getTotalInvestApi);

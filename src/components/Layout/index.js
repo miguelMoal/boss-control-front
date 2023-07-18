@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 
+//Externals
+import axios from "axios";
+
 //Components
 import {
   Flex,
@@ -120,6 +123,22 @@ const Layout = ({ children }) => {
   const closeMenu = () => {
     setShowMenu(false);
   };
+
+  axios.interceptors.response.use(
+    function (response) {
+      return response;
+    },
+    function (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.msg === "Subscripción inactiva"
+      ) {
+        router.replace("plans");
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <Flex h="100vh" w="100vw" pd="0px" direction="column">
