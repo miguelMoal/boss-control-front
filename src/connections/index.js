@@ -75,6 +75,11 @@ export const subscriptionApi = async (body) => {
   return result;
 };
 
+export const infoPaymentApi = async () => {
+  const result = await makeRequest("subscription/infoPayment", "GET");
+  return result;
+};
+
 export const loginApi = async (body) => {
   const msg = await makeRequest("auth", "POST", body, false);
   return msg;

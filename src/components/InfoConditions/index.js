@@ -26,13 +26,17 @@ const InfoConditions = ({ checked, toggleCheck, colorText }) => {
         h="15px"
         w="15px"
         mr="10px"
-        bg={checked ? secondaryColor : "gray"}
-        style={{ borderRadius: "2px", color: "white" }}
+        bg={checked ? secondaryColor : "none"}
+        style={{
+          borderRadius: "2px",
+          color: "white",
+          border: checked ? "none" : "1px solid #B5B5B5",
+        }}
         align="center"
         justify="center"
         onClick={() => toggleCheck(!checked)}
       >
-        <CheckIcon />
+        {checked && <CheckIcon />}
       </Flex>
       <Text size="12px" color={colorText}>
         Acepto los{" "}

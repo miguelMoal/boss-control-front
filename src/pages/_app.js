@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@stripe/stripe-js";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import { ThemeProvider } from "styled-components";
@@ -28,8 +29,13 @@ export default function App({ Component, pageProps }) {
   });
 
   const options = {
-    // passing the client secret obtained from the server
-    clientSecret: stripePromise,
+    mode: "payment",
+    amount: 1099,
+    currency: "mxn",
+    // Fully customizable with appearance API.
+    appearance: {
+      /*...*/
+    },
   };
 
   return (

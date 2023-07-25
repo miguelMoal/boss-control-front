@@ -22,16 +22,7 @@ const ModalSubscribe = () => {
   const [cardComplete, setCardComplete] = useState(false);
   const [error, setError] = useState(null);
   const [processing, setProcessing] = useState(false);
-  const {
-    gray,
-    btnPrimary,
-    primaryColor,
-
-    btnDanger,
-    btnDefault,
-    btnSuccess,
-    success,
-  } = useSelector(({ theme }) => theme);
+  const { gray, btnPrimary, primaryColor } = useSelector(({ theme }) => theme);
 
   const [checked, setChecked] = useState(false);
 
